@@ -1,11 +1,30 @@
+import 'package:fleekhr/common/utils/src_link/appvectors.dart';
+import 'package:fleekhr/common/widgets/appSearchBar.dart';
+import 'package:fleekhr/common/widgets/appbtn.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
+import 'package:fleekhr/presentation/Home/Widget/activitydataform.dart';
+import 'package:fleekhr/presentation/Home/Widget/attendance.dart';
+import 'package:fleekhr/presentation/Home/Widget/daily_activities_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  void _showFormDialog() {
+    final activityDialog = ActivityFormDialog(
+      context: context,
+      onSubmitSuccess: () {},
+    );
+    activityDialog.show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +36,20 @@ class Homepage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
-               //Search Bar 
+                SizedBox(height: 10.h),
+                //Search Bar
                 //Search Bar is used to search for any data in the app
-                
-
-
+                SearchBarTextField(
+                  hintText: "Enter your query",
+                  suffixIcon: Icon(CupertinoIcons.search),
+                  onTap: () {},
+                ),
+                SizedBox(height: 20.h),
+                //Profile Card
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: profileCard()),
+                SizedBox(height: 30.h),
 
                 AppTextstyle(
                   text: "Yunus's Statistics",
@@ -40,14 +67,75 @@ class Homepage extends StatelessWidget {
                 // 3. Work from Home Request
                 // 4. Leave Request
                 buildDashBoardLayOut(context),
+
+                SizedBox(height: 20.h),
+                AppTextstyle(
+                  text: "Attendance",
+                  style: appStyle(
+                      size: 20.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                ),
+
+                Attendance(),
+
+                SizedBox(height: 10.h),
+                AppTextstyle(
+                  text: "Daily Activities",
+                  style: appStyle(
+                      size: 15.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 10.h),
+
+                DailyActivitiesCard(
+                  taskTitle: "Data Entry",
+                  completionPercentage: "75%",
+                  taskDate: "April 30, 2025",
+                  status: TaskStatus.onProgress,
+                ),
+
+                DailyActivitiesCard(
+                  taskTitle: "UI Design",
+                  completionPercentage: "100%",
+                  taskDate: "April 30, 2025",
+                  status: TaskStatus.completed,
+                ),
+
+                DailyActivitiesCard(
+                  taskTitle: "Code Review",
+                  completionPercentage: "50%",
+                  taskDate: "April 30, 2025",
+                  status: TaskStatus.cancelled,
+                ),
               ],
             ),
           ),
         ),
       ),
+
+      //Clicking on Floating Action button will open up the add activity form
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _showFormDialog();
+        },
+        icon: const Icon(Icons.add, color: Colors.white, size: 24),
+        label: Text(
+          "Add",
+          style: appStyle(
+              size: 16, color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: Colors.blue.shade900,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
     );
   }
 
+  //Helper Method to build the dashboard layout
   Widget buildDashBoardLayOut(BuildContext context) {
     //Dashboard Data
     final List<Map<String, String>> dashboardItems = [
@@ -138,6 +226,78 @@ class Homepage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  // Profile Card
+  Widget profileCard() {
+    return Container(
+      height: 200.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Colors.blue.shade600,
+          Colors.blue.shade900,
+          Colors.deepPurpleAccent.shade400,
+        ]),
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Stack(
+            children: [
+              //Welcome Text
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  AppTextstyle(
+                    text: "Welcome Muhammad Yunus",
+                    style: appStyle(
+                        size: 18.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  AppTextstyle(
+                    text: "Here is whats happening in your\naccount today.",
+                    style: appStyle(
+                        size: 14.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                    maxLines: 2,
+                  ),
+                  SizedBox(
+                    height: 25.h,
+                  ),
+                  Appbtn(
+                    height: 50.h,
+                    width: 150.w,
+                    text: "Explore Now",
+                    color: Colors.transparent,
+                    textColor: Colors.white,
+                    radius: 10,
+                    onPressed: () {},
+                  )
+                ],
+              ),
+
+              Positioned(
+                top: 50.h,
+                right: 10.w,
+                child: Image.asset(
+                  Appvectors.homeProfileImg,
+                  height: 140.h,
+                  width: 140.w,
+                  fit: BoxFit.fill,
+                ),
+              )
+            ],
+          )),
     );
   }
 }

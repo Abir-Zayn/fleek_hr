@@ -21,7 +21,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Padding(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 50),
                 AppTextstyle(
                   text: "Empower your workforce",
                   style: appStyle(
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.black,
                       fontWeight: FontWeight.w600),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 AppTextstyle(
                   text:
                       "Streamline onboarding, attendance, payroll, and more in one smart platform.",
@@ -70,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Appbtn(
                   text: "LOG IN",
                   color: Colors.blue.shade900,
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     context.go('/entry');
                   },
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 18),
                 TextButton(
                   onPressed: () {},
                   child: AppTextstyle(
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

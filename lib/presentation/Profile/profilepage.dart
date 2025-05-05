@@ -1,11 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:fleekhr/common/utils/src_link/appvectors.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/presentation/Profile/Widget/attendence_bar_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class Profilepage extends StatelessWidget {
   const Profilepage({super.key});
@@ -32,7 +31,47 @@ class Profilepage extends StatelessWidget {
           IconButton(
             icon: const Icon(CupertinoIcons.pencil),
             onPressed: () {
-              // Handle settings button press
+              //Show two dropdown menu 1. Edit Profile 2. LogOut
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return SizedBox(
+                    height: 200.h,
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.edit),
+                          title: AppTextstyle(
+                            text: 'Edit Profile',
+                            style: appStyle(
+                                size: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          onTap: () {
+                            // Handle edit profile action
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.logout),
+                          title: AppTextstyle(
+                            text: 'Log out',
+                            style: appStyle(
+                                size: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          onTap: () {
+                            // Handle log out action
+                            context.go('/login');
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
           ),
         ],
@@ -48,7 +87,7 @@ class Profilepage extends StatelessWidget {
                       'https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
                   SizedBox(height: 20),
                   AppTextstyle(
-                    text: "Welcome, Doctor Yunus 👋",
+                    text: "Welcome, Muhammad Yunus 👋",
                     style: appStyle(
                         size: 22.sp,
                         color: Colors.black,

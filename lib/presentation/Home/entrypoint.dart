@@ -21,13 +21,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         height: 80.h,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -3),
-            ),
-          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchBarTextField extends StatelessWidget {
   final String? hintText;
-  final String? prefixIcon;
-  final String? suffixIcon;
+  final Icon? suffixIcon;
   final TextInputType? keyboardType;
   final void Function()? onTap;
   final TextEditingController? controller;
@@ -14,7 +13,6 @@ class SearchBarTextField extends StatelessWidget {
   const SearchBarTextField({
     super.key,
     this.hintText,
-    this.prefixIcon,
     this.suffixIcon,
     this.keyboardType,
     this.onTap,
@@ -38,7 +36,22 @@ class SearchBarTextField extends StatelessWidget {
       },
       style: appStyle(
           size: 13.sp, color: Colors.black, fontWeight: FontWeight.normal),
-          
+      decoration: InputDecoration(
+        hintText: hintText,
+        suffixIcon: suffixIcon,
+        contentPadding: EdgeInsets.all(10),
+        hintStyle: appStyle(
+            size: 14.sp, color: Colors.black, fontWeight: FontWeight.w400),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.7),
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+        ),
+        errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red, width: 0.7),
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+      ),
     );
   }
 }

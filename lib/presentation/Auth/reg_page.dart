@@ -82,7 +82,7 @@ class _RegPageState extends State<RegPage> {
                 Appbtn(
                   text: "SIGN UP",
                   color: Colors.blue.shade900,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 50,
                   radius: 10,
                   fontSize: 18,
@@ -106,7 +106,7 @@ class _RegPageState extends State<RegPage> {
                   text: "Continue with Google",
                   color: Colors.grey.shade50,
                   iconSize: 20,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 40,
                   radius: 10,
                   fontSize: 18,

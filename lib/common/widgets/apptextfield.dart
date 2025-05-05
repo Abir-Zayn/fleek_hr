@@ -24,6 +24,7 @@ class Apptextfield extends StatelessWidget {
   final InputBorder? focusedBorder;
   final InputBorder? errorBorder;
   final InputBorder? focusedErrorBorder;
+  final VoidCallback? onTap;
 
   const Apptextfield({
     super.key,
@@ -49,7 +50,7 @@ class Apptextfield extends StatelessWidget {
     this.contentPadding,
     this.focusedBorder,
     this.errorBorder,
-    this.focusedErrorBorder,
+    this.focusedErrorBorder, this.onTap,
   });
 
   @override
@@ -58,6 +59,7 @@ class Apptextfield extends StatelessWidget {
       width: width,
       height: height,
       child: TextFormField(
+        onTap: onTap,
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
