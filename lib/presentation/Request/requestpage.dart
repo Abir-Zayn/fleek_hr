@@ -4,6 +4,7 @@ import 'package:fleekhr/presentation/Request/widget/calendarpage.dart';
 import 'package:fleekhr/presentation/Request/widget/requestcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class Requestpage extends StatelessWidget {
   const Requestpage({super.key});
@@ -92,7 +93,13 @@ class Requestpage extends StatelessWidget {
               onTap: () {
                 // Handle the tap event here
                 // You can navigate to a new page or perform any action you want
-                print("Tapped on ${reqList[index]['text']}");
+                reqList[index]['text'] == "WFH Request"
+                    ? context.push('/workfromhome')
+                    : reqList[index]['text'] == 'Leave Request'
+                        ? context.push('/leavereq')
+                        : reqList[index]['text'] == 'Expense Request'
+                            ? context.push('/expense')
+                            : () {};
               },
             );
           }),
