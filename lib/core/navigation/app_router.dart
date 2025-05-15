@@ -1,13 +1,4 @@
-import 'package:fleekhr/presentation/Auth/forget_pass.dart';
-import 'package:fleekhr/presentation/Auth/login_page.dart';
-import 'package:fleekhr/presentation/Auth/reg_page.dart';
-import 'package:fleekhr/presentation/Home/entrypoint.dart';
-import 'package:fleekhr/presentation/Leave/Screen/annualleave_page.dart';
-import 'package:fleekhr/presentation/Request/screen/workform_homescreen.dart';
-import 'package:fleekhr/presentation/expense/Screen/expense_screen.dart';
-import 'package:fleekhr/presentation/splash/splashscreen_one.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+part of 'app_router_imports.dart';
 
 final GlobalKey<NavigatorState> appRouterKey = GlobalKey<NavigatorState>();
 final GoRouter _router =
@@ -15,6 +6,10 @@ final GoRouter _router =
   GoRoute(
     path: '/',
     builder: (context, state) => const SplashscreenOne(),
+  ),
+  GoRoute(
+    path: '/onboard',
+    builder: (context, state) => const Onboard(),
   ),
   GoRoute(
     path: '/login',
@@ -34,15 +29,19 @@ final GoRouter _router =
   ),
   GoRoute(
     path: '/workfromhome',
-    builder: (context, state) => const WorkformHomescreen(),
+    builder: (context, state) => const WorkFromHomeScreen(),
   ),
   GoRoute(
     path: '/leavereq',
     builder: (context, state) => const AnnualleavePage(),
   ),
   GoRoute(
-    path:'/expense',
+    path: '/expense',
     builder: (context, state) => const ExpenseScreen(),
+  ),
+  GoRoute(
+    path: '/profileupdate',
+    builder: (context, state) => const ProfileUpdate(),
   ),
 ]);
 

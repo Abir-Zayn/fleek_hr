@@ -3,7 +3,6 @@ import 'package:fleekhr/common/utils/src_link/appvectors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class SplashscreenOne extends StatefulWidget {
   const SplashscreenOne({super.key});
 
@@ -71,7 +70,7 @@ class _SplashscreenOneState extends State<SplashscreenOne>
     // Listen to the animation controller to navigate to the next page
     _rotateAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-       context.go('/login'); // Navigate to the login page
+        context.go('/onboard'); // Navigate to the login page
         // Optionally, you can also dispose of the controller here if you don't need it anymore
       }
     });

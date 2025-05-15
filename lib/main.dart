@@ -1,6 +1,8 @@
-import 'package:fleekhr/core/navigation/app_router.dart';
+import 'package:fleekhr/common/bloc/theme_cubit.dart';
+import 'package:fleekhr/core/navigation/app_router_imports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
@@ -31,9 +33,19 @@ class Main extends StatelessWidget {
       splitScreenMode: false,
       useInheritedMediaQuery: true,
       builder: (context, child) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: appRouter,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => ThemeCubit()),
+          ],
+          child: BlocBuilder<ThemeCubit, ThemeData>(
+            builder: (context, theme) {
+              return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                theme: theme,
+                routerConfig: appRouter,
+              );
+            },
+          ),
         );
       },
     );

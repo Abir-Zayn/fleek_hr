@@ -37,16 +37,23 @@ class DailyActivitiesCard extends StatelessWidget {
         return Colors.purple.withOpacity(0.5);
       case TaskStatus.cancelled:
         return Colors.black.withOpacity(0.5);
-      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
       height: 100,
       child: Card(
+        color: theme.cardTheme.color ?? theme.cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: theme.cardTheme.shadowColor ??
+                theme.canvasColor.withOpacity(0.1),
+            width: 0.5,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,9 +74,11 @@ class DailyActivitiesCard extends StatelessWidget {
                   children: [
                     AppTextstyle(
                       text: taskTitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      style: appStyle(
+                        size: 16.sp,
+                        color: Theme.of(context).textTheme.bodySmall?.color ??
+                            Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -85,12 +94,16 @@ class DailyActivitiesCard extends StatelessWidget {
               ),
             ),
             Center(
-              child: AppTextstyle(
-                text: taskDate,
-                style: appStyle(
-                  size: 15.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
+              child: Padding(
+                padding: EdgeInsets.only(right: 10.w),
+                child: AppTextstyle(
+                  text: taskDate,
+                  style: appStyle(
+                    size: 15.sp,
+                    color: Theme.of(context).textTheme.bodySmall?.color ??
+                        Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             )

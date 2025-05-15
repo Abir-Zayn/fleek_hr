@@ -1,8 +1,4 @@
-import 'package:fleekhr/presentation/Home/homepage.dart';
-import 'package:fleekhr/presentation/Profile/profilepage.dart';
-import 'package:fleekhr/presentation/Request/requestpage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+part of 'entrypoint_imports.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   const BottomNavigationPage({super.key});
@@ -17,6 +13,31 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 60.h,
+        actions: [
+          //Notifications & Dark Button
+          IconButton(
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              context.watch<ThemeCubit>().state.brightness == Brightness.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
+            onPressed: () {
+              context.read<ThemeCubit>().toggleTheme();
+            },
+          ),
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+      ),
       bottomNavigationBar: Container(
         height: 80.h,
         decoration: BoxDecoration(
@@ -45,25 +66,12 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     final isSelected = _currentIndex == index;
     return InkWell(
       onTap: () => setState(() => _currentIndex = index),
-      splashColor: Colors.blue.shade900.withOpacity(0.1),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.blue.shade900.withOpacity(0.1)
-              : Colors.transparent,
           borderRadius: BorderRadius.circular(16.r),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.blue.shade200.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : [],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -73,7 +81,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
               duration: const Duration(milliseconds: 200),
               child: Icon(
                 isSelected ? iconSelected : icon,
-                color: isSelected ? Colors.blue.shade800 : Colors.grey.shade600,
+                color: isSelected
+                    ? Theme.of(context).canvasColor
+                    : Colors.grey.shade600,
                 size: 28.sp,
               ),
             ),
@@ -82,7 +92,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
               label,
               style: TextStyle(
                 fontSize: 12.sp,
-                color: isSelected ? Colors.blue.shade800 : Colors.grey.shade600,
+                color: isSelected
+                    ? Theme.of(context).canvasColor
+                    : Colors.grey.shade600,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
               ),
             ),

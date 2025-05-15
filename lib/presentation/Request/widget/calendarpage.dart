@@ -10,10 +10,10 @@ import 'package:table_calendar/table_calendar.dart';
 
 class Calendarpage extends StatefulWidget {
   final bool isRange;
-  Function(DateTime?, DateTime?)? onRangeDateSelected;
-  Function(DateTime)? onDateSelected;
+  final Function(DateTime?, DateTime?)? onRangeDateSelected;
+  final Function(DateTime)? onDateSelected;
 
-  Calendarpage(
+  const Calendarpage(
       {super.key,
       this.isRange = false,
       this.onRangeDateSelected,

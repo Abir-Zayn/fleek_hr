@@ -35,15 +35,22 @@ class SearchBarTextField extends StatelessWidget {
         return null;
       },
       style: appStyle(
-          size: 13.sp, color: Colors.black, fontWeight: FontWeight.normal),
+          size: 13.sp,
+          color: Theme.of(context).textTheme.bodySmall?.color ?? Colors.black,
+          fontWeight: FontWeight.normal),
       decoration: InputDecoration(
         hintText: hintText,
         suffixIcon: suffixIcon,
         contentPadding: EdgeInsets.all(10),
         hintStyle: appStyle(
-            size: 14.sp, color: Colors.black, fontWeight: FontWeight.w400),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.7),
+            size: 14.sp,
+            color: Theme.of(context).textTheme.bodySmall?.color ?? Colors.black,
+            fontWeight: FontWeight.w400),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color:
+                  Theme.of(context).textTheme.bodySmall?.color ?? Colors.black,
+              width: 0.7),
           borderRadius: BorderRadius.all(
             Radius.circular(16),
           ),

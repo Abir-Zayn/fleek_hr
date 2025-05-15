@@ -70,7 +70,8 @@ class ActivityFormDialog {
               text: "Add Activity",
               style: appStyle(
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.bodySmall?.color ??
+                      Colors.black,
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
@@ -91,7 +92,11 @@ class ActivityFormDialog {
                           labelText: "Company Name",
                           labelStyle: appStyle(
                               size: 15.sp,
-                              color: Colors.black,
+                              color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.color ??
+                                  Colors.black,
                               fontWeight: FontWeight.w400),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
@@ -106,7 +111,9 @@ class ActivityFormDialog {
                         labelText: "Department",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -125,7 +132,9 @@ class ActivityFormDialog {
                         labelText: "Project Name",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -205,7 +214,9 @@ class ActivityFormDialog {
                         labelText: "Work Status",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -224,7 +235,9 @@ class ActivityFormDialog {
                         labelText: "Work Type",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -237,7 +250,9 @@ class ActivityFormDialog {
                         labelText: "Assigned By",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -252,7 +267,9 @@ class ActivityFormDialog {
                         labelText: "Work Details",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -265,7 +282,9 @@ class ActivityFormDialog {
                         labelText: "Feedback",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -278,7 +297,9 @@ class ActivityFormDialog {
                         labelText: "Remarks",
                         labelStyle: appStyle(
                             size: 15.sp,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color ??
+                                    Colors.black,
                             fontWeight: FontWeight.w400),
                         borderRadius: 10.r,
                         keyboardType: TextInputType.text,
@@ -298,7 +319,8 @@ class ActivityFormDialog {
                   text: "Cancel",
                   style: appStyle(
                       size: 15.sp,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodySmall?.color ??
+                          Colors.black,
                       fontWeight: FontWeight.w400),
                 ),
               ),

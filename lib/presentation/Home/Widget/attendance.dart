@@ -25,7 +25,7 @@ class _AttendanceState extends State<Attendance> {
 
     timer = Timer.periodic(Duration(microseconds: 50), (t) {
       setState(() {
-        _progress += 0.01;
+        _progress += 0.05;
         if (_progress >= 100.0) {
           // Check if progress is 100%
           _progress = 100.0;
@@ -74,7 +74,7 @@ class _AttendanceState extends State<Attendance> {
     super.dispose();
   }
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
