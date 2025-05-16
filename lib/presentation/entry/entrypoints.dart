@@ -1,5 +1,30 @@
 part of 'entrypoint_imports.dart';
 
+/* 
+ * Screen Overview:
+ * ---------------
+ * The BottomNavigationPage serves as the main navigation container for the FleekHR app.
+ * It implements a modern bottom navigation bar with animated transitions between three
+ * primary sections: Home, Request, and Profile.
+ * 
+ * Key Features:
+ * 1. Preserves screen state when switching between tabs using IndexedStack
+ * 2. Provides visual feedback through animations and styling changes
+ * 3. Implements theme-awareness with dynamic colors based on light/dark mode
+ * 4. Uses constants from NavBarStyles for consistent styling
+ * 5. Supports easy navigation between main app sections
+ * 
+ * User Flow:
+ * The user starts at the Home tab and can navigate between sections by tapping
+ * the corresponding tab in the bottom navigation bar. Each tab maintains its state
+ * independently, allowing users to resume where they left off when returning to a tab.
+ * The app bar provides quick access to notifications and theme toggling.
+ * 
+ * Architecture:
+ * This screen follows a part-of pattern where it's included in the entrypoint_imports.dart
+ * file. It uses BLoC pattern for theme management via ThemeCubit and follows
+ * responsive design principles with ScreenUtil for proper sizing across devices.
+ */
 class BottomNavigationPage extends StatefulWidget {
   const BottomNavigationPage({super.key});
 
@@ -16,90 +41,121 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       appBar: AppBar(
         toolbarHeight: 60.h,
         actions: [
-          //Notifications & Dark Button
+          // Notifications & Theme Toggle
           IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            onPressed: () {},
+            icon: const Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              // Handle notification tap
+            },
           ),
           IconButton(
             icon: Icon(
               context.watch<ThemeCubit>().state.brightness == Brightness.light
                   ? Icons.dark_mode
                   : Icons.light_mode,
+              color: Colors.white,
             ),
-            onPressed: () {
-              context.read<ThemeCubit>().toggleTheme();
-            },
+            onPressed: () => context.read<ThemeCubit>().toggleTheme(),
           ),
         ],
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
       ),
       bottomNavigationBar: Container(
-        height: 80.h,
+        height: NavBarStyles.navBarHeight,
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(0, Icons.home, Icons.home_filled, "Home"),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            // Trigger haptic feedback if available
+            setState(() => _currentIndex = index);
+          },
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.grey.shade600,
+          selectedLabelStyle: TextStyle(
+            fontSize: NavBarStyles.labelFontSize,
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: NavBarStyles.labelFontSize,
+            fontWeight: FontWeight.w400,
+          ),
+          items: [
             _buildNavItem(
-                1, Icons.request_page, Icons.request_page_outlined, "Request"),
-            _buildNavItem(2, Icons.person, Icons.person_rounded, "Profile"),
+              index: 0,
+              icon: Icons.home,
+              selectedIcon: Icons.home_outlined,
+              label: "Home",
+            ),
+            _buildNavItem(
+              index: 1,
+              icon: Icons.add_outlined,
+              selectedIcon: Icons.add,
+              label: "Request",
+            ),
+            _buildNavItem(
+              index: 2,
+              icon: Icons.person,
+              selectedIcon: Icons.person_rounded,
+              label: "Profile",
+            ),
           ],
         ),
       ),
       body: SafeArea(
-          child: IndexedStack(
-        index: _currentIndex,
-        children: [Homepage(), Requestpage(), Profilepage()],
-      )),
+        child: IndexedStack(
+          index: _currentIndex,
+          children: const [Homepage(), Requestpage(), Profilepage()],
+        ),
+      ),
     );
   }
 
-  Widget _buildNavItem(
-      int index, IconData icon, IconData iconSelected, String label) {
-    final isSelected = _currentIndex == index;
-    return InkWell(
-      onTap: () => setState(() => _currentIndex = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+  BottomNavigationBarItem _buildNavItem({
+    required int index,
+    required IconData icon,
+    required IconData selectedIcon,
+    required String label,
+  }) {
+    return BottomNavigationBarItem(
+      icon: AnimatedScale(
+        scale: _currentIndex == index ? 1.1 : 1.0,
+        duration: NavBarStyles.animationDuration,
+        curve: NavBarStyles.animationCurve,
+        child: Icon(
+          _currentIndex == index ? selectedIcon : icon,
+          size: NavBarStyles.iconSize,
+        ),
+      ),
+      label: label, // Tab label text
+      // Custom styled active icon with gradient background
+      activeIcon: Container(
         decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).primaryColor.withOpacity(0.1),
+              Theme.of(context).primaryColor.withOpacity(0.2),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           borderRadius: BorderRadius.circular(16.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedScale(
-              scale: isSelected ? 1.1 : 1.0,
-              duration: const Duration(milliseconds: 200),
-              child: Icon(
-                isSelected ? iconSelected : icon,
-                color: isSelected
-                    ? Theme.of(context).canvasColor
-                    : Colors.grey.shade600,
-                size: 28.sp,
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: isSelected
-                    ? Theme.of(context).canvasColor
-                    : Colors.grey.shade600,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Icon(selectedIcon, size: NavBarStyles.iconSize),
       ),
     );
   }

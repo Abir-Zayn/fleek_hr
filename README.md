@@ -13,15 +13,11 @@ Secure login system to access employee-related data and features.
 🧑‍💼 Role-Based Dashboard
 Tailored dashboards based on employee roles.
 
-Key widgets include:
-
-Daily Activities
-
-Attendance
-
-WFH Requests
-
-Leave Requests
+Key Feature includes:
+1/Daily Activities
+2/Attendance
+3/WFH Requests
+4/Leave Requests
 
 Daily Work Details section (view/add activity history).
 
@@ -38,6 +34,16 @@ Year-wise attendance statistics displayed using fl_chart for beautiful data visu
 Overview of past expenses.
 
 Add new expense entries easily.
+
+
+EntryPoint /Bottom Navigation Routing Page Description >>
+Bottom Navigation bar is the main container screen that handles navigation between key sections [Home, Request, Profile] pages of FleekHR application.
+This screen maintains the state of which tab is currently selected and renders. 
+The appropriate screen using an IndexStack to preserve the state across the tab switches. 
+Please Check Screen Overview Code 
+
+
+
 
 📦 Packages Used
 Package	Version	Purpose

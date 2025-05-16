@@ -25,7 +25,7 @@ class _SplashscreenOneState extends State<SplashscreenOne>
     //Initialize the animation controller
     _rotateAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 3000),
     );
 
     //rotation animation for the First image
