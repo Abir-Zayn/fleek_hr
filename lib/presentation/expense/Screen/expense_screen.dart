@@ -82,21 +82,21 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     );
   }
 
-  // void _showAddExpenseDialog() {
-  //   ExpenseForumDialog(
-  //     context: context,
-  //     expenseModel: ExpenseModel(
-  //         id: '',
-  //         purpose: '',
-  //         amount: 0,
-  //         date: DateTime.now(),
-  //         status: ,
-  //         from: '',
-  //         to: ''), // Create empty expense model for a new expense
-  //     expenseRepository: widget.repository,
-  //     onSubmitSuccess: _handleExpenseSubmitSuccess,
-  //   ).show();
-  // }
+  void _showAddExpenseDialog() {
+    ExpenseForumDialog(
+      context: context,
+      expenseModel: ExpenseModel(
+          id: '',
+          purpose: '',
+          amount: 0,
+          date: DateTime.now(),
+          status: StatusType.pending,
+          from: '',
+          to: ''), // Create empty expense model for a new expense
+      expenseRepository: widget.repository,
+      onSubmitSuccess: _handleExpenseSubmitSuccess,
+    ).show();
+  }
 
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -150,12 +150,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           expenseRepository: widget.repository,
         ),
       ),
-
-      //  floatingActionButton: FloatingActionButton(
-      //   onPressed: _showAddExpenseDialog,
-      //   backgroundColor: primaryColor,
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddExpenseDialog,
+        backgroundColor: primaryColor,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

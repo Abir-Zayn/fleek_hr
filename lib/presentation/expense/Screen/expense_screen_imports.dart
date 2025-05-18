@@ -1,4 +1,5 @@
 import 'package:fleekhr/data/models/expense/expense_model.dart';
+import 'package:fleekhr/domain/entities/expense/expense_entities.dart';
 import 'package:fleekhr/domain/repository/expense/expense_repository.dart';
 import 'package:fleekhr/presentation/expense/Widget/expense_filter.dart';
 import 'package:fleekhr/presentation/expense/Widget/expense_forum.dart';
