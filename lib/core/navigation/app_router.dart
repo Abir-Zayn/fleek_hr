@@ -20,10 +20,6 @@ final GoRouter _router =
     builder: (context, state) => const RegPage(),
   ),
   GoRoute(
-    path: '/forget',
-    builder: (context, state) => const ForgetPass(),
-  ),
-  GoRoute(
     path: '/entry',
     builder: (context, state) => const BottomNavigationPage(),
   ),
@@ -37,7 +33,12 @@ final GoRouter _router =
   ),
   GoRoute(
     path: '/expense',
-    builder: (context, state) => const ExpenseScreen(),
+    builder: (context, state) => ExpenseScreen(
+      repository:
+          sl<ExpenseRepository>(), // Use service locator instead of state.extra
+      expenseModel:
+          state.extra is ExpenseModel ? state.extra as ExpenseModel : null,
+    ),
   ),
   GoRoute(
     path: '/profileupdate',

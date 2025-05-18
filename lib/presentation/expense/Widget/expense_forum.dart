@@ -2,12 +2,17 @@ import 'package:fleekhr/common/widgets/appbtn.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/common/widgets/apptextfield.dart';
+import 'package:fleekhr/data/models/expense/expense_model.dart';
+import 'package:fleekhr/domain/repository/expense/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class ExpenseForumDialog {
   final BuildContext context;
+  final ExpenseModel expenseModel;
+  final Function(ExpenseModel)? onSubmitSuccess;
+  final ExpenseRepository expenseRepository;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // Controllers
@@ -59,10 +64,11 @@ class ExpenseForumDialog {
   }
 
   // Callback for successful form submission
-  final Function()? onSubmitSuccess;
 
   ExpenseForumDialog({
     required this.context,
+    required this.expenseModel,
+    required this.expenseRepository,
     TextEditingController? subjectLeaveController,
     TextEditingController? startTimeController,
     TextEditingController? endTimeController,
@@ -71,7 +77,13 @@ class ExpenseForumDialog {
   })  : _expensePurpose = subjectLeaveController ?? TextEditingController(),
         _from = startTimeController ?? TextEditingController(),
         _to = endTimeController ?? TextEditingController(),
-        _amount = reasonController ?? TextEditingController();
+        _amount = reasonController ?? TextEditingController() {
+    // Initialize controllers with existing data if editing
+    _expensePurpose.text = expenseModel.purpose;
+    _from.text = expenseModel.from;
+    _to.text = expenseModel.to;
+    _amount.text = expenseModel.amount.toString();
+  }
 
   void show() {
     showDialog(
@@ -81,7 +93,7 @@ class ExpenseForumDialog {
           width: 500.w,
           child: AlertDialog(
             title: AppTextstyle(
-              text: "Add Leave Request",
+              text: "Add Expense",
               style: appStyle(
                   size: 20.sp,
                   color: Colors.black,
@@ -172,7 +184,8 @@ class ExpenseForumDialog {
                   text: "Cancel",
                   style: appStyle(
                       size: 15.sp,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyMedium?.color ??
+                          Colors.black,
                       fontWeight: FontWeight.w400),
                 ),
               ),
@@ -180,34 +193,62 @@ class ExpenseForumDialog {
               // Submit Button
               Appbtn(
                 text: "Submit",
-                color: Colors.blue.shade900,
+                color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Handle Form Submission
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: AppTextstyle(
-                          text: "Added Successfully",
-                          style: appStyle(
-                              size: 12.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        backgroundColor: Colors.green,
-                        duration: const Duration(seconds: 2),
-                      ),
+                    final newExpense = ExpenseModel(
+                      id: expenseModel.id.isEmpty
+                          ? "EXP${DateTime.now().millisecondsSinceEpoch}"
+                          : expenseModel.id,
+                      purpose: _expensePurpose.text,
+                      amount: double.tryParse(_amount.text) ?? 0.0,
+                      date: DateTime.now(),
+                      status: expenseModel.status,
+                      from: _from.text,
+                      to: _to.text,
                     );
-
-                    // Call the success callback if provided
-                    if (onSubmitSuccess != null) {
-                      onSubmitSuccess!();
+                    try {
+                      final result = await expenseRepository
+                          .submitExpense(newExpense.toEntity());
+                      result.fold(
+                        (failure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Failed: ${failure.message}"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        },
+                        (success) {
+                          onSubmitSuccess?.call(newExpense);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: AppTextstyle(
+                                text: "Expense submitted successfully",
+                                style: appStyle(
+                                  size: 12.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          dialogContext.pop();
+                        },
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Error: $e"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     }
-
-                    dialogContext.pop();
                   }
                 },
-              )
+              ),
             ],
           ),
         );
@@ -217,6 +258,8 @@ class ExpenseForumDialog {
 
   // Method to dispose all controllers
   void dispose() {
+    _expensePurpose.dispose();
+    _amount.dispose();
     _from.dispose();
     _to.dispose();
   }

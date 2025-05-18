@@ -85,20 +85,23 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Theme.of(context).primaryColor,
           unselectedItemColor: Colors.grey.shade600,
-          selectedLabelStyle: TextStyle(
-            fontSize: NavBarStyles.labelFontSize,
+          selectedLabelStyle: appStyle(
+            size: NavBarStyles.labelFontSize,
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.w600,
           ),
-          unselectedLabelStyle: TextStyle(
-            fontSize: NavBarStyles.labelFontSize,
+          unselectedLabelStyle: appStyle(
+            color: Colors.grey.shade600,
+            size: NavBarStyles.labelFontSize,
             fontWeight: FontWeight.w400,
           ),
+          //Navigation Items/pages [Home, Request, Profile]
           items: [
             _buildNavItem(
               index: 0,
-              icon: Icons.home,
+              icon: Icons.home, //Icon Shown when not selected
               selectedIcon: Icons.home_outlined,
-              label: "Home",
+              label: "Home", //Text label
             ),
             _buildNavItem(
               index: 1,
@@ -115,15 +118,22 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           ],
         ),
       ),
+      // Main content area - uses IndexedStack to preserve state when switching tabs
       body: SafeArea(
         child: IndexedStack(
           index: _currentIndex,
+          // Each child corresponds to a tab in the BottomNavigationBar
           children: const [Homepage(), Requestpage(), Profilepage()],
         ),
       ),
     );
   }
 
+  /// A method to build consistent navigation items with animations
+  /// Creates a BottomNavigationBarItem with:
+  /// - Scale animation when selected
+  /// - Different icons for selected/unselected states
+  /// - Gradient background for active icon
   BottomNavigationBarItem _buildNavItem({
     required int index,
     required IconData icon,

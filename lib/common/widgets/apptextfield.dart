@@ -50,11 +50,27 @@ class Apptextfield extends StatelessWidget {
     this.contentPadding,
     this.focusedBorder,
     this.errorBorder,
-    this.focusedErrorBorder, this.onTap,
+    this.focusedErrorBorder,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Define a consistent text style for the field
+    final TextStyle defaultStyle = TextStyle(
+      fontSize: 16.0,
+      color: Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black87,
+    );
+
+    // Ensure consistent font sizes across all text styles
+    final TextStyle fieldStyle = style ?? defaultStyle;
+    final TextStyle fieldLabelStyle =
+        labelStyle ?? defaultStyle.copyWith(color: Colors.grey[600]);
+    final TextStyle fieldHintStyle =
+        hintStyle ?? defaultStyle.copyWith(color: Colors.grey);
+    final TextStyle fieldErrorStyle =
+        errorStyle ?? defaultStyle.copyWith(color: Colors.red, fontSize: 12.0);
+
     return SizedBox(
       width: width,
       height: height,
@@ -66,16 +82,17 @@ class Apptextfield extends StatelessWidget {
         onChanged: onChanged,
         maxLines: maxLines,
         minLines: minLines,
-        style: style,
+        style: fieldStyle,
         validator: validator,
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
           errorText: errorText,
-          labelStyle: labelStyle,
-          hintStyle: hintStyle,
-          errorStyle: errorStyle,
-          contentPadding: contentPadding,
+          labelStyle: fieldLabelStyle,
+          hintStyle: fieldHintStyle,
+          errorStyle: fieldErrorStyle,
+          contentPadding: contentPadding ??
+              EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           prefixIcon: leadingIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius),
@@ -87,6 +104,8 @@ class Apptextfield extends StatelessWidget {
           focusedBorder: focusedBorder ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor, width: 2.0),
               ),
           errorBorder: errorBorder ??
               OutlineInputBorder(
@@ -96,7 +115,7 @@ class Apptextfield extends StatelessWidget {
           focusedErrorBorder: focusedErrorBorder ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: const BorderSide(color: Colors.red),
+                borderSide: const BorderSide(color: Colors.red, width: 2.0),
               ),
         ),
       ),
