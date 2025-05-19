@@ -52,6 +52,10 @@ final GoRouter _router =
     path: '/admin-home',
     builder: (context, state) => const AdminNavigation(),
   ),
+  GoRoute(
+    path: '/manage-employees',
+    builder: (context, state) => const ManageEmployee(),
+  ),
 ]);
 
 GoRouter get appRouter => _router;

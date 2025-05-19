@@ -136,6 +136,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                       fontWeight: FontWeight.w500)),
                               onTap: () {
                                 //Manage Employees Page
+                                context.push('/manage-employees');
                               },
                             ),
                             PopupMenuItem(
