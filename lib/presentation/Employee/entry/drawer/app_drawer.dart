@@ -17,7 +17,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                 icon: Icons.dashboard_rounded,
                 text: "Admin Dashboard",
                 onClicked: () {
-                    context.push('/admin-dashboard');
+                    context.push('/admin-home');
 
                 })
           ],

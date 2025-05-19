@@ -113,7 +113,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                           fontWeight: FontWeight.w600),
                       maxLines: 2,
                     ),
-                    SizedBox(width: 16.0.w),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.2),
                     IconButton(
                       icon: Icon(
                         Icons.menu,
@@ -121,7 +121,35 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                             Colors.black,
                       ),
                       onPressed: () {
-                        // Handle menu tap, e.g., open drawer
+                        //handle menu button press
+                        //show a drop down menu and upon clicking on the item
+                        // it will navigate to the respective page
+                        showMenu(
+                          context: context,
+                          position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                          items: [
+                            PopupMenuItem(
+                              child: Text('Manage Employees',
+                                  style: appStyle(
+                                      size: 15.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500)),
+                              onTap: () {
+                                //Manage Employees Page
+                              },
+                            ),
+                            PopupMenuItem(
+                              child: Text('Work From Home Requests',
+                                  style: appStyle(
+                                      size: 15.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500)),
+                              onTap: () {
+                                Navigator.pushNamed(context, '/wfh-requests');
+                              },
+                            ),
+                          ],
+                        );
                       },
                     ),
                     const SizedBox(width: 16.0),

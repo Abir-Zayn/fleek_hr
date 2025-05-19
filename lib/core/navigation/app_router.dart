@@ -48,6 +48,10 @@ final GoRouter _router =
     path: '/admin-dashboard',
     builder: (context, state) => const AdminHomeScreen(),
   ),
+  GoRoute(
+    path: '/admin-home',
+    builder: (context, state) => const AdminNavigation(),
+  ),
 ]);
 
 GoRouter get appRouter => _router;

@@ -1,7 +1,7 @@
 import 'package:fleekhr/data/models/expense/expense_model.dart';
 import 'package:fleekhr/domain/entities/expense/expense_entities.dart';
-import 'package:fleekhr/presentation/expense/Widget/expense_card.dart';
-import 'package:fleekhr/presentation/expense/Widget/expense_summary.dart';
+import 'package:fleekhr/presentation/Employee/expense/Widget/expense_card.dart';
+import 'package:fleekhr/presentation/Employee/expense/Widget/expense_summary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
