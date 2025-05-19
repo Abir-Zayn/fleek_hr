@@ -44,6 +44,10 @@ final GoRouter _router =
     path: '/profileupdate',
     builder: (context, state) => const ProfileUpdate(),
   ),
+  GoRoute(
+    path: '/admin-dashboard',
+    builder: (context, state) => const AdminHomeScreen(),
+  ),
 ]);
 
 GoRouter get appRouter => _router;
