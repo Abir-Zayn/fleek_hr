@@ -214,7 +214,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       iconColor:
                           Theme.of(context).textTheme.bodyMedium?.color ??
                               Colors.black,
-                      cardColor: item['color'],
+                      color: item['color'],
                       onTap: () {},
                     );
                   },

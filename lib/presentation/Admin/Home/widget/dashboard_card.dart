@@ -9,7 +9,7 @@ class DashboardCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   final Color iconColor;
-  final Color cardColor;
+  final Color color;
   const DashboardCard(
       {super.key,
       required this.title,
@@ -17,7 +17,7 @@ class DashboardCard extends StatelessWidget {
       required this.icon,
       required this.onTap,
       required this.iconColor,
-      required this.cardColor});
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class DashboardCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         elevation: 0.3,
-        color: cardColor,
+        color: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.dg),
         ),
@@ -59,7 +59,11 @@ class DashboardCard extends StatelessWidget {
                 text: count,
                 style: appStyle(
                     size: 13.sp,
-                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7) ??
+                    color: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.color
+                            ?.withOpacity(0.7) ??
                         Colors.black,
                     fontWeight: FontWeight.w400),
               ),
@@ -67,7 +71,8 @@ class DashboardCard extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: Icon(
                   Icons.arrow_forward_ios,
-                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7) ?? Colors.black,
+                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7) ??
+                      Colors.black,
                   size: 16.sp,
                 ),
               )

@@ -56,6 +56,9 @@ final GoRouter _router =
     path: '/manage-employees',
     builder: (context, state) => const ManageEmployee(),
   ),
+  GoRoute(path: '/add-employee', builder: (context, state) {
+    return const AddEmployee();
+  }),
 ]);
 
 GoRouter get appRouter => _router;

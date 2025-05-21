@@ -40,7 +40,7 @@ class _AdminNavigationState extends State<AdminNavigation> {
         onTap: _onItemTapped,
         // indicatorColor: Colors.white,
         unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.black.withOpacity(0.1),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
         // outlineBorderColor: Colors.black.withOpacity(0.1),
         borderWidth: 2,
         outlineBorderColor: Colors.black.withOpacity(0.1),

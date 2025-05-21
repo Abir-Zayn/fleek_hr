@@ -6,8 +6,15 @@ class ManageEmployee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: FleekAppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: 'Manage Employees',
+        onBackButtonPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       /**
-       *  Pre-requisite:
+       *  requisite:
        * 1. Search button to search for employees.
        * 2. Dashboard to show the some of things such as 
        *     Total number of employees.
@@ -78,6 +85,44 @@ class ManageEmployee extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
+              //Add employee button
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(12.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  leading: Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                    child: Icon(Icons.edit, color: Colors.white),
+                  ),
+                  title: Text(
+                    'Onboard Employee',
+                    style: TextStyle(
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () {
+                    context.push('/add-employee');
+                  },
+                ),
+              ),
+              SizedBox(height: 12.h),
               //Dashboard Card Section
               AppTextstyle(
                 text: "Dashboard",
@@ -92,24 +137,21 @@ class ManageEmployee extends StatelessWidget {
               //Dashboard Card to show employee stats
               Row(
                 children: [
-                  _buildDashboardCard(
-                    context,
+                  DashboardManageEmployeeCard(
                     title: 'Total Employees',
                     count: '156',
                     icon: Icons.people,
                     color: Colors.blue,
                   ),
                   const SizedBox(width: 12),
-                  _buildDashboardCard(
-                    context,
+                  DashboardManageEmployeeCard(
                     title: 'Active Employees',
                     count: '142',
                     icon: Icons.check_circle,
                     color: Colors.green,
                   ),
                   const SizedBox(width: 12),
-                  _buildDashboardCard(
-                    context,
+                  DashboardManageEmployeeCard(
                     title: 'Pending Employees',
                     count: '14',
                     icon: Icons.pending_actions,
@@ -148,115 +190,52 @@ class ManageEmployee extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              
+
+              //Employee Card list
+              Expanded(
+                child: ListView(
+                  children: [
+                    EmployeeCard(
+                      name: 'John Doe',
+                      email: 'john.doe@fleekhr.com',
+                      role: 'Senior Developer',
+                      shift: 'Morning',
+                      lastLogin: '2 hours ago',
+                      status: 'Active',
+                      dutyHours: '8h/day',
+                      avatarUrl:
+                          'https://randomuser.me/api/portraits/men/32.jpg',
+                    ),
+                    const SizedBox(height: 12),
+                    EmployeeCard(
+                      name: 'Kashem Shikdar',
+                      email: 'kashem.213e@fleekhr.com',
+                      role: 'Intern',
+                      shift: 'Morning',
+                      lastLogin: '2 hours ago',
+                      status: 'Pending',
+                      dutyHours: '6h/day',
+                      avatarUrl: 'https://randomuser.me/api/portraits',
+                    ),
+                    const SizedBox(height: 12),
+                    EmployeeCard(
+                      name: 'Kashem Shikdar',
+                      email: 'kashem.213e@fleekhr.com',
+                      role: 'Intern',
+                      shift: 'Morning',
+                      lastLogin: '2 hours ago',
+                      status: 'Exterminated',
+                      dutyHours: '6h/day',
+                      avatarUrl:
+                          'https://images.unsplash.com/photo-1747599309107-20504ba6b8dd?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
-
-Widget _buildDashboardCard(
-  BuildContext context, {
-  required String title,
-  required String count,
-  required IconData icon,
-  required Color color,
-}) {
-  return Expanded(
-    child: Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            spreadRadius: 2,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white,
-            color.withOpacity(0.05),
-          ],
-        ),
-      ),
-      child: Stack(
-        children: [
-          // Background decoration
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Opacity(
-              opacity: 0.1,
-              child: Icon(
-                icon,
-                size: 80.sp,
-                color: color,
-              ),
-            ),
-          ),
-          // Main content
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Icon and badge
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      icon,
-                      size: 32.sp,
-                      color: color,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12.h),
-              // Title and count
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppTextstyle(
-                    text: title,
-                    style: appStyle(
-                      size: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.bodyLarge?.color ??
-                          Colors.black87,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 8.h),
-                  AppTextstyle(
-                    text: count,
-                    style: appStyle(
-                      size: 28.sp,
-                      fontWeight: FontWeight.w800,
-                      color: color,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
 }
