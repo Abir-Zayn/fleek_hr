@@ -145,7 +145,7 @@ class _AttendenceScreenState extends State<AttendenceScreen>
         ),
         const SizedBox(height: 8),
         AppTextstyle(
-          text: formattedTime,
+          text: "$formattedTime, $formattedDate",
           style: appStyle(
               size: 18,
               color:
@@ -157,7 +157,7 @@ class _AttendenceScreenState extends State<AttendenceScreen>
   }
 
   Widget buildInfoRow(String label, String value) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: TextStyle(fontWeight: FontWeight.w500)),
@@ -175,13 +175,20 @@ class _AttendenceScreenState extends State<AttendenceScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildInfoRow("Check In Time",
-                checkInTime != null ? checkInTime!.format(context) : "--"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildInfoRow("Check In Time",
+                    checkInTime != null ? checkInTime!.format(context) : "--"),
+                const SizedBox(height: 8),
+                buildInfoRow("Check Out Time", "--"), // to be implemented later
+              ],
+            ),
             const SizedBox(height: 8),
-            buildInfoRow("Check Out Time", "--"), // to be implemented later
-            const SizedBox(height: 8),
-            buildInfoRow(
-                "Total Hours Worked", "--"), // can be calculated after checkout
+            Center(
+              child: buildInfoRow("Total Hours Worked",
+                  "--"), // can be calculated after checkout,
+            )
           ],
         ),
       ),
