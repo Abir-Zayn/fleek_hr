@@ -76,32 +76,7 @@ class _OnboardState extends State<Onboard> {
                       },
                     ),
                     SizedBox(height: 16.h),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56.h,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          context.push('/reg');
-                        },
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: Colors.white,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: AppTextstyle(
-                          text: "Sign Up",
-                          style: appStyle(
-                            size: 18.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                    
                     Spacer(),
 
                     // Footer
