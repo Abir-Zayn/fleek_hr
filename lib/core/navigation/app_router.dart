@@ -15,10 +15,7 @@ final GoRouter _router =
     path: '/login',
     builder: (context, state) => const LoginPage(),
   ),
-  GoRoute(
-    path: '/reg',
-    builder: (context, state) => const RegPage(),
-  ),
+
   GoRoute(
     path: '/entry',
     builder: (context, state) => const BottomNavigationPage(),
