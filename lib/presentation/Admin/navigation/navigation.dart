@@ -13,9 +13,10 @@ class _AdminNavigationState extends State<AdminNavigation> {
   //Screen list for navigation
   final List<Widget> _screens = [
     const AdminHomeScreen(),
+    const AttendenceScreen(),
     const LeaveScreen(),
     const ExpenseScreen(),
-    const AttendenceScreen(), // Placeholder for the fourth screen
+    // Placeholder for the fourth screen
   ];
 
   void _onItemTapped(int index) {
