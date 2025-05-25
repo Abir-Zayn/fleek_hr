@@ -104,7 +104,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppTextstyle(
-                      text: 'Hi, \nSuper Admin!',
+                      text: 'Hi, \n {Admin/Employee }',
                       style: appStyle(
                           size: 32.sp,
                           color:

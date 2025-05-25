@@ -8,6 +8,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //TextEditingContrller
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize any necessary data or state here
+  }
+
+  @override
+  void dispose() {
+    // Dispose of controllers to free up resources
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
+                controller: emailController,
               ),
 
               SizedBox(height: 16.h),
@@ -90,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Theme.of(context).primaryColor,
                 ),
                 obscureText: true,
+                controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
               ),
 
@@ -104,8 +124,31 @@ class _LoginPageState extends State<LoginPage> {
                 radius: 12.r,
                 fontSize: 16.sp,
                 textColor: Colors.white,
-                onPressed: () {
-                  context.go('/entry');
+                onPressed: () async {
+                  var result = await sl<LoginUsecase>().call(
+                    params: UserLogin(
+                      email: emailController.text.trim(),
+                      password: passwordController.text.toString().trim(),
+                    ),
+                  );
+                  result.fold((l) {
+                    // Handle error
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(l.toString()),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }, (r) {
+                    // Handle success
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(r.toString()),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    context.push('/entry'); // Navigate to home page on success
+                  });
                 },
               ),
 

@@ -1,13 +1,19 @@
 import 'package:fleekhr/common/bloc/theme_cubit.dart';
+import 'package:fleekhr/core/config/appconfig.dart';
 import 'package:fleekhr/core/navigation/app_router_imports.dart';
 import 'package:fleekhr/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: Appconfig.supabaseURL,
+    anonKey: Appconfig.anonKey,
+  );
   // Initialize service locator
   await initalizeDependencies();
   runApp(const Main());
