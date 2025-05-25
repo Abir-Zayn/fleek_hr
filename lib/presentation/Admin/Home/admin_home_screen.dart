@@ -8,6 +8,21 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
+  String _status = "Swipe to mark attendance";
+
+  void _handleAttendanceMarked() {
+    setState(() {
+      _status = "Attendance successfully marked!";
+    });
+    // You can add further logic here, like sending data to a server
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Attendance Recorded!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //Sample demo data for the dashboard cards
@@ -90,6 +105,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     ];
 
     return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(120.h),
           child: AppBar(
@@ -99,19 +115,36 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             elevation: 0,
             flexibleSpace: SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(left: 16.0.w, top: 20.0.h),
+                padding: EdgeInsets.only(left: 16.0.w, top: 30.0.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppTextstyle(
-                      text: 'Hi, \n {Admin/Employee }',
-                      style: appStyle(
-                          size: 32.sp,
-                          color:
-                              Theme.of(context).textTheme.bodyMedium?.color ??
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppTextstyle(
+                          text: 'Good Morning!',
+                          style: appStyle(
+                              size: 20.sp,
+                              color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color ??
                                   Colors.black,
-                          fontWeight: FontWeight.w600),
-                      maxLines: 2,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        AppTextstyle(
+                          text: 'Hi! Admin',
+                          style: appStyle(
+                              size: 32.sp,
+                              color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color ??
+                                  Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.2),
                     IconButton(
@@ -164,6 +197,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           padding: EdgeInsets.all(15),
           child: Column(
             children: [
+              // User ID Card
+              UserIdCard(
+                  division: "Engineering",
+                  joinedDate: "16-06-2025",
+                  totalPresentDays: 20,
+                  lateDays: 5,
+                  absentDays: 7),
+              SizedBox(height: 20.h),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search...',
@@ -221,6 +262,43 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 ),
               ),
               SizedBox(height: 20.h),
+
+              // Attendance Slider
+              AttendanceSlider(
+                onAttendanceMarked: _handleAttendanceMarked,
+                instructionText: 'Swipe to Check In',
+                successText: 'Sucessfully Checked In',
+                iconColor: Theme.of(context).textTheme.bodyMedium?.color ??
+                    Colors.white,
+                textColor: Theme.of(context).textTheme.bodyMedium?.color ??
+                    Colors.white,
+                sliderColor: Theme.of(context).primaryColor,
+              ),
+
+              SizedBox(height: 20.h),
+
+              //Check in and Check out card
+              Row(
+                children: [
+                  Expanded(
+                    child: CheckInCard(
+                        headingText: 'Check In',
+                        timeText: '9:00 AM',
+                        statusText: 'On Time',
+                        icon: Icons.arrow_forward_ios_rounded),
+                  ),
+                  SizedBox(width: 20.w), // Spacing between cards
+                  Expanded(
+                    child: CheckInCard(
+                      headingText: 'Check Out',
+                      timeText: '5:00 PM',
+                      statusText: 'On Time',
+                      icon: Icons.arrow_back_ios,
+                    ),
+                  ),
+                ],
+              ),
+
               // Daily Activities Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
