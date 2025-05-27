@@ -60,7 +60,7 @@ class LeaveActionBtn extends StatelessWidget {
                 color: headingColor ??
                     theme.textTheme.bodyLarge?.color ??
                     Colors.black,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
               maxLines: 2,
               textAlign: TextAlign.center,

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class LeaveBalanceData {
+  final String type;
+  final String total;
+
+  LeaveBalanceData({required this.type, required this.total});
+}
+
 class LeaveBalanceTable extends StatelessWidget {
   final List<LeaveBalanceData> leaveBalances;
   final Map<int, TableColumnWidth>? columnWidths;
@@ -23,15 +30,14 @@ class LeaveBalanceTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final defaultBorderSide = BorderSide(
-      color: borderColor ?? Colors.grey.shade300,
-      width: 1,
-    );
-
     final headerDecoration = BoxDecoration(
-      color: headerBackgroundColor ?? theme.primaryColor.withOpacity(0.1),
-      border: Border(bottom: defaultBorderSide),
+      color: headerBackgroundColor ??
+          Theme.of(context).primaryColor.withOpacity(0.1),
+      border: Border(
+          bottom: BorderSide(
+        color: borderColor ?? Colors.grey.shade300,
+        width: 1,
+      )),
     );
 
     return Container(
@@ -44,9 +50,8 @@ class LeaveBalanceTable extends StatelessWidget {
         child: Table(
           columnWidths: columnWidths ??
               const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(1),
-                2: FlexColumnWidth(1.5),
+                0: FlexColumnWidth(2.5),
+                1: FlexColumnWidth(1.5),
               },
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
@@ -54,16 +59,14 @@ class LeaveBalanceTable extends StatelessWidget {
             TableRow(
               decoration: headerDecoration,
               children: [
-                leaveTableCell(context, "Leave Type", isHeader: true),
-                leaveTableCell(context, "Used", isHeader: true),
-                leaveTableCell(context, "Available", isHeader: true),
+                leaveTableCell(context, 'Type', isHeader: true),
+                leaveTableCell(context, 'Total', isHeader: true),
               ],
             ),
             // Data rows
             ...leaveBalances.map((balance) => tableRow(
                   context,
                   balance.type,
-                  balance.used,
                   balance.total,
                 )),
           ],
@@ -100,8 +103,7 @@ class LeaveBalanceTable extends StatelessWidget {
     );
   }
 
-  TableRow tableRow(
-      BuildContext context, String type, String used, String total) {
+  TableRow tableRow(BuildContext context, String type, String total) {
     return TableRow(
       decoration: BoxDecoration(
         border: Border(
@@ -111,21 +113,8 @@ class LeaveBalanceTable extends StatelessWidget {
       ),
       children: [
         leaveTableCell(context, type),
-        leaveTableCell(context, used),
         leaveTableCell(context, total),
       ],
     );
   }
-}
-
-class LeaveBalanceData {
-  final String type;
-  final String used;
-  final String total;
-
-  LeaveBalanceData({
-    required this.type,
-    required this.used,
-    required this.total,
-  });
 }

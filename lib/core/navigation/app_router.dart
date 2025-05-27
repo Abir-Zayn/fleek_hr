@@ -51,6 +51,10 @@ final GoRouter _router =
     builder: (context, state) => const AdminHomeScreen(),
   ),
   GoRoute(
+    path: '/add-route',
+    builder: (context, state) => const LeaveRequestScreen(),
+  ),
+  GoRoute(
     path: '/admin-home',
     builder: (context, state) => const AdminNavigation(),
   ),

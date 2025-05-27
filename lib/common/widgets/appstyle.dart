@@ -12,7 +12,7 @@ TextStyle appStyle({
   TextDecorationStyle? decorationStyle,
   double? decorationThickness,
 }) {
-  return GoogleFonts.ibmPlexSans(
+  return GoogleFonts.nunitoSans(
     fontSize: size,
     color: color,
     fontWeight: fontWeight,

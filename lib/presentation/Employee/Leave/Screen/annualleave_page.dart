@@ -78,12 +78,9 @@ class AnnualleavePage extends StatelessWidget {
               // Leave balance table
               LeaveBalanceTable(
                 leaveBalances: [
-                  LeaveBalanceData(
-                      type: "Annual Leave", used: "0", total: "12 Days"),
-                  LeaveBalanceData(
-                      type: "Sick Leave", used: "2", total: "8 Days"),
-                  LeaveBalanceData(
-                      type: "Leave Without Pay", used: "0", total: "12 Days"),
+                  LeaveBalanceData(type: "Annual Leave", total: "12 Days"),
+                  LeaveBalanceData(type: "Sick Leave", total: "8 Days"),
+                  LeaveBalanceData(type: "Leave Without Pay", total: "12 Days"),
                 ],
                 // Optional customizations:
                 borderColor: Colors.blueGrey.shade100,
@@ -140,7 +137,9 @@ class AnnualleavePage extends StatelessWidget {
                         LeaveActionBtn(
                           headingText: "Approved Leave",
                           icon: Icons.check_circle_outline,
-                          onPressed: () {},
+                          onPressed: () {
+                            context.push('/add-leave');
+                          },
                           cardColor: Theme.of(context).primaryColor,
                           headingColor: Colors.white,
                         ),
