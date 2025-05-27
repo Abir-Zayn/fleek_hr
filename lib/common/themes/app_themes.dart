@@ -2,10 +2,10 @@ import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final Color primaryColor = const Color(0xFF1098F7);
-final Color secondaryColor = const Color.fromARGB(255, 225, 225, 226);
+final Color primaryColor = const Color(0xFFff6b35);
+final Color secondaryColor = const Color(0xFFF1E4F3);
 final Color lightBackground = const Color(0xFFEFF7FF);
-final Color darkBackground = const Color.fromARGB(255, 18, 19, 18);
+final Color darkBackground = const Color(0xFF1E1B18);
 final Color lightText = const Color(0xFF1E1E1E);
 final Color darkText = const Color(0xFFF6F0ED);
 

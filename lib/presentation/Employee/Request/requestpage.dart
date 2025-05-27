@@ -1,3 +1,4 @@
+import 'package:fleekhr/common/widgets/app_bar.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/calendarpage.dart';
@@ -12,35 +13,42 @@ class Requestpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: FleekAppBar(
+            backgroundColor: Theme.of(context).primaryColor, title: "Request"),
         body: SingleChildScrollView(
-      child: Column(children: [
-        SizedBox(
-          height: 30.h,
-        ),
-        AppTextstyle(
-          text: "Need a Request to be made?",
-          style: appStyle(
-              size: 18.sp, color: Colors.black, fontWeight: FontWeight.w600),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        _buildRequestDashBoard(context),
-        SizedBox(
-          height: 20.h,
-        ),
-        AppTextstyle(
-          text: "Calendar",
-          style: appStyle(
-              size: 18.sp, color: Colors.black, fontWeight: FontWeight.w600),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        // Calendar widget can be added here
-        Calendarpage(),
-      ]),
-    ));
+          child: Column(children: [
+            SizedBox(
+              height: 30.h,
+            ),
+            AppTextstyle(
+              text: "Need a Request to be made?",
+              style: appStyle(
+                  size: 18.sp,
+                  color: Theme.of(context).textTheme.bodyMedium?.color ??
+                      Colors.black,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            _buildRequestDashBoard(context),
+            SizedBox(
+              height: 20.h,
+            ),
+            AppTextstyle(
+              text: "Calendar",
+              style: appStyle(
+                  size: 18.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            // Calendar widget can be added here
+            Calendarpage(),
+          ]),
+        ));
   }
 
   Widget _buildRequestDashBoard(BuildContext context) {
@@ -50,22 +58,6 @@ class Requestpage extends StatelessWidget {
         'icon': Icons.door_back_door_outlined,
         'text': "Leave Request",
         'color': Colors.pink
-      },
-      {'icon': Icons.money, 'text': "Loan Request", 'color': Colors.pink},
-      {
-        'icon': Icons.alarm_add_sharp,
-        'text': "Overtime Request",
-        'color': Colors.red
-      },
-      {
-        'icon': Icons.medical_information,
-        'text': "Medical Request",
-        'color': Colors.green
-      },
-      {
-        'icon': Icons.handshake,
-        'text': "Advance Request",
-        'color': Colors.deepOrange
       },
       {
         'icon': Icons.shopping_bag,
@@ -80,7 +72,7 @@ class Requestpage extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
+            crossAxisCount: 3,
             crossAxisSpacing: 8.w,
             mainAxisSpacing: 8.h,
           ),

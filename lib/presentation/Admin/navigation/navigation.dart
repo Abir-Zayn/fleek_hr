@@ -13,9 +13,8 @@ class _AdminNavigationState extends State<AdminNavigation> {
   //Screen list for navigation
   final List<Widget> _screens = [
     const AdminHomeScreen(),
-    const AttendenceScreen(),
-    const LeaveScreen(),
-    const ExpenseScreen(),
+    const Requestpage(),
+    const Profilepage(),
     // Placeholder for the fourth screen
   ];
 
@@ -40,8 +39,8 @@ class _AdminNavigationState extends State<AdminNavigation> {
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
         // indicatorColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+        unselectedItemColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Theme.of(context).primaryColor,
         // outlineBorderColor: Colors.black.withOpacity(0.1),
         borderWidth: 2,
         outlineBorderColor: Colors.black.withOpacity(0.1),
@@ -56,15 +55,10 @@ class _AdminNavigationState extends State<AdminNavigation> {
               unselectedIcon: Icons.date_range_outlined,
               selectedColor: Colors.white),
           CrystalNavigationBarItem(
-            icon: Icons.event_available,
+            icon: Icons.person,
             unselectedIcon: Icons.event_available_outlined,
             selectedColor: Colors.white,
           ),
-          CrystalNavigationBarItem(
-            icon: Icons.luggage,
-            unselectedIcon: Icons.luggage_outlined,
-            selectedColor: Colors.white,
-          )
         ],
       ),
     );

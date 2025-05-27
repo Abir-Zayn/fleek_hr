@@ -25,6 +25,10 @@ class Apptextfield extends StatelessWidget {
   final InputBorder? errorBorder;
   final InputBorder? focusedErrorBorder;
   final VoidCallback? onTap;
+  // New parameters for inner sizing
+  final double? inputHeight;
+  final EdgeInsets? innerPadding;
+  final bool expandContent;
 
   const Apptextfield({
     super.key,
@@ -33,8 +37,8 @@ class Apptextfield extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.borderRadius = 8.0,
     this.borderSide = const BorderSide(width: 1.0, color: Colors.grey),
-    this.width,
-    this.height,
+    this.width = double.infinity,
+    this.height = 80.0,
     this.errorText,
     this.validator,
     this.leadingIcon,
@@ -52,6 +56,10 @@ class Apptextfield extends StatelessWidget {
     this.errorBorder,
     this.focusedErrorBorder,
     this.onTap,
+    // Initialize new parameters
+    this.inputHeight,
+    this.innerPadding,
+    this.expandContent = false,
   });
 
   @override
@@ -71,19 +79,28 @@ class Apptextfield extends StatelessWidget {
     final TextStyle fieldErrorStyle =
         errorStyle ?? defaultStyle.copyWith(color: Colors.red, fontSize: 12.0);
 
+    // Calculate content padding based on input height or custom padding
+    final EdgeInsetsGeometry effectiveContentPadding = contentPadding ??
+        innerPadding ??
+        EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 20.0,
+        );
+
     return SizedBox(
       width: width,
-      height: height,
+      height: expandContent ? null : height,
       child: TextFormField(
         onTap: onTap,
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
         onChanged: onChanged,
-        maxLines: maxLines,
+        maxLines: expandContent ? null : maxLines,
         minLines: minLines,
         style: fieldStyle,
         validator: validator,
+        expands: expandContent,
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
@@ -91,9 +108,10 @@ class Apptextfield extends StatelessWidget {
           labelStyle: fieldLabelStyle,
           hintStyle: fieldHintStyle,
           errorStyle: fieldErrorStyle,
-          contentPadding: contentPadding ??
-              EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          contentPadding: effectiveContentPadding,
           prefixIcon: leadingIcon,
+          isDense: inputHeight != null,
+          isCollapsed: inputHeight != null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),

@@ -8,11 +8,23 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-  String _status = "Swipe to mark attendance";
+  String status = "Swipe to mark attendance";
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize any necessary data or state here
+  }
+
+  @override
+  void dispose() {
+    // Dispose of any controllers or resources if needed
+    super.dispose();
+  }
 
   void _handleAttendanceMarked() {
     setState(() {
-      _status = "Attendance successfully marked!";
+      status = "Attendance successfully marked!";
     });
     // You can add further logic here, like sending data to a server
     ScaffoldMessenger.of(context).showSnackBar(
@@ -25,59 +37,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Sample demo data for the dashboard cards
-    final List<Map<String, dynamic>> dashboardData = [
-      {
-        'title': 'Active Employee',
-        'count': '4 users',
-        'icon': Icons.person,
-        'color': Colors.teal.shade100,
-        'page': '/activeEmployees'
-      },
-      {
-        'title': 'Pending Requests',
-        'count': '2 requests',
-        'icon': Icons.pending,
-        'color': Colors.orange.shade300,
-        'page': '/pendingRequests'
-      },
-      {
-        'title': 'Work From Home',
-        'count': '8 Requests',
-        'icon': Icons.home_work_outlined,
-        'color': Colors.green.shade100,
-        'page': '/wfh-requests'
-      },
-      {
-        'title': 'Today Present',
-        'count': '130 Employees',
-        'icon': Icons.person_4_sharp,
-        'color': Colors.lightBlue.shade300,
-        'page': '/today-present'
-      },
-      {
-        'title': 'Loan Requests',
-        'count': '3 Pending',
-        'icon': Icons.monetization_on_outlined,
-        'color': Colors.purple.shade100,
-        'page': '/loan-requests'
-      },
-      {
-        'title': 'Today Absent',
-        'count': '20 Employees',
-        'icon': Icons.person_off_outlined,
-        'color': Colors.red.shade200,
-        'page': '/today-absent'
-      },
-      {
-        'title': 'Advance',
-        'count': '5 Requests',
-        'icon': Icons.request_quote_outlined,
-        'color': Colors.indigo.shade300,
-        'page': '/advance-requests'
-      }
-    ];
-
     //sample demo data for daily activities
     // Sample data for daily activities
     final List<Map<String, dynamic>> dailyActivities = [
@@ -86,23 +45,39 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         'assignedTo': 'Assigned to Alex & Jordan',
         'completionDate': 'June 25, 2025',
         'progress': 0.75,
-        'progressColor': Colors.blueAccent,
+
+        'status': 'pending', // Add status
       },
       {
         'taskName': 'Dashboard UI Design',
         'assignedTo': 'Completed by Sarah',
         'completionDate': 'June 20, 2025',
         'progress': 1.0,
-        'progressColor': Colors.green,
+
+        'status': 'accepted', // Add status
       },
       {
         'taskName': 'API Integration Testing',
         'assignedTo': 'Pending - Mark',
         'completionDate': 'June 28, 2025',
         'progress': 0.3,
-        'progressColor': Colors.orangeAccent,
+
+        'status': 'pending', // Add status
       },
+      // Add more sample data as needed
     ];
+
+    void handleActivity(int index, String action) {
+      setState(() {
+        dailyActivities[index]['status'] = action;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Activity $action successfully!'),
+            backgroundColor:
+                action == 'accepted' ? Colors.green : Colors.orange),
+      );
+    }
 
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -197,14 +172,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           padding: EdgeInsets.all(15),
           child: Column(
             children: [
-              // User ID Card
-              UserIdCard(
-                  division: "Engineering",
-                  joinedDate: "16-06-2025",
-                  totalPresentDays: 20,
-                  lateDays: 5,
-                  absentDays: 7),
-              SizedBox(height: 20.h),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search...',
@@ -233,34 +200,15 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 20.h),
-              // Horizontal Scrollable Dashboard Cards
-              SizedBox(
-                height: 380, // Increased height to accommodate two rows
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Two cards vertically
-                      crossAxisSpacing: 25.0,
-                      mainAxisSpacing: 40.0,
-                      childAspectRatio:
-                          1 // Adjust based on your card dimensions
-                      ),
-                  itemCount: dashboardData.length,
-                  itemBuilder: (context, index) {
-                    final item = dashboardData[index];
-                    return DashboardCard(
-                      title: item['title'],
-                      count: item['count'],
-                      icon: item['icon'],
-                      iconColor:
-                          Theme.of(context).textTheme.bodyMedium?.color ??
-                              Colors.black,
-                      color: item['color'],
-                      onTap: () {},
-                    );
-                  },
-                ),
-              ),
+              // User ID Card
+              UserIdCard(
+                  division: "Engineering",
+                  joinedDate: "16-06-2025",
+                  totalPresentDays: 20,
+                  lateDays: 5,
+                  absentDays: 7),
+              SizedBox(height: 20.h),
+
               SizedBox(height: 20.h),
 
               // Attendance Slider
@@ -293,7 +241,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       headingText: 'Check Out',
                       timeText: '5:00 PM',
                       statusText: 'On Time',
-                      icon: Icons.arrow_back_ios,
+                      icon: Icons.arrow_back_ios_rounded,
                     ),
                   ),
                 ],
@@ -310,7 +258,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                           fontWeight: FontWeight.w500)),
                   TextButton(
                     onPressed: () {
-                      // Handle "View All" or filter for daily activities
+                      context.push('/dailyactivities',
+                          extra: true); // Navigate to all tasks page
                     },
                     child: Text('All Tasks', // As per UI image
                         style: appStyle(
@@ -333,7 +282,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     assignedTo: activity['assignedTo'],
                     completionDate: activity['completionDate'],
                     progress: activity['progress'],
-                    progressColor: activity['progressColor'],
+
+                    isAdmin: true, // Assuming admin view for this example
+                    status: activity['status'],
+                    onAccept: () => handleActivity(index, 'accepted'),
+                    onReject: () => handleActivity(index, 'rejected'),
                   );
                 },
               ),

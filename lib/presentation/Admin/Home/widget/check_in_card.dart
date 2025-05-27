@@ -7,31 +7,31 @@ class CheckInCard extends StatelessWidget {
   final String timeText;
   final String statusText;
   final IconData? icon;
-  const CheckInCard(
-      {super.key,
-      required this.headingText,
-      required this.timeText,
-      required this.statusText,
-      this.icon});
+
+  const CheckInCard({
+    super.key,
+    required this.headingText,
+    required this.timeText,
+    required this.statusText,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor = theme.textTheme.bodyMedium?.color ?? Colors.black;
+
     return Container(
-      // Manadatory required properties
-      //logo, check in text in a row
-      //check in time
-      //on time text .
       padding: const EdgeInsets.all(16.0),
-      //decorate the card
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12.0),
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
+            color: theme.shadowColor.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -41,44 +41,81 @@ class CheckInCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: theme.primaryColor.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: Colors.blue, size: 20),
+                child: Icon(
+                  icon ?? Icons.access_time_rounded,
+                  color: theme.primaryColor,
+                  size: 20,
+                ),
               ),
-              SizedBox(width: 10),
-              AppTextstyle(
-                text: headingText,
-                style: appStyle(
-                    size: 20,
-                    color: Theme.of(context).textTheme.bodyMedium?.color ??
-                        Colors.black,
-                    fontWeight: FontWeight.bold),
+              const SizedBox(width: 12),
+              Expanded(
+                child: AppTextstyle(
+                  text: headingText,
+                  style: appStyle(
+                    size: 18,
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 16),
           AppTextstyle(
             text: timeText,
             style: appStyle(
-                size: 15,
-                color: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black,
-                fontWeight: FontWeight.w600),
+              size: 16,
+              color: textColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          SizedBox(height: 5),
-          AppTextstyle(
-            text: statusText,
-            style: appStyle(
-                size: 15,
-                color: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black,
-                fontWeight: FontWeight.w400),
-          ),
+          const SizedBox(height: 8),
+          statusTextWidget(context),
         ],
       ),
+    );
+  }
+
+  Widget statusTextWidget(BuildContext context) {
+    final theme = Theme.of(context);
+
+    // Determine status color based on text (assuming "On Time" is good, others might be warnings)
+    Color statusColor;
+    if (statusText.toLowerCase().contains("on time")) {
+      statusColor = Colors.green.shade700;
+    } else if (statusText.toLowerCase().contains("late")) {
+      statusColor = Colors.orange.shade700;
+    } else if (statusText.toLowerCase().contains("absent")) {
+      statusColor = Colors.red.shade700;
+    } else {
+      statusColor = theme.textTheme.bodyMedium?.color ?? Colors.black54;
+    }
+
+    return Row(
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: statusColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 8),
+        AppTextstyle(
+          text: statusText,
+          style: appStyle(
+            size: 14,
+            color: statusColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

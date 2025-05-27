@@ -15,7 +15,12 @@ final GoRouter _router =
     path: '/login',
     builder: (context, state) => const LoginPage(),
   ),
-
+  GoRoute(
+    path: '/dailyactivities',
+    builder: (context, state) => DailyactivitiesPage(
+      isAdmin: state.extra is bool ? state.extra as bool : false,
+    ),
+  ),
   GoRoute(
     path: '/entry',
     builder: (context, state) => const BottomNavigationPage(),
@@ -53,9 +58,11 @@ final GoRouter _router =
     path: '/manage-employees',
     builder: (context, state) => const ManageEmployee(),
   ),
-  GoRoute(path: '/add-employee', builder: (context, state) {
-    return const AddEmployee();
-  }),
+  GoRoute(
+      path: '/add-employee',
+      builder: (context, state) {
+        return const AddEmployee();
+      }),
 ]);
 
 GoRouter get appRouter => _router;
