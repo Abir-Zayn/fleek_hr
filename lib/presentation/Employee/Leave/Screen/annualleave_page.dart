@@ -110,8 +110,52 @@ class AnnualleavePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16.h),
-              Row(
-                
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        LeaveActionBtn(
+                          headingText: "Add Leave",
+                          icon: Icons.add_circle_outline,
+                          onPressed: () {},
+                          cardColor: Theme.of(context).scaffoldBackgroundColor,
+                          headingColor: Theme.of(context).primaryColor,
+                        ),
+                        SizedBox(width: 20.w),
+                        LeaveActionBtn(
+                          headingText: "Leave History",
+                          icon: Icons.history,
+                          onPressed: () {},
+                          cardColor: Colors.blue,
+                          headingColor: Colors.white,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      children: [
+                        LeaveActionBtn(
+                          headingText: "Approved Leave",
+                          icon: Icons.check_circle_outline,
+                          onPressed: () {},
+                          cardColor: Theme.of(context).primaryColor,
+                          headingColor: Colors.white,
+                        ),
+                        SizedBox(width: 20.w),
+                        LeaveActionBtn(
+                          headingText: "Rejected Leave",
+                          icon: Icons.history,
+                          onPressed: () {},
+                          cardColor: Colors.purple[700],
+                          headingColor: Colors.white,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
           ),
