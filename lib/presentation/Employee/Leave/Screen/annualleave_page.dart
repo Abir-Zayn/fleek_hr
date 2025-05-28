@@ -53,47 +53,39 @@ class AnnualleavePage extends StatelessWidget {
                     "Leave Summary", // Optional, defaults to "Available Leave"
                 leaveIndicators: [
                   LeaveIndicatorData(
-                    title: "Annual leave",
-                    total: "12",
-                    used: "2",
+                    title: "Total leave",
+                    used: "30",
                     color: Colors.blue,
                   ),
                   LeaveIndicatorData(
-                    title: "Sick leave",
-                    total: "12",
-                    used: "5",
+                    title: "Leave Granted",
+                    used: "15",
                     color: Colors.deepOrangeAccent,
-                  ),
-                  LeaveIndicatorData(
-                    title: "Leave without pay",
-                    total: "12",
-                    used: "9",
-                    color: Colors.deepPurple,
                   ),
                 ],
               ),
 
               SizedBox(height: 24.h),
 
-              // Leave balance table
-              LeaveBalanceTable(
-                leaveBalances: [
-                  LeaveBalanceData(type: "Annual Leave", total: "12 Days"),
-                  LeaveBalanceData(type: "Sick Leave", total: "8 Days"),
-                  LeaveBalanceData(type: "Leave Without Pay", total: "12 Days"),
-                ],
-                // Optional customizations:
-                borderColor: Colors.blueGrey.shade100,
-                headerBackgroundColor:
-                    Theme.of(context).primaryColor.withOpacity(0.1),
-                borderRadius: 16,
-                headerTextStyle: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.titleLarge?.color ??
-                      Colors.black,
-                ),
-              ),
+              // // Leave balance table
+              // LeaveBalanceTable(
+              //   leaveBalances: [
+              //     LeaveBalanceData(type: "Annual Leave", total: "12 Days"),
+              //     LeaveBalanceData(type: "Sick Leave", total: "8 Days"),
+              //     LeaveBalanceData(type: "Leave Without Pay", total: "12 Days"),
+              //   ],
+              //   // Optional customizations:
+              //   borderColor: Colors.blueGrey.shade100,
+              //   headerBackgroundColor:
+              //       Theme.of(context).primaryColor.withOpacity(0.1),
+              //   borderRadius: 16,
+              //   headerTextStyle: TextStyle(
+              //     fontSize: 16.sp,
+              //     fontWeight: FontWeight.bold,
+              //     color: Theme.of(context).textTheme.titleLarge?.color ??
+              //         Colors.black,
+              //   ),
+              // ),
               SizedBox(height: 40.h),
 
               //Leave request and history section
@@ -112,47 +104,49 @@ class AnnualleavePage extends StatelessWidget {
                     horizontal: MediaQuery.of(context).size.width * 0.05),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        LeaveActionBtn(
-                          headingText: "Add Leave",
-                          icon: Icons.add_circle_outline,
-                          onPressed: () {},
-                          cardColor: Theme.of(context).scaffoldBackgroundColor,
-                          headingColor: Theme.of(context).primaryColor,
-                        ),
-                        SizedBox(width: 20.w),
-                        LeaveActionBtn(
-                          headingText: "Leave History",
-                          icon: Icons.history,
-                          onPressed: () {},
-                          cardColor: Colors.blue,
-                          headingColor: Colors.white,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20.h),
-                    Row(
-                      children: [
-                        LeaveActionBtn(
-                          headingText: "Approved Leave",
-                          icon: Icons.check_circle_outline,
-                          onPressed: () {
-                            context.push('/add-leave');
-                          },
-                          cardColor: Theme.of(context).primaryColor,
-                          headingColor: Colors.white,
-                        ),
-                        SizedBox(width: 20.w),
-                        LeaveActionBtn(
-                          headingText: "Rejected Leave",
-                          icon: Icons.history,
-                          onPressed: () {},
-                          cardColor: Colors.purple[700],
-                          headingColor: Colors.white,
-                        ),
-                      ],
-                    )
+                    // Row(
+                    //   children: [
+                    //     LeaveActionBtn(
+                    //       headingText: "Add Leave",
+                    //       icon: Icons.add_circle_outline,
+                    //       onPressed: () {
+                    //         context.push('/add-leave');
+                    //       },
+                    //       cardColor: Theme.of(context).scaffoldBackgroundColor,
+                    //       headingColor: Theme.of(context).primaryColor,
+                    //     ),
+                    //     SizedBox(width: 20.w),
+                    //     LeaveActionBtn(
+                    //       headingText: "Leave History",
+                    //       icon: Icons.history,
+                    //       onPressed: () {},
+                    //       cardColor: Colors.blue,
+                    //       headingColor: Colors.white,
+                    //     ),
+                    //   ],
+                    // ),
+                    // SizedBox(height: 20.h),
+                    // Row(
+                    //   children: [
+                    //     LeaveActionBtn(
+                    //       headingText: "Approved Leave",
+                    //       icon: Icons.check_circle_outline,
+                    //       onPressed: () {
+                    //         context.push('/add-leave');
+                    //       },
+                    //       cardColor: Theme.of(context).primaryColor,
+                    //       headingColor: Colors.white,
+                    //     ),
+                    //     SizedBox(width: 20.w),
+                    //     LeaveActionBtn(
+                    //       headingText: "Rejected Leave",
+                    //       icon: Icons.history,
+                    //       onPressed: () {},
+                    //       cardColor: Colors.purple[700],
+                    //       headingColor: Colors.white,
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               )

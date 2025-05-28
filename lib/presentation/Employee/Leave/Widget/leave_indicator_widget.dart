@@ -5,14 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaveIndicatorWidget extends StatelessWidget {
   final String title;
-  final String total;
+
   final String used;
   final Color color;
 
   const LeaveIndicatorWidget({
     super.key,
     required this.title,
-    required this.total,
     required this.used,
     required this.color,
   });
@@ -76,15 +75,7 @@ class LeaveIndicatorWidget extends StatelessWidget {
                 Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,
           ),
         ),
-        AppTextstyle(
-          text: "${int.parse(total) - int.parse(used)} left",
-          style: appStyle(
-            fontWeight: FontWeight.w400,
-            size: 12.sp,
-            color:
-                Theme.of(context).textTheme.bodySmall?.color ?? Colors.black54,
-          ),
-        ),
+       
       ],
     );
   }

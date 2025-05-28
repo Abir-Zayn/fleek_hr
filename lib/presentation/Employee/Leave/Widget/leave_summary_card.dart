@@ -58,7 +58,6 @@ class LeaveSummaryCard extends StatelessWidget {
                   .map(
                     (indicator) => LeaveIndicatorWidget(
                       title: indicator.title,
-                      total: indicator.total,
                       used: indicator.used,
                       color: indicator.color,
                     ),
@@ -74,13 +73,11 @@ class LeaveSummaryCard extends StatelessWidget {
 
 class LeaveIndicatorData {
   final String title;
-  final String total;
   final String used;
   final Color color;
 
   LeaveIndicatorData({
     required this.title,
-    required this.total,
     required this.used,
     required this.color,
   });
