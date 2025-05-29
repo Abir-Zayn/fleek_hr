@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaveIndicatorWidget extends StatelessWidget {
   final String title;
-
   final String used;
   final Color color;
 
@@ -44,10 +43,10 @@ class LeaveIndicatorWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    used,
-                    style: TextStyle(
-                      fontSize: 18.sp,
+                  AppTextstyle(
+                    text: used,
+                    style: appStyle(
+                      size: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: color,
                     ),
@@ -75,7 +74,6 @@ class LeaveIndicatorWidget extends StatelessWidget {
                 Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,
           ),
         ),
-       
       ],
     );
   }

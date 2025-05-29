@@ -6,7 +6,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaveTypeSelector extends StatefulWidget {
   final List<LeaveType> leaveTypes;
-  const LeaveTypeSelector({super.key, required this.leaveTypes});
+  final Function(LeaveType) onLeaveTypeSelected;
+  final LeaveType? selectedType;
+
+  const LeaveTypeSelector({
+    super.key,
+    required this.leaveTypes,
+    required this.onLeaveTypeSelected,
+    this.selectedType,
+  });
 
   @override
   State<LeaveTypeSelector> createState() => _LeaveTypeSelectorState();
@@ -18,7 +26,15 @@ class _LeaveTypeSelectorState extends State<LeaveTypeSelector> {
   @override
   void initState() {
     super.initState();
-    selectedType = widget.leaveTypes.first;
+    selectedType = widget.selectedType ?? widget.leaveTypes.first;
+  }
+
+  @override
+  void didUpdateWidget(LeaveTypeSelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedType != null && widget.selectedType != selectedType) {
+      selectedType = widget.selectedType!;
+    }
   }
 
   @override
@@ -50,6 +66,7 @@ class _LeaveTypeSelectorState extends State<LeaveTypeSelector> {
                       setState(() {
                         selectedType = leaveType;
                       });
+                      widget.onLeaveTypeSelected(leaveType);
                     },
                     child: Container(
                       padding:

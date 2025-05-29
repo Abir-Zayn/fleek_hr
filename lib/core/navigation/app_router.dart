@@ -30,10 +30,6 @@ final GoRouter _router =
     builder: (context, state) => const WorkFromHomeScreen(),
   ),
   GoRoute(
-    path: '/leavereq',
-    builder: (context, state) => const AnnualleavePage(),
-  ),
-  GoRoute(
     path: '/add-leave',
     builder: (context, state) => const LeaveRequestScreen(),
   ),
