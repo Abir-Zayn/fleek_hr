@@ -88,7 +88,7 @@ class Requestpage extends StatelessWidget {
                 reqList[index]['text'] == "WFH Request"
                     ? context.push('/workfromhome')
                     : reqList[index]['text'] == 'Leave Request'
-                        ? context.push('/add-leave')
+                        ? context.push('/leave-history')
                         : reqList[index]['text'] == 'Expense Request'
                             ? context.push('/expense')
                             : () {};

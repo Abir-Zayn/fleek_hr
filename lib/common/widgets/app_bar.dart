@@ -13,11 +13,17 @@ class FleekAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
   final String title;
   final VoidCallback? onBackButtonPressed;
-  const FleekAppBar(
-      {super.key,
-      required this.backgroundColor,
-      required this.title,
-      this.onBackButtonPressed});
+  final Widget? actionButton;
+  final VoidCallback? onActionButtonPressed;
+
+  const FleekAppBar({
+    super.key,
+    required this.backgroundColor,
+    required this.title,
+    this.onBackButtonPressed,
+    this.actionButton,
+    this.onActionButtonPressed,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(56.0);
@@ -48,6 +54,14 @@ class FleekAppBar extends StatelessWidget implements PreferredSizeWidget {
         textAlign: TextAlign.center,
       ),
       centerTitle: true,
+      actions: actionButton != null
+          ? [
+              IconButton(
+                icon: actionButton!,
+                onPressed: onActionButtonPressed,
+              ),
+            ]
+          : null,
     );
   }
 }
