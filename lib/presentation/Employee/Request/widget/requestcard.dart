@@ -6,50 +6,80 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Requestcard extends StatelessWidget {
   final IconData icon;
   final String text;
+  final String? description;
   final Color iconColor;
   final VoidCallback? onTap;
-  const Requestcard(
-      {super.key,
-      required this.icon,
-      required this.text,
-      this.iconColor = Colors.black,
-      this.onTap});
+
+  const Requestcard({
+    super.key,
+    required this.icon,
+    required this.text,
+    this.description,
+    this.iconColor = Colors.black,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: SizedBox(
-        height: 75,
-        width: 90,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 48,
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  icon,
-                  color: iconColor,
-                ),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-              const SizedBox(height: 5),
-              AppTextstyle(
-                text: text,
-                style: appStyle(
-                  size: 12.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
+              child: Icon(
+                icon,
+                color: iconColor,
+                size: 28,
+              ),
+            ),
+            SizedBox(height: 12),
+            AppTextstyle(
+              text: text,
+              style: appStyle(
+                size: 15.sp,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
+            if (description != null) ...[
+              SizedBox(height: 4),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  description!,
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    color: Colors.grey.shade600,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                textAlign: TextAlign.center,
               ),
             ],
-          ),
+          ],
         ),
       ),
     );

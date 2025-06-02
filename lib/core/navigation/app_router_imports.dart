@@ -13,7 +13,6 @@ import 'package:fleekhr/presentation/Employee/Leave/Screen/leave_history_screen_
 import 'package:fleekhr/presentation/Employee/Leave/Screen/leave_request_imports.dart';
 import 'package:fleekhr/presentation/Employee/Profile/profile_update.dart';
 import 'package:fleekhr/presentation/Employee/Request/screen/workform_homescreen.dart';
-import 'package:fleekhr/presentation/Employee/entry/entrypoint_imports.dart';
 import 'package:fleekhr/presentation/Employee/expense/Screen/expense_screen_imports.dart';
 import 'package:fleekhr/presentation/Employee/onboard/onboard_imports.dart';
 import 'package:fleekhr/presentation/splash/splashscreen_one.dart';

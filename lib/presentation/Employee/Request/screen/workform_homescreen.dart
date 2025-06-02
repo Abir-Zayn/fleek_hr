@@ -1,6 +1,5 @@
 import 'package:fleekhr/data/models/wfh_request/wfh_model.dart';
 import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
-import 'package:fleekhr/presentation/Employee/Request/widget/calendarpage.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/common_reason_sheet.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/date_range_display.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/dialog.dart';
@@ -9,7 +8,6 @@ import 'package:fleekhr/presentation/Employee/Request/widget/reason_textfield.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fleekhr/common/widgets/appbtn.dart';
-
 
 /// WorkFromHomeScreen handles Work From Home request submission
 ///
@@ -28,10 +26,10 @@ class WorkFromHomeScreen extends StatefulWidget {
 class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
   // Dependencies
   final _wfhApiService = WfhApiService();
-  
+
   // Controllers
   final _reasonController = TextEditingController();
-  
+
   // State
   WfhModel _request = WfhModel.initial();
   bool _isLoading = false;
@@ -63,7 +61,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
     try {
       _request = _request.copyWith(reason: _reasonController.text);
       await _wfhApiService.submitWFHReq(_request);
-      
+
       _showSuccessMessage("Your WFH request has been submitted");
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) Navigator.pop(context);
@@ -125,9 +123,6 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
                       totalDays: _request.totalDays,
                     ),
                     SizedBox(height: 24.h),
-                    Calendarpage(
-                      onRangeDateSelected: _onDateRangeSelected,
-                    ),
                     SizedBox(height: 24.h),
                     ReasonInput(
                       controller: _reasonController,

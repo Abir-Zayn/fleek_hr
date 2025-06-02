@@ -25,10 +25,7 @@ final GoRouter _router =
     ),
   ),
 
-  GoRoute(
-    path: '/entry',
-    builder: (context, state) => const BottomNavigationPage(),
-  ),
+
 
   GoRoute(
     path: '/workfromhome',

@@ -1,5 +1,3 @@
-/// Work From Home Model
-library;
 
 class WfhModel {
   final DateTime startDate;
