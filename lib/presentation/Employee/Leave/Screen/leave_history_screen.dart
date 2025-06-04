@@ -10,6 +10,41 @@ class LeaveHistoryScreen extends StatefulWidget {
 class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
   String selectedFilter = 'All';
 
+  void showcasingFilteringOptions() {
+    try {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        ),
+        builder: (context) => FilteringBottomSheet(
+          title: "Filter WFH Requests",
+          filteringOpt: ["All", "Pending", "Approved", "Rejected"],
+          selectedFilter: selectedFilter,
+          onFilterSelected: (filter) {
+            setState(() {
+              selectedFilter = filter;
+            });
+            debugPrint('Selected filter: $selectedFilter');
+          },
+          padding: EdgeInsets.only(
+            left: 16.w,
+            right: 16.w,
+            top: 20.h,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
+          ),
+        ),
+      );
+    } catch (e) {
+      debugPrint("Error showing filter options: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error showing filter options: $e")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +54,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
         actionButton: const Icon(Icons.filter_list, color: Colors.white),
         onActionButtonPressed: () {
           // Show filter options in a dialog instead of using PopupMenuButton
-          _showFilterDialog(context);
+          showcasingFilteringOptions();
         },
       ),
       body: SafeArea(
@@ -62,7 +97,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
                   ],
                 ),
                 SizedBox(height: 16.h),
-                _buildLeavesList(),
+                leaveList(),
               ],
             ),
           ),
@@ -80,7 +115,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
     );
   }
 
-  Widget _buildLeavesList() {
+  Widget leaveList() {
     final filteredLeaves = LeaveDataCardSrc.leaveDemoData
         .where((leave) =>
             selectedFilter == 'All' ||
@@ -126,54 +161,6 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
                 'Leave ${leave.id} status changed to ${isApproved ? 'Approved' : 'Rejected'}');
           },
         );
-      },
-    );
-  }
-
-  void _showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Filter Leaves'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildFilterOption('All'),
-            _buildFilterOption('Pending'),
-            _buildFilterOption('Approved'),
-            _buildFilterOption('Rejected'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Close'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterOption(String filter) {
-    return ListTile(
-      title: Text(filter),
-      leading: Radio<String>(
-        value: filter,
-        groupValue: selectedFilter,
-        onChanged: (value) {
-          setState(() {
-            selectedFilter = value!;
-          });
-          Navigator.pop(context);
-          debugPrint('Selected filter: $selectedFilter');
-        },
-      ),
-      onTap: () {
-        setState(() {
-          selectedFilter = filter;
-        });
-        Navigator.pop(context);
-        debugPrint('Selected filter: $selectedFilter');
       },
     );
   }

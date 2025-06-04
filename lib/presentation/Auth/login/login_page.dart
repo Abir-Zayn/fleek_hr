@@ -258,7 +258,10 @@ class _LoginPageState extends State<LoginPage> {
                         // Handle error
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(l.toString()),
+                            content: Text(
+                              l.toString(),
+                              style: const TextStyle(fontSize: 14),
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -266,7 +269,10 @@ class _LoginPageState extends State<LoginPage> {
                         // Handle success
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Login successful"),
+                            content: Text(
+                              "Login successful",
+                              style: const TextStyle(fontSize: 14),
+                            ),
                             backgroundColor: Colors.green,
                           ),
                         );
@@ -280,7 +286,10 @@ class _LoginPageState extends State<LoginPage> {
                       // Show error
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text("An unexpected error occurred"),
+                          content: Text(
+                            "An unexpected error occurred",
+                            style: const TextStyle(fontSize: 14),
+                          ),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -288,7 +297,6 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ),
-
               SizedBox(height: 30.h),
             ],
           ),

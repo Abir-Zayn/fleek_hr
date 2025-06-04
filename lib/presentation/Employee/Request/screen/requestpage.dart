@@ -1,4 +1,3 @@
-import 'package:fleekhr/common/widgets/app_bar.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/requestcard.dart';
@@ -12,10 +11,6 @@ class Requestpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FleekAppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: "Requests",
-      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),

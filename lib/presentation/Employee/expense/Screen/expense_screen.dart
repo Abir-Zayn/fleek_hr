@@ -65,21 +65,37 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     });
   }
 
-  void _showFilterOptions() {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (context) => ExpenseFilterWidget(
-        selectedFilter: _selectedFilter,
-        onFilterChanged: (filter) {
-          setState(() {
-            _selectedFilter = filter;
-          });
-        },
-      ),
-    );
+  void showcasingFilteringOptions() {
+    try {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        ),
+        builder: (context) => FilteringBottomSheet(
+          title: "Filter Expenses",
+          filteringOpt: ["All", "Pending", "Approved", "Rejected"],
+          selectedFilter: _selectedFilter,
+          onFilterSelected: (filter) {
+            setState(() {
+              _selectedFilter = filter;
+            });
+            // Optional: Refresh or filter data after selection
+            _fetchExpenses();
+          },
+          padding: EdgeInsets.only(
+            left: 16.w,
+            right: 16.w,
+            top: 20.h,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
+          ),
+        ),
+      );
+    } catch (e) {
+      _showMessage("Error showing filter options: $e");
+    }
   }
 
   void _showAddExpenseDialog() {
@@ -134,7 +150,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list, color: Colors.white),
-            onPressed: _showFilterOptions,
+            onPressed: showcasingFilteringOptions,
           ),
         ],
       ),

@@ -25,11 +25,14 @@ final GoRouter _router =
     ),
   ),
 
-
-
   GoRoute(
     path: '/workfromhome',
     builder: (context, state) => const WorkFromHomeScreen(),
+  ),
+
+  GoRoute(
+    path: '/work-from-home-request-form',
+    builder: (context, state) => const AddWorkFromHomeScreen(),
   ),
 
   GoRoute(

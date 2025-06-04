@@ -1,49 +1,63 @@
 import 'package:fleekhr/data/models/wfh_request/wfh_model.dart';
 
-///Service class for handling WFH (Work From Home) related API calls.
+// Mock data generator for WFH (Work From Home) requests
+class WorkFromHomeMockData {
+  static final List<WfhModel> mockWfhRequests = [
+    WfhModel(
+      id: "wfh001",
+      startDate: DateTime(2024, 1, 10),
+      endDate: DateTime(2024, 1, 12),
+      employeeName: "Alice Johnson",
+      employeeId: "emp101",
+      status: "Approved",
+      reason: "Family emergency",
+    ),
+    WfhModel(
+      id: "wfh002",
+      startDate: DateTime(2024, 2, 5),
+      endDate: DateTime(2024, 2, 6),
+      employeeName: "Bob Smith",
+      employeeId: "emp102",
+      status: "Pending",
+      reason: "Internet outage at home",
+    ),
+    WfhModel(
+      id: "wfh003",
+      startDate: DateTime(2024, 3, 15),
+      endDate: DateTime(2024, 3, 17),
+      employeeName: "Charlie Brown",
+      employeeId: "emp103",
+      status: "Rejected",
+      reason: "Project deadline requires onsite work",
+    ),
+    WfhModel(
+      id: "wfh004",
+      startDate: DateTime(2024, 4, 20),
+      endDate: DateTime(2024, 4, 20),
+      employeeName: "Diana Prince",
+      employeeId: "emp104",
+      status: "Approved",
+      reason: "Medical appointment",
+    ),
+    WfhModel(
+      id: "wfh005",
+      startDate: DateTime(2024, 5, 1),
+      endDate: DateTime(2024, 5, 3),
+      employeeName: "Ethan Hunt",
+      employeeId: "emp105",
+      status: "Pending",
+      reason: "Relocating to a new apartment",
+    ),
+  ];
 
-class WfhApiService {
-  //Submit WFH request to the API
-  Future<void> submitWFHReq(WfhModel req) async {
-    try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-      // Here you would typically use an HTTP client to send the request
-      // For example:
-      // final response = await http.post(
-      //   Uri.parse('https://api.example.com/wfh'),
-      //   body: req.toJson(),
-      // );
-      // Handle response and errors accordingly
-    }catch(e){
-      // Handle any errors that occur during the API call
-      print('Error submitting WFH request: $e');
-      throw Exception('Failed to submit WFH request');
-    }
+  // Helper: Fetch mock data (simulate API call)
+  static Future<List<WfhModel>> fetchMockWfhData() async {
+    await Future.delayed(const Duration(seconds: 1)); // Simulate delay
+    return mockWfhRequests;
   }
 
-  //Fetch WFH requests from the API
-  Future<List<String>> fetchWFHReqs() async {
-    try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-      // Here you would typically use an HTTP client to fetch the requests
-      // For example:
-      // final response = await http.get(Uri.parse('https://api.example.com/wfh'));
-      // Parse the response and return a list of WfhModel objects
-      return [
-        //For Demo purposes, returning a static list
-      "Remote work due to doctor's appointment",
-      "Internet issues at home need to be fixed",
-      "Construction work in my area",
-      "Weather conditions making commute difficult",
-      "Family emergency requires me to be at home",
-
-      ]; // Return an empty list for now
-    } catch (e) {
-      // Handle any errors that occur during the API call
-      print('Error fetching WFH requests: $e');
-      throw Exception('Failed to fetch WFH requests');
-    }
+  // Helper: Convert mock data to JSON (for testing APIs)
+  static List<Map<String, dynamic>> toJsonList() {
+    return mockWfhRequests.map((request) => request.toJson()).toList();
   }
 }
