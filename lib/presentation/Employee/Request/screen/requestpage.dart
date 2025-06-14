@@ -146,6 +146,14 @@ class Requestpage extends StatelessWidget {
                 context.push('/leave-history');
               } else if (reqList[index]['text'] == 'Expense Claim') {
                 context.push('/expense');
+              } else if (reqList[index]['text'] == 'Task Request') {
+                context.push('/taskrequest');
+              } else if (reqList[index]['text'] == 'Attendance') {
+                context.push('/attendance');
+              } else if (reqList[index]['text'] == 'IT Support') {
+                context.push('/itsupport');
+              } else if (reqList[index]['text'] == 'Payroll') {
+                context.push('/payroll');
               } else {
                 // Placeholder for other routes
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
