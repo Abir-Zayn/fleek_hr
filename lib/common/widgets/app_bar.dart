@@ -15,6 +15,7 @@ class FleekAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackButtonPressed;
   final Widget? actionButton;
   final VoidCallback? onActionButtonPressed;
+  final TabBar? bottom;
 
   const FleekAppBar({
     super.key,
@@ -23,10 +24,13 @@ class FleekAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onBackButtonPressed,
     this.actionButton,
     this.onActionButtonPressed,
+    this.bottom,
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(56.0);
+  Size get preferredSize => Size.fromHeight(
+        56.0 + (bottom?.preferredSize.height ?? 0.0),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +66,7 @@ class FleekAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ]
           : null,
+      bottom: bottom,
     );
   }
 }

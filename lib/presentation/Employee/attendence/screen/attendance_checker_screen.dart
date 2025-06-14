@@ -45,12 +45,25 @@ class _AttendanceScreenState extends State<AttendanceScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Attendance'),
+      appBar: FleekAppBar(
+        title: 'Attendance',
+        backgroundColor: Theme.of(context).primaryColor,
         bottom: TabBar(
+          unselectedLabelColor: Colors.white70,
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          labelColor: Colors.white,
+          labelStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'Check In'),
+          tabs: [
+            Tab(
+              text: 'Check In',
+            ),
             Tab(text: 'History'),
           ],
         ),

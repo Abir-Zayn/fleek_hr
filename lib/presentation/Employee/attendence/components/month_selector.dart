@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//This is header portion where user can toggle between months
+
 class MonthSelector extends StatelessWidget {
   final DateTime selectedMonth;
   final VoidCallback onPreviousMonth;
