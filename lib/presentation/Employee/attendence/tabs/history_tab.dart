@@ -4,22 +4,6 @@ import 'package:intl/intl.dart';
 class HistoryTab extends StatefulWidget {
   const HistoryTab({super.key});
 
-  // Get color for status badges
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'On Time':
-        return Colors.green;
-      case 'Late':
-        return Colors.red;
-      case 'Left Early':
-        return Colors.orange;
-      case 'Absent':
-        return Colors.grey;
-      default:
-        return Colors.blue;
-    }
-  }
-
   @override
   State<HistoryTab> createState() => _HistoryTabState();
 }
