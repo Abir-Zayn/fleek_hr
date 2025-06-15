@@ -29,14 +29,6 @@ Future<void> initalizeDependencies() async {
 
   //Registering services
   //Expense Service
-  sl.registerLazySingleton<ExpenseService>(
-      () => ExpenseServiceImplementation());
-  //Expense Repository
-  sl.registerLazySingleton<ExpenseRepository>(
-    () => ExpenseRepositoryImplementation(
-      sl<ExpenseService>(),
-    ),
-  );
 
   // sl.registerSingleton<GetExpenseUseCase>(GetExpenseUseCase(
   //   sl<ExpenseRepository>()));

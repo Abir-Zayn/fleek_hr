@@ -1,44 +1,114 @@
-import 'package:dartz/dartz.dart';
-import 'package:fleekhr/core/error/failure.dart';
-import 'package:fleekhr/data/models/expense/expense_model.dart';
-import 'package:flutter/material.dart';
+import 'package:fleekhr/data/models/expense/expense_card_modet.dart';
 
-abstract class ExpenseService {
-  Future<Either<Failure, List<ExpenseModel>>> getExpenses();
-  Future<Either<Failure, ExpenseModel>> submitExpense(ExpenseModel expense);
-}
-
-class ExpenseServiceImplementation extends ExpenseService {
-  @override
-   Future<Either<Failure, List<ExpenseModel>>> getExpenses() async {
-    // Implementation for fetching expenses
-    // This could involve making an API call or querying a database
-    // For now, returning a placeholder value
-    try {
-      await Future.delayed(Duration(seconds: 1)); // Simulating network delay
-      debugPrint('Fetching expenses...');
-      final List<ExpenseModel> placeholderExpenses = [
-        ExpenseModel.fromJson({
-          'id': '1',
-          'purpose': 'Team Lunch',
-          'amount': '150.00',
-          'date': '2025-05-15',
-          'status': 'pending',
-          'from': 'user123',
-          'to': 'company'
-        }),
+class ExpenseDataService {
+  static List<ExpenseCardData> get expenseDemoData => [
+        ExpenseCardData(
+          id: '1',
+          employeeId: 'emp001',
+          employeeName: 'John Doe',
+          purpose: 'Travel',
+          amount: 150.0,
+          date: DateTime.now().subtract(const Duration(days: 5)),
+          status: 'Approved',
+        ),
+        ExpenseCardData(
+          id: '2',
+          employeeId: 'emp002',
+          employeeName: 'Jane Smith',
+          purpose: 'Meals',
+          amount: 50.0,
+          date: DateTime.now().subtract(const Duration(days: 3)),
+          status: 'Pending',
+        ),
+        ExpenseCardData(
+          id: '3',
+          employeeId: 'emp003',
+          employeeName: 'Alice Johnson',
+          purpose: 'Supplies',
+          amount: 75.0,
+          date: DateTime.now().add(const Duration(days: 2)),
+          status: 'Rejected',
+        ),
+        ExpenseCardData(
+          id: '4',
+          employeeId: 'emp004',
+          employeeName: 'Bob Brown',
+          purpose: 'Travel',
+          amount: 200.0,
+          date: DateTime.now().add(const Duration(days: 10)),
+          status: 'Approved',
+        ),
+        ExpenseCardData(
+          id: '5',
+          employeeId: 'emp005',
+          employeeName: 'Charlie Davis',
+          purpose: 'Equipment',
+          amount: 300.0,
+          date: DateTime.now().add(const Duration(days: 15)),
+          status: 'Pending',
+        ),
+        ExpenseCardData(
+          id: '6',
+          employeeId: 'emp006',
+          employeeName: 'Diana Wilson',
+          purpose: 'Travel',
+          amount: 120.0,
+          date: DateTime.now().subtract(const Duration(days: 1)),
+          status: 'Approved',
+        ),
+        ExpenseCardData(
+          id: '7',
+          employeeId: 'emp007',
+          employeeName: 'Ethan Martinez',
+          purpose: 'Meals',
+          amount: 80.0,
+          date: DateTime.now().add(const Duration(days: 5)),
+          status: 'Pending',
+        ),
+        ExpenseCardData(
+          id: '8',
+          employeeId: 'emp008',
+          employeeName: 'Fiona Lee',
+          purpose: 'Supplies',
+          amount: 60.0,
+          date: DateTime.now().subtract(const Duration(days: 2)),
+          status: 'Rejected',
+        ),
+        ExpenseCardData(
+          id: '9',
+          employeeId: 'emp009',
+          employeeName: 'George Kim',
+          purpose: 'Travel',
+          amount: 180.0,
+          date: DateTime.now().add(const Duration(days: 7)),
+          status: 'Approved',
+        ),
+        ExpenseCardData(
+          id: '10',
+          employeeId: 'emp010',
+          employeeName: 'Hannah Patel',
+          purpose: 'Equipment',
+          amount: 250.0,
+          date: DateTime.now().subtract(const Duration(days: 4)),
+          status: 'Pending',
+        ),
+        ExpenseCardData(
+          id: '11',
+          employeeId: 'emp011',
+          employeeName: 'Ian Thompson',
+          purpose: 'Meals',
+          amount: 90.0,
+          date: DateTime.now().add(const Duration(days: 3)),
+          status: 'Rejected',
+        ),
+        ExpenseCardData(
+          id: '12',
+          employeeId: 'emp012',
+          employeeName: 'Julia Garcia',
+          purpose: 'Travel',
+          amount: 160.0,
+          date: DateTime.now().subtract(const Duration(days: 6)),
+          status: 'Approved',
+        ),
       ];
-      return Right(placeholderExpenses);
-    } catch (e) {
-      return Left(ServerFailure('Failed to fetch expenses: ${e.toString()}'));
-    }
-  }
-
-  @override
-   Future<Either<Failure, ExpenseModel>> submitExpense(ExpenseModel expense) async {
-    // Implementation for submitting an expense
-    // This could involve making an API call or saving to a database
-    // For now, returning a placeholder value
-    return Right(expense);
-  }
 }

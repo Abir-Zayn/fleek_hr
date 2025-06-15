@@ -1,4 +1,3 @@
-
 class LeaveType {
   final String name;
   final int availableDays;
