@@ -19,11 +19,11 @@ class Requestpage extends StatelessWidget {
             children: [
               SizedBox(height: 20.h),
 
-              // Header section
-              AppTextstyle(
-                text: "What would you like to request?",
-                style: appStyle(
-                  size: 20.sp,
+              // Header section - Use safe text styles
+              Text(
+                "What would you like to request?",
+                style: TextStyle(
+                  fontSize: 20.clamp(16.0, 24.0).toDouble(), // ✅ Safe font size
                   color: Theme.of(context).textTheme.bodyLarge?.color ??
                       Colors.black,
                   fontWeight: FontWeight.bold,
@@ -32,11 +32,11 @@ class Requestpage extends StatelessWidget {
 
               SizedBox(height: 8.h),
 
-              AppTextstyle(
-                text: "Select a category to submit your request",
-                style: appStyle(
+              Text(
+                "Select a category to submit your request",
+                style: TextStyle(
+                  fontSize: 14.clamp(12.0, 16.0).toDouble(), // ✅ Safe font size
                   color: Colors.grey.shade600,
-                  size: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -50,14 +50,15 @@ class Requestpage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       requestPageDashboard(context),
-
                       SizedBox(height: 32.h),
 
                       // Recent activity section
-                      AppTextstyle(
-                        text: "Recent Activity",
-                        style: appStyle(
-                          size: 18.sp,
+                      Text(
+                        "Recent Activity",
+                        style: TextStyle(
+                          fontSize: 18
+                              .clamp(16.0, 20.0)
+                              .toDouble(), // ✅ Safe font size
                           color: Theme.of(context).textTheme.bodyLarge?.color ??
                               Colors.black,
                           fontWeight: FontWeight.bold,
@@ -82,85 +83,97 @@ class Requestpage extends StatelessWidget {
         'icon': Icons.laptop,
         'text': "Work From Home",
         'color': Colors.blue,
-        'description': 'Request to work remotely'
+        'description': 'Request to work remotely',
+        'route': '/workfromhome'
       },
       {
         'icon': Icons.event_busy,
         'text': "Leave Request",
         'color': Colors.pink,
-        'description': 'Apply for days off'
+        'description': 'Apply for days off',
+        'route': '/leave-history'
       },
       {
         'icon': Icons.receipt_long,
         'text': "Expense Claim",
         'color': Colors.teal,
-        'description': 'Submit expense reports'
+        'description': 'Submit expense reports',
+        'route': '/expense'
       },
       {
         'icon': Icons.assignment,
         'text': "Task Request",
         'color': Colors.orange,
-        'description': 'Request new assignments'
+        'description': 'Request new assignments',
+        'route': null // ✅ Not implemented yet
       },
       {
         'icon': Icons.headset_mic,
         'text': 'IT Support',
         'color': Colors.purple,
-        'description': 'Get help with issues'
+        'description': 'Get help with issues',
+        'route': null // ✅ Not implemented yet
       },
       {
         'icon': Icons.access_time,
         'text': "Attendance",
         'color': Colors.green,
-        'description': 'View or report attendance'
+        'description': 'View or report attendance',
+        'route': '/attendance'
       },
       {
         'icon': Icons.account_balance_wallet,
         'text': "Payroll",
         'color': Colors.amber,
-        'description': 'Salary and payment requests'
+        'description': 'Salary and payment requests',
+        'route': null // ✅ Not implemented yet
       }
     ];
 
     return GridView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16.w,
-          mainAxisSpacing: 16.h,
-          childAspectRatio: 1.1,
-        ),
-        itemCount: reqList.length,
-        itemBuilder: (context, index) {
-          return Requestcard(
-            icon: reqList[index]['icon'],
-            text: reqList[index]['text'],
-            description: reqList[index]['description'],
-            iconColor: reqList[index]['color'],
-            onTap: () {
-              // Handle navigation based on card type
-              if (reqList[index]['text'] == "Work From Home") {
-                context.push('/workfromhome');
-              } else if (reqList[index]['text'] == 'Leave Request') {
-                context.push('/leave-history');
-              } else if (reqList[index]['text'] == 'Expense Claim') {
-                context.push('/expense');
-              } else if (reqList[index]['text'] == 'Task Request') {
-                context.push('/taskrequest');
-              } else if (reqList[index]['text'] == 'Attendance') {
-                context.push('/attendance');
-              } else if (reqList[index]['text'] == 'IT Support') {
-                context.push('/itsupport');
-              } else if (reqList[index]['text'] == 'Payroll') {
-                context.push('/payroll');
-              } else {
-                // Placeholder for other routes
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('${reqList[index]['text']} coming soon')));
-              }
-            },
-          );
-        });
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16.w,
+        mainAxisSpacing: 16.h,
+        childAspectRatio: 1.1,
+      ),
+      itemCount: reqList.length,
+      itemBuilder: (context, index) {
+        return Requestcard(
+          icon: reqList[index]['icon'],
+          text: reqList[index]['text'],
+          description: reqList[index]['description'],
+          iconColor: reqList[index]['color'],
+          onTap: () => _handleNavigation(context, reqList[index]),
+        );
+      },
+    );
+  }
+
+  // ✅ Centralized navigation handling
+  void _handleNavigation(BuildContext context, Map<String, dynamic> item) {
+    final route = item['route'] as String?;
+
+    if (route != null) {
+      try {
+        context.push(route);
+      } catch (e) {
+        _showComingSoon(context, item['text']);
+      }
+    } else {
+      _showComingSoon(context, item['text']);
+    }
+  }
+
+  void _showComingSoon(BuildContext context, String feature) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$feature coming soon'),
+        backgroundColor: Colors.blue,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }
