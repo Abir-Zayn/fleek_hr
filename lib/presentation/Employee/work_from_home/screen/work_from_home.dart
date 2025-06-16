@@ -112,7 +112,13 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
       itemBuilder: (context, index) {
         final request = wfhRequests[index];
 
-        return WorkFromHomeReqCard(wfhData: request);
+        return UnifiedRequestCard.workFromHome(
+            id: request.id,
+            employeeName: request.employeeName,
+            status: request.status,
+            startDate: request.startDate,
+            endDate: request.endDate,
+            reason: request.reason);
       },
     );
   }

@@ -139,20 +139,22 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     }
 
     //If there are expenses, display them in a list
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: filterExpenseStatus.length,
+      // ✅ Use shrinkWrap to avoid infinite height error
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      // ✅ Add padding for better spacing
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         final expense = filterExpenseStatus[index];
-        return ExpenseCardReq(
-          isAdmin: false, // Set to true if admin view is needed
-          expenseCardData: expense,
-          onTap: () {
-            // Handle card tap if needed
-            debugPrint('Tapped on expense: ${expense.employeeName}');
-          },
-        );
+        return UnifiedRequestCard.expense(
+            id: expense.id,
+            employeeName: expense.employeeName,
+            status: expense.status,
+            amount: expense.amount,
+            expenseDate: expense.date);
       },
     );
   }

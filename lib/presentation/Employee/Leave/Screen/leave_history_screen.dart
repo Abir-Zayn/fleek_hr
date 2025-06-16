@@ -147,20 +147,21 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
       );
     }
 
-    return ListView.builder(
+    //show the list of leaves
+    return ListView.separated(
+      separatorBuilder: (context, index) => SizedBox(height: 16.h),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: filteredLeaves.length,
       itemBuilder: (context, index) {
         final leave = filteredLeaves[index];
-        return LeaveRequestCard(
-          leave: leave,
-          isAdmin: true,
-          onStatusChange: (isApproved) {
-            debugPrint(
-                'Leave ${leave.id} status changed to ${isApproved ? 'Approved' : 'Rejected'}');
-          },
-        );
+        return UnifiedRequestCard.leave(
+            id: leave.id,
+            employeeName: leave.employeeName,
+            status: leave.status,
+            leaveType: leave.leaveType,
+            startDate: leave.startDate,
+            endDate: leave.endDate);
       },
     );
   }

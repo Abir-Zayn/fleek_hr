@@ -194,7 +194,48 @@ class UnifiedRequestCard extends StatelessWidget {
   }
 
   Widget expenseContent() {
-    return Container();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.attach_money,
+              size: 16.sp,
+              color: Colors.grey.shade700,
+            ),
+            SizedBox(width: 4.w),
+            AppTextstyle(
+              text: 'Amount: \$${amount?.toStringAsFixed(2) ?? '0.00'}',
+              style: appStyle(
+                size: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade700,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.h),
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_today,
+              size: 16.sp,
+              color: Colors.grey.shade700,
+            ),
+            SizedBox(width: 4.w),
+            AppTextstyle(
+              text: 'Date: ${formateDate(expenseDate!)}',
+              style: appStyle(
+                size: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade700,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget workFromHomeContent() {
@@ -272,27 +313,14 @@ class UnifiedRequestCard extends StatelessWidget {
     );
   }
 
+  // Returns gradient colors based on request type as only one color shade will be used
+  // for the card background
   List<Color> getGradientColors() {
-    switch (requestType) {
-      case RequestType.leave:
-        return [
-          Colors.blue.shade100,
-          Colors.blue.shade200,
-          Colors.blue.shade300,
-        ];
-      case RequestType.expense:
-        return [
-          Colors.green.shade100,
-          Colors.green.shade200,
-          Colors.green.shade300,
-        ];
-      case RequestType.workFromHome:
-        return [
-          Colors.deepOrange.shade100,
-          Colors.deepOrange.shade200,
-          Colors.deepOrange.shade300,
-        ];
-    }
+    return [
+      Colors.deepOrange.shade100,
+      Colors.deepOrange.shade200,
+      Colors.deepOrange.shade300,
+    ];
   }
 
   @override
@@ -350,7 +378,7 @@ class UnifiedRequestCard extends StatelessWidget {
 
   Widget statusState() {
     return SizedBox(
-      height: 8.h,
+      height: 33.h,
       child: Align(
         alignment: Alignment.centerRight,
         child: Container(
