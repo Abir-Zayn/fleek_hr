@@ -1,5 +1,3 @@
-import 'package:fleekhr/common/widgets/appstyle.dart';
-import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/requestcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,21 +49,6 @@ class Requestpage extends StatelessWidget {
                     children: [
                       requestPageDashboard(context),
                       SizedBox(height: 32.h),
-
-                      // Recent activity section
-                      Text(
-                        "Recent Activity",
-                        style: TextStyle(
-                          fontSize: 18
-                              .clamp(16.0, 20.0)
-                              .toDouble(), // ✅ Safe font size
-                          color: Theme.of(context).textTheme.bodyLarge?.color ??
-                              Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),

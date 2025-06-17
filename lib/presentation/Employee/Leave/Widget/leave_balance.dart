@@ -5,7 +5,7 @@ import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/data/models/leave_request/leave_type.dart';
 
 class LeaveBalanceDisplay extends StatelessWidget {
-  final LeaveType leaveType;
+  final LeaveTypeModel leaveType;
 
   const LeaveBalanceDisplay({
     super.key,

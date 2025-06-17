@@ -1,47 +1,42 @@
 import 'package:fleekhr/data/models/leave_request/leave_type.dart';
 
 class LeaveDataService {
-  static List<LeaveType> mockLeaveTypes() {
+  static List<LeaveTypeModel> mockLeaveTypes() {
     return [
-      LeaveType(
+      LeaveTypeModel(
         name: 'Annual Leave',
         availableDays: 20,
         usedDates: [
           DateTime(2023, 1, 10),
           DateTime(2023, 2, 15),
         ],
-
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Sick Leave',
         availableDays: 10,
         usedDates: [
           DateTime(2023, 3, 5),
         ],
-   
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Casual Leave',
         availableDays: 5,
         usedDates: [],
-       
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Leave Without Pay',
         availableDays: 15,
         usedDates: [
           DateTime(2023, 4, 20),
           DateTime(2023, 5, 25),
         ],
-       
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Maternity Leave',
         availableDays: 90,
         usedDates: [],
-  
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Paternity Leave',
         availableDays: 15,
         usedDates: [
@@ -50,7 +45,7 @@ class LeaveDataService {
           DateTime(2024, 6, 17),
         ],
       ),
-      LeaveType(
+      LeaveTypeModel(
         name: 'Bereavement Leave',
         availableDays: 5,
         usedDates: [],

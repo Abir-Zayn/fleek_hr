@@ -104,12 +104,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       // ✅ Add floating action button for new expense
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Add expense feature coming soon'),
-              backgroundColor: Colors.blue,
-            ),
-          );
+          context.push('/add-expense');
         },
         icon: const Icon(Icons.add),
         label: const Text('Add Expense'),

@@ -51,12 +51,12 @@ class _AdminNavigationState extends State<AdminNavigation> {
               unselectedIcon: Icons.home_outlined,
               selectedColor: Colors.white),
           CrystalNavigationBarItem(
-              icon: Icons.date_range,
-              unselectedIcon: Icons.date_range_outlined,
+              icon: Icons.menu,
+              unselectedIcon: Icons.menu_outlined,
               selectedColor: Colors.white),
           CrystalNavigationBarItem(
             icon: Icons.person,
-            unselectedIcon: Icons.event_available_outlined,
+            unselectedIcon: Icons.person,
             selectedColor: Colors.white,
           ),
         ],

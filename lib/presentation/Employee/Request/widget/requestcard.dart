@@ -56,9 +56,9 @@ class Requestcard extends StatelessWidget {
             AppTextstyle(
               text: text,
               style: appStyle(
-                size: 15.sp,
-                color: Colors.black87,
-                fontWeight: FontWeight.w600,
+                size: 18.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
               ),
               maxLines: 2,
               textAlign: TextAlign.center,
@@ -69,10 +69,7 @@ class Requestcard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   description!,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12.sp, color: Colors.black),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

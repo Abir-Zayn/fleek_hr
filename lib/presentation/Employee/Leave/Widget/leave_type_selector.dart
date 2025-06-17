@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaveTypeSelector extends StatefulWidget {
-  final List<LeaveType> leaveTypes;
-  final Function(LeaveType) onLeaveTypeSelected;
-  final LeaveType? selectedType;
+  final List<LeaveTypeModel> leaveTypes;
+  final Function(LeaveTypeModel) onLeaveTypeSelected;
+  final LeaveTypeModel? selectedType;
 
   const LeaveTypeSelector({
     super.key,
@@ -21,7 +21,7 @@ class LeaveTypeSelector extends StatefulWidget {
 }
 
 class _LeaveTypeSelectorState extends State<LeaveTypeSelector> {
-  late LeaveType selectedType;
+  late LeaveTypeModel selectedType;
 
   @override
   void initState() {

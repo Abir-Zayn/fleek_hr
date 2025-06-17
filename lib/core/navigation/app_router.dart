@@ -92,6 +92,10 @@ final GoRouter _router = GoRouter(
         builder: (context, state) => const ExpenseScreen(),
       ),
       GoRoute(
+        path: '/add-expense',
+        builder: (context, state) => const AddExpenseScreen(),
+      ),
+      GoRoute(
         path: '/profileupdate',
         builder: (context, state) => const ProfileUpdate(),
       ),

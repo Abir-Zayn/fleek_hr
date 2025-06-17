@@ -8,8 +8,8 @@ class LeaveRequestScreen extends StatefulWidget {
 }
 
 class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
-  List<LeaveType> leaveTypes = [];
-  LeaveType? selectedLeaveType;
+  List<LeaveTypeModel> leaveTypes = [];
+  LeaveTypeModel? selectedLeaveType;
 
   // Date selection controllers
   DateTime? startDate;
@@ -35,7 +35,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     super.dispose();
   }
 
-  void updateSelectedLeaveType(LeaveType type) {
+  void updateSelectedLeaveType(LeaveTypeModel type) {
     setState(() {
       selectedLeaveType = type;
       // Reset form when leave type changes
@@ -133,7 +133,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               selectedType: selectedLeaveType,
             ),
             Divider(),
-            if (selectedLeaveType != null) _buildLeaveForm(),
+            if (selectedLeaveType != null) leaveRequestForm(),
             SizedBox(height: 20.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -150,7 +150,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     );
   }
 
-  Widget _buildLeaveForm() {
+  Widget leaveRequestForm() {
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Column(

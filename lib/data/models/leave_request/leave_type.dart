@@ -1,9 +1,9 @@
-class LeaveType {
+class LeaveTypeModel {
   final String name;
   final int availableDays;
   final List<DateTime> usedDates;
 
-  LeaveType({
+  LeaveTypeModel({
     required this.name,
     required this.availableDays,
     required this.usedDates,
