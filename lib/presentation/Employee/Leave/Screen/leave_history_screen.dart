@@ -103,14 +103,17 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).primaryColor,
-        heroTag: 'Add Leave',
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           context.push('/add-leave');
         },
-        child: const Icon(Icons.add),
+        icon: const Icon(Icons.add),
+        label: const Text('Add Leave'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
       ),
     );
   }

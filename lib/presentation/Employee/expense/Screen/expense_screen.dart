@@ -109,6 +109,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         icon: const Icon(Icons.add),
         label: const Text('Add Expense'),
         backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
       ),
     );
   }
@@ -138,9 +142,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: filterExpenseStatus.length,
-      // ✅ Use shrinkWrap to avoid infinite height error
       padding: const EdgeInsets.symmetric(vertical: 10),
-      // ✅ Add padding for better spacing
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         final expense = filterExpenseStatus[index];
