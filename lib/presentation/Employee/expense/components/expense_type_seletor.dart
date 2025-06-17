@@ -1,7 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/data/models/expense/expense_model.dart';
-import 'package:fleekhr/data/service/expense/expense_type_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
