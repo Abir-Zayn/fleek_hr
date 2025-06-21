@@ -88,6 +88,14 @@ final GoRouter _router = GoRouter(
       ),
 
       GoRoute(
+        path: '/salary-overview',
+        builder: (context, state) => const SalaryOverviewScreen(),
+      ),
+      GoRoute(
+          path: '/salary-details',
+          builder: (context, state) => const SalaryDetailsPage()),
+
+      GoRoute(
         path: '/expense',
         builder: (context, state) => const ExpenseScreen(),
       ),

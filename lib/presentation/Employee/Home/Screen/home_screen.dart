@@ -1,4 +1,4 @@
-part of 'admin_home_imports.dart';
+part of 'home_screen_imports.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -122,45 +122,45 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       ],
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                    IconButton(
-                      icon: Icon(
-                        Icons.menu,
-                        color: Theme.of(context).textTheme.bodyMedium?.color ??
-                            Colors.black,
-                      ),
-                      onPressed: () {
-                        //handle menu button press
-                        //show a drop down menu and upon clicking on the item
-                        // it will navigate to the respective page
-                        showMenu(
-                          context: context,
-                          position: RelativeRect.fromLTRB(100, 100, 0, 0),
-                          items: [
-                            PopupMenuItem(
-                              child: Text('Manage Employees',
-                                  style: appStyle(
-                                      size: 15.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500)),
-                              onTap: () {
-                                //Manage Employees Page
-                                context.push('/manage-employees');
-                              },
-                            ),
-                            PopupMenuItem(
-                              child: Text('Work From Home Requests',
-                                  style: appStyle(
-                                      size: 15.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500)),
-                              onTap: () {
-                                Navigator.pushNamed(context, '/wfh-requests');
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                    // IconButton(
+                    //   icon: Icon(
+                    //     Icons.menu,
+                    //     color: Theme.of(context).textTheme.bodyMedium?.color ??
+                    //         Colors.black,
+                    //   ),
+                    //   onPressed: () {
+                    //     //handle menu button press
+                    //     //show a drop down menu and upon clicking on the item
+                    //     // it will navigate to the respective page
+                    //     showMenu(
+                    //       context: context,
+                    //       position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                    //       items: [
+                    //         PopupMenuItem(
+                    //           child: Text('Manage Employees',
+                    //               style: appStyle(
+                    //                   size: 15.sp,
+                    //                   color: Colors.black,
+                    //                   fontWeight: FontWeight.w500)),
+                    //           onTap: () {
+                    //             //Manage Employees Page
+                    //             context.push('/manage-employees');
+                    //           },
+                    //         ),
+                    //         PopupMenuItem(
+                    //           child: Text('Work From Home Requests',
+                    //               style: appStyle(
+                    //                   size: 15.sp,
+                    //                   color: Colors.black,
+                    //                   fontWeight: FontWeight.w500)),
+                    //           onTap: () {
+                    //             Navigator.pushNamed(context, '/wfh-requests');
+                    //           },
+                    //         ),
+                    //       ],
+                    //     );
+                    //   },
+                    // ),
                     const SizedBox(width: 16.0),
                   ],
                 ),

@@ -51,13 +51,13 @@ class FilteringBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           const Divider(),
-          ...filteringOpt.map((filter) => _buildFilterOption(context, filter)),
+          ...filteringOpt.map((filter) => buildFilterOptions(context, filter)),
         ],
       ),
     );
   }
 
-  Widget _buildFilterOption(BuildContext context, String filterName) {
+  Widget buildFilterOptions(BuildContext context, String filterName) {
     final isSelected = selectedFilter == filterName;
     return InkWell(
       onTap: () {

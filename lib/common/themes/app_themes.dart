@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final Color primaryColor = const Color(0xFFff6b35);
 final Color secondaryColor = const Color(0xFFF1E4F3);
-final Color lightBackground = const Color(0xFFEFF7FF);
+final Color lightBackground = const Color(0xFFF4F6F8);
 final Color darkBackground = const Color(0xFF1E1B18);
 final Color lightText = const Color(0xFF1E1E1E);
-final Color darkText = const Color(0xFFF6F0ED);
+final Color darkText = const Color(0xFFFFFFFF);
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -23,9 +23,9 @@ final ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w600,
     ),
   ),
-  cardColor: lightBackground,
+  cardColor: Colors.white,
   cardTheme: CardTheme(
-    color: lightBackground,
+    color: Colors.white,
     shadowColor: Colors.black.withOpacity(0.1),
     elevation: 4,
   ),

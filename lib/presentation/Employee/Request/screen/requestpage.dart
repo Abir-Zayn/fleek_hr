@@ -106,10 +106,10 @@ class Requestpage extends StatelessWidget {
       },
       {
         'icon': Icons.account_balance_wallet,
-        'text': "Payment",
+        'text': "Salary Request",
         'color': Colors.amber,
         'description': 'Salary and payment requests',
-        'route': null // ✅ Not implemented yet
+        'route': '/salary-overview'
       }
     ];
 
