@@ -8,6 +8,28 @@ class SalaryOverviewScreen extends StatefulWidget {
 }
 
 class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
+  // Selected month and year
+  String selectedMonth = "June"; // Default to current month
+  String selectedYear = "2025"; // Default to current year
+
+  // List of months and years
+  final List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  final List<String> years = ["2023", "2024", "2025", "2026"];
+
   @override
   void initState() {
     super.initState();
@@ -16,6 +38,127 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  // Show month selection bottom sheet
+  void _showMonthSelector() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: AppTextstyle(
+                  text: "Select Month",
+                  style: appStyle(
+                    size: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: months.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(months[index]),
+                      selected: months[index] == selectedMonth,
+                      selectedTileColor:
+                          Theme.of(context).primaryColor.withOpacity(0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          selectedMonth = months[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Show year selection bottom sheet
+  void _showYearSelector() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: AppTextstyle(
+                  text: "Select Year",
+                  style: appStyle(
+                    size: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: years.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(years[index]),
+                      selected: years[index] == selectedYear,
+                      selectedTileColor:
+                          Theme.of(context).primaryColor.withOpacity(0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          selectedYear = years[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Navigate to salary details page
+  void _viewSalaryDetails() {
+    // Get month number from month name
+
+    // Navigate to salary details with selected month and year
+    context.push('/salary-details');
+
+    // You might want to pass data to the salary details page:
+    // context.push('/salary-details', extra: {'month': monthString, 'year': selectedYear});
   }
 
   @override
@@ -31,7 +174,7 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
-            // Placeholder for salary overview content
+            // Employee info section
             AppTextstyle(
               text: "Hello Employee!",
               style: appStyle(
@@ -72,44 +215,138 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
             ),
             SizedBox(height: 16.h),
 
-            // Salary Card example from April to June
-            SalaryCard(
-              month: "04/2025",
-              basic: 2000.00,
-              grossPay: 2500.00,
-              totalLeave: 2,
-              netPay: 2300.00,
-              onTap: () {
-                context.push('/salary-details');
-              },
-            ),
-            SizedBox(height: 16.h),
-            SalaryCard(
-              month: "05/2025",
-              basic: 2000.00,
-              grossPay: 2500.00,
-              totalLeave: 2,
-              netPay: 2300.00,
-              onTap: () {
-                context.push('/salary-details');
-              },
-            ),
-            SizedBox(height: 16.h),
-            SalaryCard(
-              month: "06/2025",
-              basic: 2000.00,
-              grossPay: 2500.00,
-              totalLeave: 2,
-              netPay: 2300.00,
-              onTap: () {
-                context.push('/salary-details');
-              },
-            )
+            // Month and Year selection section
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                color: Theme.of(context).cardColor,
+                border: Border.all(
+                  color: Theme.of(context).primaryColor.withOpacity(0.4),
+                  width: 1.0,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppTextstyle(
+                    text: "Select Period",
+                    style: appStyle(
+                      size: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 16),
 
-            // Add Monthly Slider {From january to December}
-            // based on month selected , show the salary card
-            // salary card will hold 3 details {Gross Salary, Absent Deduction, Overtime}
-            // salary card will navigate user to the salary details screen
+                  // Month Selection Button
+                  InkWell(
+                    onTap: _showMonthSelector,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppTextstyle(
+                            text: "Month: $selectedMonth",
+                            style: appStyle(
+                              size: 16,
+                              fontWeight: FontWeight.w500,
+                              color:
+                                  Colors.black87, // Use a default color if null
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 16),
+
+                  // Year Selection Button
+                  InkWell(
+                    onTap: _showYearSelector,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppTextstyle(
+                            text: "Year: $selectedYear",
+                            style: appStyle(
+                                size: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black87),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 24),
+
+                  // View Salary Details Button
+                  InkWell(
+                    onTap: _viewSalaryDetails,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.visibility_outlined,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            AppTextstyle(
+                              text: "View Salary Details",
+                              style: appStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                size: 16.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 16.h),
           ],
         ),
       ),

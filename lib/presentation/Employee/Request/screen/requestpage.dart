@@ -110,7 +110,15 @@ class Requestpage extends StatelessWidget {
         'color': Colors.amber,
         'description': 'Salary and payment requests',
         'route': '/salary-overview'
-      }
+      },
+      //Manage Employee
+      {
+        'icon': Icons.group,
+        'text': "Manage Employees",
+        'color': Colors.cyan,
+        'description': 'Manage team members',
+        'route': '/manage-employees'
+      },
     ];
 
     return GridView.builder(

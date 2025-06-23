@@ -119,21 +119,19 @@ class _AddEmployeeState extends State<AddEmployee>
         appBar: FleekAppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: "Add Employee",
+          bottom: TabBar(
+            controller: _tabController,
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white70,
+            tabs: const [
+              Tab(text: "Basic"),
+              Tab(text: "Additional"),
+            ],
+          ),
         ),
         body: Column(
           children: [
-            // Tab Bar
-            TabBar(
-              controller: _tabController,
-              indicatorColor: Theme.of(context).primaryColor,
-              labelColor: Theme.of(context).primaryColor,
-              unselectedLabelColor: Colors.grey,
-              tabs: const [
-                Tab(text: "Basic"),
-                Tab(text: "Additional"),
-              ],
-            ),
-
             // Tab Bar View - This connects the tabs to their content
             Expanded(
               child: TabBarView(
