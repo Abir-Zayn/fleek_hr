@@ -88,14 +88,14 @@ class Requestpage extends StatelessWidget {
         'text': "Task Request",
         'color': Colors.orange,
         'description': 'Request new assignments',
-        'route': null // ✅ Not implemented yet
+        'route': '/dailyactivities'
       },
       {
         'icon': Icons.headset_mic,
         'text': 'IT Support',
         'color': Colors.purple,
         'description': 'Get help with issues',
-        'route': null // ✅ Not implemented yet
+        'route': null
       },
       {
         'icon': Icons.access_time,

@@ -1,7 +1,7 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class Appbtn extends StatelessWidget {
   final String text;
@@ -35,16 +35,16 @@ class Appbtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius.r),
+            borderRadius: BorderRadius.circular(radius),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 16),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -54,25 +54,25 @@ class Appbtn extends StatelessWidget {
               Icon(
                 icon,
                 color: iconColor ?? Colors.black,
-                size: iconSize ?? 20.sp,
+                size: iconSize ?? 20,
               ),
-              SizedBox(width: 8.w),
+              SizedBox(width: 8),
             ],
             AppTextstyle(
               text: text,
               style: appStyle(
-                size: fontSize.sp,
+                size: fontSize,
                 color: textColor,
                 fontWeight: FontWeight.w500,
                 height: 1.5,
               ),
             ),
             if (icon != null && !isIconLeading) ...[
-              SizedBox(width: 8.w),
+              SizedBox(width: 8),
               Icon(
                 icon,
                 color: iconColor ?? Colors.yellow.shade700,
-                size: iconSize ?? 20.sp,
+                size: iconSize ?? 20,
               ),
             ],
           ],

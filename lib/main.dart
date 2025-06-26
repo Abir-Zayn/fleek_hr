@@ -40,6 +40,7 @@ class Main extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(screenSize.width, screenSize.height),
       minTextAdapt: true,
+      ensureScreenSize: true,
       splitScreenMode: false,
       useInheritedMediaQuery: true,
       builder: (context, child) {

@@ -134,16 +134,16 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             ),
             Divider(),
             if (selectedLeaveType != null) leaveRequestForm(),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: LeaveSubmitButton(
                 isEnabled:
                     leaveDuration > 0 && reasonController.text.isNotEmpty,
                 onPressed: _submitLeaveRequest,
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -152,20 +152,20 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
 
   Widget leaveRequestForm() {
     return Padding(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Leave balance indicator
           LeaveBalanceDisplay(leaveType: selectedLeaveType!),
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
 
           // Leave duration type selector (Full/Half day)
           LeaveDurationType(
             selectedType: leaveType,
             onTypeChanged: onDurationTypeChanged,
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
 
           // Date selection
           LeaveDateSelector(
@@ -175,18 +175,18 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             onStartDateChanged: onStartDateChanged,
             onEndDateChanged: onEndDateChanged,
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
 
           // Leave duration indicator
           LeaveDurationIndicator(
             duration: leaveDuration,
             durationType: leaveType,
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
 
           // Reason field
           LeaveReasonField(controller: reasonController),
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
 
           // Attachment field
           LeaveAttachmentField(

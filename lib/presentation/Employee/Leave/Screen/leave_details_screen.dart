@@ -24,7 +24,7 @@ class LeaveDetailScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,13 +72,13 @@ class LeaveDetailScreen extends StatelessWidget {
                 title: "Reason",
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 4.h),
+                    padding: EdgeInsets.only(top: 4),
                     child: Text(
                       leave.reason.isEmpty
                           ? "No reason provided"
                           : leave.reason,
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         height: 1.5,
                       ),
                     ),
@@ -86,7 +86,7 @@ class LeaveDetailScreen extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: 24.h),
+              SizedBox(height: 24),
 
               // Action buttons based on role
               ActionButtons(

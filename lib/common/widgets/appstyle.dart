@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 TextStyle appStyle({
@@ -14,7 +14,7 @@ TextStyle appStyle({
   double? decorationThickness,
 }) {
   //  Ensure minimum font size to prevent assertion errors
-  final double safeFontSize = (size.sp).clamp(8.0, 100.0);
+  final double safeFontSize = (size).clamp(8.0, 100.0);
 
   return GoogleFonts.nunitoSans(
     fontSize: safeFontSize,

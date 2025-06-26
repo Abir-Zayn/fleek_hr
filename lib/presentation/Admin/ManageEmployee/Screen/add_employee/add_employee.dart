@@ -137,28 +137,18 @@ class _AddEmployeeState extends State<AddEmployee>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildBasicInfoTab(),
-                  _buildAdditionalInfoTab(),
+                  basicInfoTab(),
+                  additionalInfoTab(),
                 ],
               ),
             ),
           ],
         ),
-        // Optional: Add a floating action button for adding role
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add role functionality
-            // For example, show a dialog to add a new role
-          },
-          backgroundColor: Theme.of(context).primaryColor,
-          tooltip: 'Add Role',
-          child: const Icon(Icons.add),
-        ),
       ),
     );
   }
 
-  Widget _buildBasicInfoTab() {
+  Widget basicInfoTab() {
     return SingleChildScrollView(
       padding: EdgeInsets.all(15.0),
       child: Form(
@@ -259,7 +249,7 @@ class _AddEmployeeState extends State<AddEmployee>
     );
   }
 
-  Widget _buildAdditionalInfoTab() {
+  Widget additionalInfoTab() {
     return SingleChildScrollView(
       padding: EdgeInsets.all(15.0),
       child: Form(

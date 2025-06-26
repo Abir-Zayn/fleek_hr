@@ -45,7 +45,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         'assignedTo': 'Assigned to Alex & Jordan',
         'completionDate': 'June 25, 2025',
         'progress': 0.75,
-
+        'startedAt': 'June 1, 2025',
         'status': 'pending', // Add status
       },
       {
@@ -53,7 +53,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         'assignedTo': 'Completed by Sarah',
         'completionDate': 'June 20, 2025',
         'progress': 1.0,
-
+        'startedAt': 'June 5, 2025',
         'status': 'accepted', // Add status
       },
       {
@@ -61,28 +61,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         'assignedTo': 'Pending - Mark',
         'completionDate': 'June 28, 2025',
         'progress': 0.3,
-
+        'startedAt': 'June 10, 2025',
         'status': 'pending', // Add status
       },
       // Add more sample data as needed
     ];
 
-    void handleActivity(int index, String action) {
-      setState(() {
-        dailyActivities[index]['status'] = action;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Activity $action successfully!'),
-            backgroundColor:
-                action == 'accepted' ? Colors.green : Colors.orange),
-      );
-    }
-
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(120.h),
+          preferredSize: Size.fromHeight(120),
           child: AppBar(
             //hide the lead icon
             automaticallyImplyLeading: false,
@@ -90,7 +78,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             elevation: 0,
             flexibleSpace: SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(left: 16.0.w, top: 30.0.h),
+                padding: EdgeInsets.only(left: 16.0, top: 30.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -100,7 +88,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         AppTextstyle(
                           text: 'Good Morning!',
                           style: appStyle(
-                              size: 20.sp,
+                              size: 20,
                               color: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
@@ -111,7 +99,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         AppTextstyle(
                           text: 'Hi! Admin',
                           style: appStyle(
-                              size: 32.sp,
+                              size: 32,
                               color: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
@@ -137,7 +125,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   hintStyle: appStyle(
-                      size: 15.sp,
+                      size: 15,
                       color: Theme.of(context).textTheme.bodyMedium?.color ??
                           Colors.black,
                       fontWeight: FontWeight.w400),
@@ -155,12 +143,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   ),
                 ),
                 style: appStyle(
-                    size: 15.sp,
+                    size: 15,
                     color: Theme.of(context).textTheme.bodyMedium?.color ??
                         Colors.black,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 20),
               // User ID Card
               UserIdCard(
                   division: "Engineering",
@@ -168,9 +156,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   totalPresentDays: 20,
                   lateDays: 5,
                   absentDays: 7),
-              SizedBox(height: 20.h),
+              SizedBox(height: 20),
 
-              SizedBox(height: 20.h),
+              SizedBox(height: 20),
 
               // Attendance Slider
               AttendanceSlider(
@@ -184,7 +172,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 sliderColor: Theme.of(context).primaryColor,
               ),
 
-              SizedBox(height: 20.h),
+              SizedBox(height: 20),
 
               //Check in and Check out card
               Row(
@@ -196,7 +184,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         statusText: 'On Time',
                         icon: Icons.arrow_forward_ios_rounded),
                   ),
-                  SizedBox(width: 20.w), // Spacing between cards
+                  SizedBox(width: 20), // Spacing between cards
                   Expanded(
                     child: CheckInCard(
                       headingText: 'Check Out',
@@ -214,7 +202,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 children: [
                   Text('Daily Activities',
                       style: appStyle(
-                          size: 20.sp,
+                          size: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.w500)),
                   TextButton(
@@ -224,7 +212,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     },
                     child: Text('All Tasks', // As per UI image
                         style: appStyle(
-                            size: 15.sp,
+                            size: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.w500)),
                   ),
@@ -242,12 +230,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     taskName: activity['taskName'],
                     assignedTo: activity['assignedTo'],
                     completionDate: activity['completionDate'],
-                    progress: activity['progress'],
-
-                    isAdmin: true, // Assuming admin view for this example
+                    // Assuming admin view for this example
                     status: activity['status'],
-                    onAccept: () => handleActivity(index, 'accepted'),
-                    onReject: () => handleActivity(index, 'rejected'),
+                    startedAt: activity['startedAt'],
                   );
                 },
               ),

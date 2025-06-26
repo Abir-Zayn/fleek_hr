@@ -1,7 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppActionBtn extends StatelessWidget {
   final String label;
@@ -37,8 +36,8 @@ class AppActionBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final EdgeInsetsGeometry effectivePadding = padding ??
         EdgeInsets.symmetric(
-          horizontal: 12.w,
-          vertical: 8.h,
+          horizontal: 12,
+          vertical: 8,
         );
     final double effectiveFontSize = fontSize ?? 12.0; // Or 12.sp;
 

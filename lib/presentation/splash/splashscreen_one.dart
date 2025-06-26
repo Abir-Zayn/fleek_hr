@@ -84,14 +84,6 @@ class _SplashscreenOneState extends State<SplashscreenOne>
     super.dispose();
   }
 
-  // void NavigateToLoginPage() {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (context) =>
-  //           const LoginPage(), // Replace with your login page widget
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {

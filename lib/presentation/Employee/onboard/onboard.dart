@@ -43,17 +43,17 @@ class _OnboardState extends State<Onboard> {
                     AppTextstyle(
                       text: 'Fleek HR, don\'t just manage ideas,',
                       style: appStyle(
-                        size: 20.sp,
+                        size: 20,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).textTheme.bodyLarge?.color ??
                             Colors.black,
                       ),
                     ),
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 12),
                     AppTextstyle(
                       text: 'Drive Innovation & Success',
                       style: appStyle(
-                        size: 28.sp,
+                        size: 28,
                         fontWeight: FontWeight.w700,
                         color:
                             Theme.of(context).textTheme.headlineLarge?.color ??
@@ -66,16 +66,16 @@ class _OnboardState extends State<Onboard> {
                     // Buttons
                     Appbtn(
                       text: "Login",
-                      fontSize: 18.sp,
+                      fontSize: 18,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       width: double.infinity,
-                      height: 56.h,
+                      height: 56,
                       onPressed: () {
                         context.push('/login');
                       },
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 16),
                     
                     Spacer(),
 
@@ -84,13 +84,13 @@ class _OnboardState extends State<Onboard> {
                       child: Text(
                         'All Rights Reserved By Md Abir Hasan',
                         style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 12,
                           color: Theme.of(context).textTheme.bodySmall?.color ??
                               Colors.black54,
                         ),
                       ),
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 8),
                   ],
                 ),
               ),

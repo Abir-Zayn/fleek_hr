@@ -10,6 +10,6 @@ import 'package:fleekhr/presentation/Employee/Leave/Widget/leave_reason.dart';
 import 'package:fleekhr/presentation/Employee/Leave/Widget/leave_submit_btn.dart';
 import 'package:fleekhr/presentation/Employee/Leave/Widget/leave_type_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 part 'leave_request_screen.dart';

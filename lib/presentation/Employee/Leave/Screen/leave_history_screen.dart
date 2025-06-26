@@ -130,17 +130,17 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 40.h),
+            SizedBox(height: 40),
             Icon(
               Icons.event_busy,
-              size: 48.sp,
+              size: 48,
               color: Colors.grey,
             ),
             SizedBox(height: 16.h),
             AppTextstyle(
               text: 'No leave requests found',
               style: appStyle(
-                size: 16.sp,
+                size: 16,
                 color: Colors.grey,
                 fontWeight: FontWeight.w500,
               ),

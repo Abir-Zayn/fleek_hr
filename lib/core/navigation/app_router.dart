@@ -44,6 +44,15 @@ final GoRouter _router = GoRouter(
           isAdmin: state.extra is bool ? state.extra as bool : false,
         ),
       ),
+      GoRoute(
+        path: '/daily-activities-details/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final activity = DailyActivitesCardSrc.dailyActivitiesDemoData
+              .firstWhere((e) => e.id == id);
+          return DailyactivitiesDetailedPage(model: activity);
+        },
+      ),
 
       GoRoute(
         path: '/workfromhome',

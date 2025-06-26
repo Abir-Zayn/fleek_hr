@@ -77,7 +77,7 @@ class ManageEmployee extends StatelessWidget {
                     child: AppTextstyle(
                       text: "Filter",
                       style: appStyle(
-                          size: 15.sp,
+                          size: 15,
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500),
                     ),
@@ -87,10 +87,10 @@ class ManageEmployee extends StatelessWidget {
               const SizedBox(height: 24),
               //Add employee button
               Container(
-                padding: EdgeInsets.symmetric(vertical: 8.h),
+                padding: EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.3),
@@ -102,17 +102,17 @@ class ManageEmployee extends StatelessWidget {
                 ),
                 child: ListTile(
                   leading: Container(
-                    padding: EdgeInsets.all(8.w),
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(50.r),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                     child: Icon(Icons.edit, color: Colors.white),
                   ),
                   title: Text(
                     'Onboard Employee',
                     style: TextStyle(
-                      fontSize: 25.sp,
+                      fontSize: 25,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
@@ -122,17 +122,17 @@ class ManageEmployee extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 12.h),
+              SizedBox(height: 12),
               //Dashboard Card Section
               AppTextstyle(
                 text: "Dashboard",
                 style: appStyle(
-                    size: 22.sp,
+                    size: 22,
                     color: Theme.of(context).textTheme.bodyMedium?.color ??
                         Colors.black,
                     fontWeight: FontWeight.w600),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 20),
 
               //Dashboard Card to show employee stats
               Row(
@@ -182,7 +182,7 @@ class ManageEmployee extends StatelessWidget {
                     child: AppTextstyle(
                       text: "View All",
                       style: appStyle(
-                          size: 15.sp,
+                          size: 15,
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500),
                     ),

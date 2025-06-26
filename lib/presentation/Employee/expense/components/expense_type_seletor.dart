@@ -2,7 +2,7 @@ import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/data/models/expense/expense_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class ExpenseTypeSeletor extends StatefulWidget {
   final List<ExpenseTypeModel> expenseTypes;
@@ -35,20 +35,20 @@ class _ExpenseTypeSeletorState extends State<ExpenseTypeSeletor> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(12.w),
+          padding: EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppTextstyle(
                 text: 'Expense Types',
                 style: appStyle(
-                  size: 15.sp,
+                  size: 15,
                   color: Theme.of(context).textTheme.bodyMedium?.color ??
                       Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 10),
 
               //Selecting the expense type
               Wrap(
@@ -65,17 +65,17 @@ class _ExpenseTypeSeletorState extends State<ExpenseTypeSeletor> {
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 12.w, vertical: 8.h),
+                            horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? Theme.of(context).primaryColor
                               : Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: AppTextstyle(
                           text: expenseType.name,
                           style: appStyle(
-                            size: 14.sp,
+                            size: 14,
                             color: isSelected ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w500,
                           ),

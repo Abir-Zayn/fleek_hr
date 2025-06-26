@@ -1,6 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class EmployeeTextfield extends StatelessWidget {
   final String labelText;
@@ -29,7 +29,7 @@ class EmployeeTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
+      padding: EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
@@ -41,12 +41,12 @@ class EmployeeTextfield extends StatelessWidget {
             labelText: labelText,
             hintText: hintText,
             hintStyle: appStyle(
-                size: 14.sp,
+                size: 14,
                 color: Theme.of(context).textTheme.bodyMedium?.color ??
                     Colors.black,
                 fontWeight: FontWeight.w500),
             labelStyle: appStyle(
-                size: 12.sp,
+                size: 12,
                 color: Theme.of(context).textTheme.bodyMedium?.color ??
                     Colors.black,
                 fontWeight: FontWeight.w500),
@@ -57,19 +57,19 @@ class EmployeeTextfield extends StatelessWidget {
                   )
                 : null,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Theme.of(context).primaryColor),
             ),
             contentPadding: EdgeInsets.symmetric(
-                vertical: 12.h, horizontal: 12.w) // Adjust padding here
+                vertical: 12, horizontal: 12) 
             ),
         validator: validator,
       ),

@@ -1,6 +1,5 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchBarTextField extends StatelessWidget {
   final String? hintText;
@@ -35,7 +34,7 @@ class SearchBarTextField extends StatelessWidget {
         return null;
       },
       style: appStyle(
-          size: 13.sp,
+          size: 13,
           color: Theme.of(context).textTheme.bodySmall?.color ?? Colors.black,
           fontWeight: FontWeight.normal),
       decoration: InputDecoration(
@@ -43,7 +42,7 @@ class SearchBarTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         contentPadding: EdgeInsets.all(10),
         hintStyle: appStyle(
-            size: 14.sp,
+            size: 14,
             color: Theme.of(context).textTheme.bodySmall?.color ?? Colors.black,
             fontWeight: FontWeight.w400),
         border: OutlineInputBorder(
