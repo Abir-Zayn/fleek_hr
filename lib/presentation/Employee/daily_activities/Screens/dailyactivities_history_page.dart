@@ -119,7 +119,7 @@ class _DailyactivitiesPageState extends State<DailyactivitiesPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // Navigate to the add daily activity page
-            Navigator.pushNamed(context, '/add-daily-activity');
+            context.push('/add-daily-activity');
           },
           child: const Icon(Icons.add),
         ));

@@ -53,6 +53,10 @@ final GoRouter _router = GoRouter(
           return DailyactivitiesDetailedPage(model: activity);
         },
       ),
+      GoRoute(
+        path: '/add-daily-activity',
+        builder: (context, state) => const AddDailyactivitiesPage(),
+      ),
 
       GoRoute(
         path: '/workfromhome',
