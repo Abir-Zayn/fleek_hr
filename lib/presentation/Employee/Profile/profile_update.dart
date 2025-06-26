@@ -2,7 +2,6 @@ import 'package:fleekhr/common/widgets/appbtn.dart';
 import 'package:fleekhr/common/widgets/apptextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileUpdate extends StatefulWidget {
   const ProfileUpdate({super.key});
@@ -43,12 +42,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        toolbarHeight: 60.h,
+        toolbarHeight: 60,
         elevation: 0,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.r),
-            bottomRight: Radius.circular(20.r),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
         ),
         leading: IconButton(
@@ -58,10 +57,10 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
+        title: const Text(
           "Edit Profile",
           style: TextStyle(
-            fontSize: 20.sp,
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -71,34 +70,34 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.h),
+                const SizedBox(height: 20),
 
                 // Profile Photo Section
-                _buildSectionHeader(context, "Profile Photo"),
-                SizedBox(height: 15.h),
+                sectionHeader(context, "Profile Photo"),
+                const SizedBox(height: 15),
 
                 Center(
                   child: Stack(
                     children: [
-                      CircleAvatar(
-                        radius: 60.r,
-                        backgroundImage: const NetworkImage(
+                      const CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(
                           "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?auto=format&fit=crop&q=80&w=2070",
                         ),
-                        backgroundColor: Colors.grey.shade200,
+                        backgroundColor: Colors.grey,
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          height: 40.h,
-                          width: 40.w,
+                          height: 40,
+                          width: 40,
                           decoration: BoxDecoration(
                             color: primaryColor,
                             shape: BoxShape.circle,
@@ -106,10 +105,10 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           ),
                           child: IconButton(
                             padding: EdgeInsets.zero,
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.camera_alt_outlined,
                               color: Colors.white,
-                              size: 20.sp,
+                              size: 20,
                             ),
                             onPressed: () {
                               // Image picker logic
@@ -121,13 +120,13 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   ),
                 ),
 
-                SizedBox(height: 30.h),
+                const SizedBox(height: 30),
 
                 // Profile Information Section
-                _buildSectionHeader(context, "Profile Information"),
-                SizedBox(height: 15.h),
+                sectionHeader(context, "Profile Information"),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _nameController,
                   labelText: 'Full Name',
@@ -135,9 +134,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   icon: CupertinoIcons.person,
                 ),
 
-                SizedBox(height: 15.h),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _emailController,
                   labelText: 'Email Address',
@@ -146,9 +145,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   keyboardType: TextInputType.emailAddress,
                 ),
 
-                SizedBox(height: 15.h),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _phoneController,
                   labelText: 'Phone Number',
@@ -157,15 +156,15 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   keyboardType: TextInputType.phone,
                 ),
 
-                SizedBox(height: 20.h),
-                _buildDivider(dividerColor),
-                SizedBox(height: 20.h),
+                const SizedBox(height: 20),
+                profileDivider(dividerColor),
+                const SizedBox(height: 20),
 
                 // Password Section
-                _buildSectionHeader(context, "Change Password"),
-                SizedBox(height: 15.h),
+                sectionHeader(context, "Change Password"),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _currentPasswordController,
                   labelText: 'Current Password',
@@ -174,9 +173,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   obscureText: true,
                 ),
 
-                SizedBox(height: 15.h),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _newPasswordController,
                   labelText: 'New Password',
@@ -185,9 +184,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   obscureText: true,
                 ),
 
-                SizedBox(height: 15.h),
+                const SizedBox(height: 15),
 
-                _buildTextField(
+                profileTextField(
                   context: context,
                   controller: _confirmPasswordController,
                   labelText: 'Confirm New Password',
@@ -196,23 +195,23 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   obscureText: true,
                 ),
 
-                SizedBox(height: 20.h),
-                _buildDivider(dividerColor),
-                SizedBox(height: 20.h),
+                const SizedBox(height: 20),
+                profileDivider(dividerColor),
+                const SizedBox(height: 20),
 
                 // Delete Account Section
-                _buildSectionHeader(
+                sectionHeader(
                   context,
                   "Delete Account",
                   textColor: Colors.red.shade700,
                 ),
-                SizedBox(height: 15.h),
+                const SizedBox(height: 15),
 
                 Container(
-                  padding: EdgeInsets.all(12.w),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.red.shade50,
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: Colors.red.shade200,
                       width: 1,
@@ -221,14 +220,14 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   child: Text(
                     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       color: Colors.red.shade700,
                       height: 1.5,
                     ),
                   ),
                 ),
 
-                SizedBox(height: 30.h),
+                const SizedBox(height: 30),
 
                 // Action Buttons
                 Row(
@@ -238,24 +237,24 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                         text: "Save Changes",
                         color: primaryColor,
                         textColor: Colors.white,
-                        height: 50.h,
-                        radius: 12.r,
-                        fontSize: 16.sp,
+                        height: 50,
+                        radius: 12,
+                        fontSize: 16,
                         onPressed: () {
                           // Save changes logic
                           Navigator.pop(context);
                         },
                       ),
                     ),
-                    SizedBox(width: 15.w),
+                    const SizedBox(width: 15),
                     Expanded(
                       child: Appbtn(
                         text: "Delete Account",
                         color: Colors.white,
                         textColor: Colors.red.shade700,
-                        height: 50.h,
-                        radius: 12.r,
-                        fontSize: 16.sp,
+                        height: 50,
+                        radius: 12,
+                        fontSize: 16,
                         onPressed: () {
                           _showDeleteConfirmation(context);
                         },
@@ -264,7 +263,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   ],
                 ),
 
-                SizedBox(height: 30.h),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -274,12 +273,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   }
 
   // Reusable section header widget
-  Widget _buildSectionHeader(BuildContext context, String title,
+  Widget sectionHeader(BuildContext context, String title,
       {Color? textColor}) {
     return Text(
       title,
       style: TextStyle(
-        fontSize: 20.sp,
+        fontSize: 20,
         fontWeight: FontWeight.w600,
         color: textColor ?? Theme.of(context).textTheme.titleLarge?.color,
       ),
@@ -287,7 +286,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   }
 
   // Reusable text field widget
-  Widget _buildTextField({
+  Widget profileTextField({
     required BuildContext context,
     required TextEditingController controller,
     required String labelText,
@@ -298,7 +297,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(12),
         // color: Theme.of(context).cardColor,
       ),
       child: Apptextfield(
@@ -307,13 +306,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
         hintText: hintText,
         keyboardType: keyboardType,
         borderRadius: 12.0,
-        labelStyle: TextStyle(
-          fontSize: 16.sp,
+        labelStyle: const TextStyle(
+          fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: Theme.of(context).textTheme.titleMedium?.color,
         ),
-        hintStyle: TextStyle(
-          fontSize: 14.sp,
+        hintStyle: const TextStyle(
+          fontSize: 14,
           color: Colors.grey,
         ),
       ),
@@ -321,7 +319,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   }
 
   // Reusable divider widget
-  Widget _buildDivider(Color color) {
+  Widget profileDivider(Color color) {
     return Divider(
       color: color.withOpacity(0.5),
       thickness: 1.0,
@@ -335,12 +333,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
             "Delete Account",
             style: TextStyle(
-              fontSize: 20.sp,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Colors.red.shade700,
             ),
@@ -349,28 +347,28 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Are you sure you want to delete your account? This action cannot be undone.",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16,
                   height: 1.5,
                 ),
               ),
-              SizedBox(height: 20.h),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 "Please type 'DELETE' to confirm:",
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 10.h),
+              const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: EdgeInsets.all(12.w),
+                  contentPadding: const EdgeInsets.all(12),
                 ),
               ),
             ],
@@ -383,7 +381,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
               child: Text(
                 "Cancel",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16,
                   color: Colors.grey.shade700,
                 ),
               ),
@@ -392,11 +390,11 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red.shade700,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                  vertical: 10.h,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
                 ),
               ),
               onPressed: () {
@@ -404,10 +402,10 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                 // Delete account logic
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 "Delete",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 16,
                   color: Colors.white,
                 ),
               ),
