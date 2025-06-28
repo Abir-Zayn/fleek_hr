@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 30),
 
               // Login button with shadow
               Container(

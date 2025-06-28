@@ -26,13 +26,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     setState(() {
       status = "Attendance successfully marked!";
     });
-    // You can add further logic here, like sending data to a server
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Attendance Recorded!'),
-        backgroundColor: Colors.green,
-      ),
-    );
   }
 
   @override
@@ -164,12 +157,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               AttendanceSlider(
                 onAttendanceMarked: _handleAttendanceMarked,
                 instructionText: 'Swipe to Check In',
-                successText: 'Sucessfully Checked In',
                 iconColor: Theme.of(context).textTheme.bodyMedium?.color ??
                     Colors.white,
-                textColor: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.white,
-                sliderColor: Theme.of(context).primaryColor,
+                textColor: Colors.white,
               ),
 
               SizedBox(height: 20),

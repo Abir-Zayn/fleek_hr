@@ -198,7 +198,7 @@ class ManageEmployee extends StatelessWidget {
                     EmployeeCard(
                       name: 'John Doe',
                       email: 'john.doe@fleekhr.com',
-                      role: 'Senior Developer',
+                      role: 'Sr. Developer',
                       shift: 'Morning',
                       lastLogin: '2 hours ago',
                       status: 'Active',

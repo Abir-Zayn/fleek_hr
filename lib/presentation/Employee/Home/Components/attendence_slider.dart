@@ -6,9 +6,7 @@ import 'package:go_router/go_router.dart';
 class AttendanceSlider extends StatefulWidget {
   final VoidCallback onAttendanceMarked;
   final String instructionText;
-  final String successText;
   final Color backgroundColor;
-  final Color sliderColor;
   final Color iconColor;
   final Color textColor;
   final Color successBackgroundColor;
@@ -17,12 +15,10 @@ class AttendanceSlider extends StatefulWidget {
     super.key,
     required this.onAttendanceMarked,
     this.instructionText = "Swipe right to mark attendance",
-    this.successText = "Attendance Marked!",
     this.backgroundColor = Colors.black,
-    this.sliderColor = Colors.green,
     this.iconColor = Colors.white,
     this.textColor = Colors.white,
-    this.successBackgroundColor = Colors.lightGreen,
+    this.successBackgroundColor = Colors.green,
   });
 
   @override
@@ -88,10 +84,13 @@ class _AttendanceSliderState extends State<AttendanceSlider>
       _dragExtent = context.size!.width - _sliderWidth - _padding * 2;
     });
 
-    _animationController.forward().whenComplete(() {
-      widget.onAttendanceMarked();
-      // Navigate to attendance screen
+    // Call the callback to mark attendance
+    widget.onAttendanceMarked();
+
+    // Short delay for visual feedback before navigation
+    Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
+        // Navigate directly to attendance screen
         context.push('/attendance');
       }
     });
@@ -111,31 +110,16 @@ class _AttendanceSliderState extends State<AttendanceSlider>
       padding: EdgeInsets.all(_padding),
       child: Stack(
         children: [
-          // Success text - shown when completed
-          Align(
-            alignment: Alignment.center,
-            child: AnimatedOpacity(
-              opacity: _isCompleted ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 500),
-              child: AppTextstyle(
-                text: widget.successText,
-                style: appStyle(
-                  color: widget.textColor,
-                  fontWeight: FontWeight.bold,
-                  size: 16.0,
-                ),
-              ),
-            ),
-          ),
-
-          // Instruction text - hidden when completed
+          // Instruction text or success message
           AnimatedOpacity(
-            opacity: _isCompleted ? 0.0 : 1.0,
+            opacity: 1.0,
             duration: const Duration(milliseconds: 200),
             child: Align(
               alignment: Alignment.center,
               child: AppTextstyle(
-                text: widget.instructionText,
+                text: _isCompleted
+                    ? "Checked In Completed"
+                    : widget.instructionText,
                 style: appStyle(
                   size: 16.0,
                   color: widget.textColor,
@@ -145,7 +129,7 @@ class _AttendanceSliderState extends State<AttendanceSlider>
             ),
           ),
 
-          // Slider handle
+          // Slider handle with container
           if (!_isCompleted)
             Positioned(
               left: _dragExtent,
@@ -156,13 +140,44 @@ class _AttendanceSliderState extends State<AttendanceSlider>
                   width: _sliderWidth,
                   height: _height - (_padding * 2),
                   decoration: BoxDecoration(
-                    color: widget.sliderColor,
+                    color: Colors.white,
                     borderRadius:
                         BorderRadius.circular((_height - (_padding * 2)) / 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
                   ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: widget.backgroundColor,
+                      size: 20.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+          // Checkmark icon when completed
+          if (_isCompleted)
+            Positioned(
+              right: 10,
+              child: Container(
+                width: _height - (_padding * 2),
+                height: _height - (_padding * 2),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
                   child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: widget.iconColor,
+                    Icons.check,
+                    color: widget.successBackgroundColor,
                     size: 24.0,
                   ),
                 ),
