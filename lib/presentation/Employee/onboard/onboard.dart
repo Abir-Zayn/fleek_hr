@@ -59,6 +59,7 @@ class _OnboardState extends State<Onboard> {
                             Theme.of(context).textTheme.headlineLarge?.color ??
                                 Colors.black,
                       ),
+                      maxLines: 2,
                     ),
 
                     Spacer(flex: 1),
@@ -76,7 +77,7 @@ class _OnboardState extends State<Onboard> {
                       },
                     ),
                     SizedBox(height: 16),
-                    
+
                     Spacer(),
 
                     // Footer

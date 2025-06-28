@@ -8,7 +8,7 @@ import 'package:fleekhr/data/models/auth/user_login.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:go_router/go_router.dart';
 
 part 'login_page.dart';

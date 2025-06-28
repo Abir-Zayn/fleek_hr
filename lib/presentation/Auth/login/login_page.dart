@@ -33,39 +33,39 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.h),
+              SizedBox(height: 20),
 
               // Logo and header
               Center(
                 child: Container(
-                  width: 150.w,
-                  height: 150.h,
+                  width: 150,
+                  height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: Center(
                     child: Image.asset(
                       Appvectors.appLogo,
-                      height: 150.h,
-                      width: 150.w,
+                      height: 150,
+                      width: 150,
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
               ),
 
-              SizedBox(height: 40.h),
+              SizedBox(height: 40),
 
               // Welcome text with styled container
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(16.r),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,18 +73,18 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       children: [
                         Container(
-                          height: 24.h,
-                          width: 4.w,
+                          height: 24,
+                          width: 4,
                           decoration: BoxDecoration(
                             color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        SizedBox(width: 10.w),
+                        SizedBox(width: 10),
                         AppTextstyle(
                           text: "Welcome Back !",
                           style: appStyle(
-                            size: 30.sp,
+                            size: 30,
                             color:
                                 Theme.of(context).textTheme.bodyLarge?.color ??
                                     Colors.black,
@@ -93,11 +93,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 12),
                     AppTextstyle(
                       text: "Sign in to continue to FleekHR",
                       style: appStyle(
-                        size: 16.sp,
+                        size: 16,
                         color: Colors.grey.shade600,
                         fontWeight: FontWeight.w400,
                       ),
@@ -106,18 +106,18 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              SizedBox(height: 40.h),
+              SizedBox(height: 40),
 
               // Email field with improved styling
               AppTextstyle(
                 text: "Email",
                 style: appStyle(
-                  size: 14.sp,
+                  size: 14,
                   color: Colors.grey.shade700,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8),
               Apptextfield(
                 hintText: "Enter your email",
                 leadingIcon: Icon(
@@ -134,12 +134,12 @@ class _LoginPageState extends State<LoginPage> {
               AppTextstyle(
                 text: "Password",
                 style: appStyle(
-                  size: 14.sp,
+                  size: 14,
                   color: Colors.grey.shade700,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8),
               Apptextfield(
                 hintText: "Enter your password",
                 leadingIcon: Icon(
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                 keyboardType: TextInputType.visiblePassword,
               ),
 
-              SizedBox(height: 16.h),
+              SizedBox(height: 16),
 
               // Remember me and Forgot password row
               Row(
@@ -161,13 +161,13 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     children: [
                       SizedBox(
-                        width: 24.w,
-                        height: 24.h,
+                        width: 24,
+                        height: 24,
                         child: Checkbox(
                           value: rememberMe,
                           activeColor: Theme.of(context).primaryColor,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(4),
                           ),
                           onChanged: (value) {
                             setState(() {
@@ -176,11 +176,11 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                       ),
-                      SizedBox(width: 8.w),
+                      SizedBox(width: 8),
                       AppTextstyle(
                         text: "Remember me",
                         style: appStyle(
-                          size: 14.sp,
+                          size: 14,
                           color: Colors.grey.shade600,
                           fontWeight: FontWeight.w400,
                         ),
@@ -194,13 +194,13 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.zero,
-                      minimumSize: Size(50.w, 30.h),
+                      minimumSize: Size(50, 30),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
                       "Forgot Password?",
                       style: appStyle(
-                        size: 14.sp,
+                        size: 14,
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w500,
                       ),
@@ -209,27 +209,20 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              SizedBox(height: 40.h),
+              SizedBox(height: 40),
 
               // Login button with shadow
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Appbtn(
                   text: "SIGN IN",
                   color: Theme.of(context).primaryColor,
                   width: double.infinity,
-                  height: 56.h,
-                  radius: 12.r,
-                  fontSize: 16.sp,
+                  height: 56,
+                  radius: 12,
+                  fontSize: 16,
                   textColor: Colors.white,
                   onPressed: () async {
                     // Show loading indicator
@@ -297,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 30),
             ],
           ),
         ),
