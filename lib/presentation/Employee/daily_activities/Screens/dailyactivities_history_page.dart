@@ -117,6 +117,7 @@ class _DailyactivitiesPageState extends State<DailyactivitiesPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
             // Navigate to the add daily activity page
             context.push('/add-daily-activity');
