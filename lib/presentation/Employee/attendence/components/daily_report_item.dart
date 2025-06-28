@@ -92,7 +92,8 @@ class DailyReportItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: AppTextstyle(
-                        text: report['isAbsent'] ? 'Absent' : report['inTime'],
+                        text:
+                            report['isAbsent'] ? '  Absent  ' : report['inTime'],
                         style: appStyle(
                           color: Colors.white,
                           size: 12,
@@ -128,13 +129,13 @@ class DailyReportItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: report['isAbsent']
                             ? Colors.grey[600]
-                            : Colors.green, // ✅ Reverted to green
+                            : Colors.green,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: AppTextstyle(
-                        text: report['isAbsent'] ? 'Absent' : report['outTime'],
+                        text: report['isAbsent'] ? '  Absent  ' : report['outTime'],
                         style: appStyle(
-                          color: Colors.white, // ✅ White text
+                          color: Colors.white, 
                           size: 12,
                           fontWeight: FontWeight.w600,
                         ),

@@ -269,13 +269,10 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.green,
                           ),
                         );
-                        context.push(
+                        context.go(
                             '/admin-home'); // Navigate to home page on success
                       });
                     } catch (e) {
-                      // Dismiss loading indicator
-                      Navigator.pop(context);
-
                       // Show error
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

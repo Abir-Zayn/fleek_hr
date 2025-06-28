@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 class Monthlystats extends StatelessWidget {
   final String title;
   final int value;
- 
+
   final Color color;
   const Monthlystats(
       {super.key,
       required this.title,
       required this.value,
-    
       required this.color});
 
   @override
@@ -39,7 +38,6 @@ class Monthlystats extends StatelessWidget {
               color: color.withOpacity(0.6),
               borderRadius: BorderRadius.circular(8),
             ),
-           
           ),
           const SizedBox(width: 16),
           Expanded(

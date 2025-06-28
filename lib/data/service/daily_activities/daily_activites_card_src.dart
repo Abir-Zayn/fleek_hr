@@ -52,7 +52,7 @@ class DailyActivitesCardSrc {
           quantity: 1,
         ),
         DailyActivitiesCardModel(
-          taskTitle: 'Fix UI Bugs on Customer Dashboard',
+          taskTitle: 'Fix Bugs on Main Dashboard',
           id: '5',
           date: DateTime(2025, 6, 24), // From yesterday
           department: 'Engineering',
@@ -87,7 +87,7 @@ class DailyActivitesCardSrc {
         ),
         // Example 6: Support task
         DailyActivitiesCardModel(
-          taskTitle: 'Resolve High-Priority Customer Ticket',
+          taskTitle: 'Resolve High-Priority Task',
           id: '7',
           date: DateTime(2025, 6, 25),
           department: 'Customer Support',

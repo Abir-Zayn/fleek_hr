@@ -51,7 +51,7 @@ class _AttendanceSliderState extends State<AttendanceSlider>
     super.dispose();
   }
 
-  void _onDragUpdate(DragUpdateDetails details) {
+  void dragUpdate(DragUpdateDetails details) {
     if (_isCompleted) return;
 
     setState(() {
@@ -62,7 +62,7 @@ class _AttendanceSliderState extends State<AttendanceSlider>
     });
   }
 
-  void _onDragEnd(DragEndDetails details) {
+  void draggingComplete(DragEndDetails details) {
     if (_isCompleted) return;
 
     final screenWidth = context.size!.width;
@@ -134,8 +134,8 @@ class _AttendanceSliderState extends State<AttendanceSlider>
             Positioned(
               left: _dragExtent,
               child: GestureDetector(
-                onHorizontalDragUpdate: _onDragUpdate,
-                onHorizontalDragEnd: _onDragEnd,
+                onHorizontalDragUpdate: dragUpdate,
+                onHorizontalDragEnd: draggingComplete,
                 child: Container(
                   width: _sliderWidth,
                   height: _height - (_padding * 2),
