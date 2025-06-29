@@ -29,20 +29,21 @@ class ExpenseDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    expense.purpose,
-                    style: TextStyle(
-                      fontSize: 18,
+                  AppTextstyle(
+                    text: expense.purpose,
+                    style: appStyle(
+                      size: 18,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text(
-                    'Submitted By: ${expense.employeeName}',
-                    style: TextStyle(
-                      fontSize: 14,
+                  AppTextstyle(
+                    text: 'Submitted By: ${expense.employeeName}',
+                    style: appStyle(
+                      size: 14,
                       color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -60,12 +61,12 @@ class ExpenseDetailsScreen extends StatelessWidget {
                       color: statusColor(expense.status),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Text(
-                      expense.status,
-                      style: TextStyle(
+                    child: AppTextstyle(
+                      text: expense.status,
+                      style: appStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        size: 12,
                       ),
                     ),
                   ),
@@ -85,12 +86,13 @@ class ExpenseDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Expense Information',
-                    style: TextStyle(
-                      fontSize: 16,
+                  AppTextstyle(
+                    text: 'Expense Information',
+                    style: appStyle(
+                      size: 16,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.titleLarge?.color,
+                      color: Theme.of(context).textTheme.bodyLarge?.color ??
+                          Colors.white,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -118,20 +120,21 @@ class ExpenseDetailsScreen extends StatelessWidget {
         children: [
           SizedBox(
             width: 120,
-            child: Text(
-              '$label:',
-              style: TextStyle(
+            child: AppTextstyle(
+              text: '$label:',
+              style: appStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 14,
+                size: 14,
                 color: Colors.grey.shade700,
               ),
             ),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 14,
+            child: AppTextstyle(
+              text: value,
+              style: appStyle(
+                size: 14,
+                fontWeight: FontWeight.w500,
                 color: Colors.grey.shade800,
               ),
             ),
