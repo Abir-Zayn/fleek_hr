@@ -147,6 +147,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       itemBuilder: (context, index) {
         final expense = filterExpenseStatus[index];
         return UnifiedRequestCard.expense(
+            onTap: () {
+              context.push('/expense-details/${expense.id}');
+            },
             id: expense.id,
             employeeName: expense.employeeName,
             status: expense.status,

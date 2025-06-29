@@ -59,6 +59,16 @@ final GoRouter _router = GoRouter(
       ),
 
       GoRoute(
+        path: '/expense-details/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final expense =
+              ExpenseDataService.expenseDemoData.firstWhere((e) => e.id == id);
+          return ExpenseDetailsScreen(expense: expense);
+        },
+      ),
+
+      GoRoute(
         path: '/workfromhome',
         builder: (context, state) => const WorkFromHomeScreen(),
       ),

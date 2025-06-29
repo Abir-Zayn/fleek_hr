@@ -1,4 +1,5 @@
 import 'package:fleekhr/data/service/daily_activities/daily_activites_card_src.dart';
+import 'package:fleekhr/data/service/expense/expense_service.dart';
 import 'package:fleekhr/data/service/leave_req/leave_data_card_src.dart';
 import 'package:fleekhr/presentation/Employee/daily_activities/Screens/add_dailyactivities_page_imports.dart';
 import 'package:fleekhr/presentation/Employee/daily_activities/Screens/dailyactivities_detailed_page_imports.dart';
@@ -9,6 +10,7 @@ import 'package:fleekhr/presentation/Admin/ManageEmployee/Screen/manage_employee
 import 'package:fleekhr/presentation/Employee/Salary/Screen/salary_details_imports.dart';
 import 'package:fleekhr/presentation/Employee/Salary/Screen/salary_overview_imports.dart';
 import 'package:fleekhr/presentation/Employee/expense/Screen/add_expense_screen_imports.dart';
+import 'package:fleekhr/presentation/Employee/expense/Screen/expense_details_imports.dart';
 import 'package:fleekhr/presentation/Employee/navigation/navigation_imports.dart';
 import 'package:fleekhr/presentation/Auth/login/login_imports.dart';
 import 'package:fleekhr/presentation/Employee/Leave/Screen/leave_details_imports.dart';
