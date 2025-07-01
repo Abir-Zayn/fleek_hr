@@ -148,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                   size: 20,
                 ),
                 obscureText: true,
+                isPassword: true, // Enable password toggle
                 controller: passwordController,
                 keyboardType: TextInputType.visiblePassword,
               ),
@@ -273,6 +274,8 @@ class _LoginPageState extends State<LoginPage> {
                             '/admin-home'); // Navigate to home page on success
                       });
                     } catch (e) {
+                      // Dismiss loading indicator
+                      Navigator.pop(context);
                       // Show error
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

@@ -113,6 +113,9 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
         final request = wfhRequests[index];
 
         return UnifiedRequestCard.workFromHome(
+            onTap: () {
+              context.push('/work-from-home-details/${request.id}');
+            },
             id: request.id,
             employeeName: request.employeeName,
             status: request.status,

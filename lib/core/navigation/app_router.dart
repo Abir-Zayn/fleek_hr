@@ -73,6 +73,17 @@ final GoRouter _router = GoRouter(
         builder: (context, state) => const WorkFromHomeScreen(),
       ),
 
+      //Work From Home Detailed Page
+      GoRoute(
+        path: '/work-from-home-details/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final workFromHome = WorkFromHomeMockData.mockWfhRequests
+              .firstWhere((e) => e.id == id);
+          return WorkFromHomeDetails(workFromHome: workFromHome);
+        }
+      ),
+
       GoRoute(
         path: '/work-from-home-request-form',
         builder: (context, state) => const AddWorkFromHomeScreen(),

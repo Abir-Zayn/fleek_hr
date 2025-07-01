@@ -1,6 +1,7 @@
 import 'package:fleekhr/data/service/daily_activities/daily_activites_card_src.dart';
 import 'package:fleekhr/data/service/expense/expense_service.dart';
 import 'package:fleekhr/data/service/leave_req/leave_data_card_src.dart';
+import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
 import 'package:fleekhr/presentation/Employee/daily_activities/Screens/add_dailyactivities_page_imports.dart';
 import 'package:fleekhr/presentation/Employee/daily_activities/Screens/dailyactivities_detailed_page_imports.dart';
 import 'package:fleekhr/presentation/Employee/daily_activities/Screens/dailyactivities_history_page_imports.dart';
@@ -21,6 +22,7 @@ import 'package:fleekhr/presentation/Employee/attendence/screen/attendance_check
 import 'package:fleekhr/presentation/Employee/expense/Screen/expense_screen_imports.dart';
 import 'package:fleekhr/presentation/Employee/onboard/onboard_imports.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/screen/add_work_from_home_imports.dart';
+import 'package:fleekhr/presentation/Employee/work_from_home/screen/work_from_home_details_imports.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/screen/work_from_home_imports.dart';
 import 'package:fleekhr/presentation/splash/splashscreen_one.dart';
 import 'package:flutter/material.dart';

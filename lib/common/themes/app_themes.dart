@@ -24,7 +24,7 @@ final ThemeData lightTheme = ThemeData(
     ),
   ),
   cardColor: Colors.white,
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     color: Colors.white,
     shadowColor: Colors.black.withOpacity(0.1),
     elevation: 4,
@@ -56,7 +56,7 @@ final ThemeData darkTheme = ThemeData(
     ),
   ),
   cardColor: secondaryColor.withOpacity(0.5),
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     color: darkBackground.withOpacity(0.5),
     shadowColor: Colors.white.withOpacity(0.1),
     elevation: 4,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Apptextfield extends StatelessWidget {
+class Apptextfield extends StatefulWidget {
   final String? labelText;
   final String? hintText;
   final TextInputType keyboardType;
@@ -29,6 +29,8 @@ class Apptextfield extends StatelessWidget {
   final double? inputHeight;
   final EdgeInsets? innerPadding;
   final bool expandContent;
+  // New parameter for password toggle
+  final bool isPassword;
 
   const Apptextfield({
     super.key,
@@ -56,11 +58,24 @@ class Apptextfield extends StatelessWidget {
     this.errorBorder,
     this.focusedErrorBorder,
     this.onTap,
-    // Initialize new parameters
     this.inputHeight,
     this.innerPadding,
     this.expandContent = false,
+    this.isPassword = false,
   });
+
+  @override
+  State<Apptextfield> createState() => _ApptextfieldState();
+}
+
+class _ApptextfieldState extends State<Apptextfield> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,68 +86,82 @@ class Apptextfield extends StatelessWidget {
     );
 
     // Ensure consistent font sizes across all text styles
-    final TextStyle fieldStyle = style ?? defaultStyle;
+    final TextStyle fieldStyle = widget.style ?? defaultStyle;
     final TextStyle fieldLabelStyle =
-        labelStyle ?? defaultStyle.copyWith(color: Colors.grey[600]);
+        widget.labelStyle ?? defaultStyle.copyWith(color: Colors.grey[600]);
     final TextStyle fieldHintStyle =
-        hintStyle ?? defaultStyle.copyWith(color: Colors.grey);
-    final TextStyle fieldErrorStyle =
-        errorStyle ?? defaultStyle.copyWith(color: Colors.red, fontSize: 12.0);
+        widget.hintStyle ?? defaultStyle.copyWith(color: Colors.grey);
+    final TextStyle fieldErrorStyle = widget.errorStyle ??
+        defaultStyle.copyWith(color: Colors.red, fontSize: 12.0);
 
     // Calculate content padding based on input height or custom padding
-    final EdgeInsetsGeometry effectiveContentPadding = contentPadding ??
-        innerPadding ??
+    final EdgeInsetsGeometry effectiveContentPadding = widget.contentPadding ??
+        widget.innerPadding ??
         EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 20.0,
         );
 
     return SizedBox(
-      width: width,
-      height: expandContent ? null : height,
+      width: widget.width,
+      height: widget.expandContent ? null : widget.height,
       child: TextFormField(
-        onTap: onTap,
-        controller: controller,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        onChanged: onChanged,
-        maxLines: expandContent ? null : maxLines,
-        minLines: minLines,
+        onTap: widget.onTap,
+        controller: widget.controller,
+        keyboardType: widget.keyboardType,
+        obscureText: _obscureText,
+        onChanged: widget.onChanged,
+        maxLines: widget.expandContent ? null : widget.maxLines,
+        minLines: widget.minLines,
         style: fieldStyle,
-        validator: validator,
-        expands: expandContent,
+        validator: widget.validator,
+        expands: widget.expandContent,
         decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
-          errorText: errorText,
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          errorText: widget.errorText,
           labelStyle: fieldLabelStyle,
           hintStyle: fieldHintStyle,
           errorStyle: fieldErrorStyle,
           contentPadding: effectiveContentPadding,
-          prefixIcon: leadingIcon,
-          isDense: inputHeight != null,
-          isCollapsed: inputHeight != null,
+          prefixIcon: widget.leadingIcon,
+          isDense: widget.inputHeight != null,
+          isCollapsed: widget.inputHeight != null,
+          // Add suffix icon for password toggle if isPassword is true
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                )
+              : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-            borderSide: borderSide,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+            borderSide: widget.borderSide,
           ),
-          focusedBorder: focusedBorder ??
+          focusedBorder: widget.focusedBorder ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
+                borderRadius: BorderRadius.circular(widget.borderRadius),
                 borderSide: BorderSide(
                     color: Theme.of(context).primaryColor, width: 2.0),
               ),
-          errorBorder: errorBorder ??
+          errorBorder: widget.errorBorder ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
+                borderRadius: BorderRadius.circular(widget.borderRadius),
                 borderSide: const BorderSide(color: Colors.red),
               ),
-          focusedErrorBorder: focusedErrorBorder ??
+          focusedErrorBorder: widget.focusedErrorBorder ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
+                borderRadius: BorderRadius.circular(widget.borderRadius),
                 borderSide: const BorderSide(color: Colors.red, width: 2.0),
               ),
         ),
