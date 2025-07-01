@@ -19,6 +19,13 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   String? attachmentPath;
   int leaveDuration = 0;
 
+  // Track form validation state
+  bool get isFormValid =>
+      selectedLeaveType != null &&
+      startDate != null &&
+      leaveDuration > 0 &&
+      reasonController.text.isNotEmpty;
+
   @override
   void initState() {
     super.initState();
@@ -38,16 +45,13 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   void updateSelectedLeaveType(LeaveTypeModel type) {
     setState(() {
       selectedLeaveType = type;
-      // Reset form when leave type changes
-      startDate = null;
-      endDate = null;
-      leaveType = 'Full Day';
-      leaveDuration = 0;
+      // Keep dates if they're already selected
+      calculateDuration(); // Recalculate duration with new leave type
     });
   }
 
   void calculateDuration() {
-    if (startDate == null || endDate == null) {
+    if (startDate == null) {
       setState(() {
         leaveDuration = 0;
       });
@@ -63,6 +67,15 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
       return;
     }
 
+    // For full day, we need both start and end dates
+    if (endDate == null) {
+      setState(() {
+        endDate = startDate; // Default end date to start date
+        leaveDuration = 1; // Set to 1 day if only start date is selected
+      });
+      return;
+    }
+
     // Calculate full days between start and end dates
     final difference = endDate!.difference(startDate!).inDays + 1;
     setState(() {
@@ -71,17 +84,42 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   }
 
   void onStartDateChanged(DateTime? date) {
+    // Don't allow date selection if no leave type is selected
+    if (selectedLeaveType == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please select a leave type first')),
+      );
+      return;
+    }
+
     setState(() {
       startDate = date;
       // If end date is before new start date, reset it
       if (endDate != null && endDate!.isBefore(startDate!)) {
         endDate = startDate;
-      }
+      } else
+        endDate ??= startDate;
       calculateDuration();
     });
   }
 
   void onEndDateChanged(DateTime? date) {
+    // Don't allow date selection if no leave type is selected
+    if (selectedLeaveType == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please select a leave type first')),
+      );
+      return;
+    }
+
+    // Don't allow end date selection if start date isn't set
+    if (startDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please select a start date first')),
+      );
+      return;
+    }
+
     setState(() {
       endDate = date;
       calculateDuration();
@@ -106,6 +144,26 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   }
 
   void _submitLeaveRequest() {
+    // Validate form before submission
+    if (!isFormValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all required fields')),
+      );
+      return;
+    }
+
+    // Check if requested leave is more than available
+    if (selectedLeaveType != null &&
+        leaveDuration > selectedLeaveType!.remainingDays) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('You don\'t have enough leave days available'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     // Placeholder for submitting the leave request
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -138,8 +196,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: LeaveSubmitButton(
-                isEnabled:
-                    leaveDuration > 0 && reasonController.text.isNotEmpty,
+                isEnabled: isFormValid,
                 onPressed: _submitLeaveRequest,
               ),
             ),
@@ -178,10 +235,11 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           SizedBox(height: 16),
 
           // Leave duration indicator
-          LeaveDurationIndicator(
-            duration: leaveDuration,
-            durationType: leaveType,
-          ),
+          if (leaveDuration > 0)
+            LeaveDurationIndicator(
+              duration: leaveDuration,
+              durationType: leaveType,
+            ),
           SizedBox(height: 20),
 
           // Reason field
