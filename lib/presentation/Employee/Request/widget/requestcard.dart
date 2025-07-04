@@ -1,7 +1,7 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class Requestcard extends StatelessWidget {
   final IconData icon;
@@ -56,7 +56,7 @@ class Requestcard extends StatelessWidget {
             AppTextstyle(
               text: text,
               style: appStyle(
-                size: 18.sp,
+                size: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -69,7 +69,7 @@ class Requestcard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   description!,
-                  style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                  style: TextStyle(fontSize: 12, color: Colors.black),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

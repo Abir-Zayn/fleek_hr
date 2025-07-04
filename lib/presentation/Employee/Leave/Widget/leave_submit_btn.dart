@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 
@@ -19,15 +18,15 @@ class LeaveSubmitButton extends StatelessWidget {
       onPressed: isEnabled ? onPressed : null,
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).primaryColor,
-        minimumSize: Size(double.infinity, 50.h),
+        minimumSize: Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
       child: AppTextstyle(
         text: 'Submit Leave Request',
         style: appStyle(
-            color: Colors.white, size: 16.sp, fontWeight: FontWeight.w600),
+            color: Colors.white, size: 16, fontWeight: FontWeight.w600),
       ),
     );
   }

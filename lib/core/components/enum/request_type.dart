@@ -1,5 +1,5 @@
 enum RequestType {
   leave,
   expense,
-  workFromHome
+  workFromHome,
 }

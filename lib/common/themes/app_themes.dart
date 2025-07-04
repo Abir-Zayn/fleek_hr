@@ -1,73 +1,46 @@
-import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-final Color primaryColor = const Color(0xFFff6b35);
-final Color secondaryColor = const Color(0xFFF1E4F3);
-final Color lightBackground = const Color(0xFFF4F6F8);
-final Color darkBackground = const Color(0xFF1E1B18);
-final Color lightText = const Color(0xFF1E1E1E);
-final Color darkText = const Color(0xFFFFFFFF);
-
-final ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primaryColor: primaryColor,
-  scaffoldBackgroundColor: lightBackground,
-  canvasColor: secondaryColor,
-  appBarTheme: AppBarTheme(
-    backgroundColor: lightBackground,
-    iconTheme: IconThemeData(color: lightText),
-    titleTextStyle: appStyle(
-      size: 20.sp,
-      color: lightText, // Use lightText for light theme
-      fontWeight: FontWeight.w600,
+class AppTheme {
+  static final ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    primaryColor: const Color(0xFF6200EE),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xFF6200EE),
+      brightness: Brightness.light,
     ),
-  ),
-  cardColor: Colors.white,
-  cardTheme: CardThemeData(
-    color: Colors.white,
-    shadowColor: Colors.black.withOpacity(0.1),
-    elevation: 4,
-  ),
-  textTheme: TextTheme(
-    bodyLarge:
-        appStyle(size: 16.sp, color: lightText, fontWeight: FontWeight.normal),
-    bodyMedium:
-        appStyle(size: 14.sp, color: lightText, fontWeight: FontWeight.normal),
-    headlineLarge:
-        appStyle(size: 24.sp, color: lightText, fontWeight: FontWeight.bold),
-    // Add more text styles as needed
-  ),
-  //button Color
-);
-
-final ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: primaryColor,
-  scaffoldBackgroundColor: darkBackground,
-  canvasColor: secondaryColor,
-  appBarTheme: AppBarTheme(
-    backgroundColor: darkBackground,
-    iconTheme: IconThemeData(color: darkText),
-    titleTextStyle: appStyle(
-      size: 20.sp,
-      color: darkText, // Use darkText for dark theme
-      fontWeight: FontWeight.w600,
+    scaffoldBackgroundColor: Colors.white,
+    fontFamily: GoogleFonts.poppins().fontFamily,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
     ),
-  ),
-  cardColor: secondaryColor.withOpacity(0.5),
-  cardTheme: CardThemeData(
-    color: darkBackground.withOpacity(0.5),
-    shadowColor: Colors.white.withOpacity(0.1),
-    elevation: 4,
-  ),
-  textTheme: TextTheme(
-    bodyLarge:
-        appStyle(size: 16.sp, color: darkText, fontWeight: FontWeight.normal),
-    bodyMedium:
-        appStyle(size: 14.sp, color: darkText, fontWeight: FontWeight.normal),
-    headlineLarge:
-        appStyle(size: 24.sp, color: darkText, fontWeight: FontWeight.bold),
-    // Add more text styles as needed
-  ),
-);
+  );
+
+  static final ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: const Color(0xFF6200EE),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xFF6200EE),
+      brightness: Brightness.dark,
+    ),
+    scaffoldBackgroundColor: const Color(0xFF121212),
+    fontFamily: GoogleFonts.poppins().fontFamily,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Color(0xFF121212),
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
+}

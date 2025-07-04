@@ -1,7 +1,7 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 /// A widget that displays detailed information about a leave request.
 class LeaveDetailsInfoRow extends StatelessWidget {
@@ -20,7 +20,7 @@ class LeaveDetailsInfoRow extends StatelessWidget {
           AppTextstyle(
             text: label,
             style: appStyle(
-              size: 16.sp,
+              size: 16,
               color: Theme.of(context).textTheme.bodyLarge?.color ??
                   Colors.black87,
               fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class LeaveDetailsInfoRow extends StatelessWidget {
               text: value,
               textAlign: TextAlign.end,
               style: appStyle(
-                size: 16.sp,
+                size: 16,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[700]!,
               ),

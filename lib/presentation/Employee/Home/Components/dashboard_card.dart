@@ -1,7 +1,7 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class DashboardCard extends StatelessWidget {
   final String title;
@@ -28,29 +28,29 @@ class DashboardCard extends StatelessWidget {
         elevation: 0.3,
         color: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.dg),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16.0.r),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
-                radius: 30.r,
+                radius: 30,
                 backgroundColor: iconColor,
                 child: Icon(
                   icon,
                   color: Colors.white,
-                  size: 20.sp,
+                  size: 20,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 10),
               //heading
               AppTextstyle(
                 text: title,
                 style: appStyle(
-                    size: 15.sp,
+                    size: 15,
                     color: Theme.of(context).textTheme.bodyMedium?.color ??
                         Colors.black,
                     fontWeight: FontWeight.w600),
@@ -58,7 +58,7 @@ class DashboardCard extends StatelessWidget {
               AppTextstyle(
                 text: count,
                 style: appStyle(
-                    size: 13.sp,
+                    size: 13,
                     color: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -73,7 +73,7 @@ class DashboardCard extends StatelessWidget {
                   Icons.arrow_forward_ios,
                   color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7) ??
                       Colors.black,
-                  size: 16.sp,
+                  size: 16,
                 ),
               )
             ],

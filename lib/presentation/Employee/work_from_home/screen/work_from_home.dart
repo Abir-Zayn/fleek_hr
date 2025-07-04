@@ -16,7 +16,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
         isScrollControlled: true,
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         builder: (context) => FilteringBottomSheet(
           title: "Filter WFH Requests",
@@ -29,10 +29,10 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
             debugPrint('Selected filter: $selectedFilter');
           },
           padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            top: 20.h,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
+            left: 16,
+            right: 16,
+            top: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
           ),
         ),
       );
@@ -59,7 +59,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(15.w),
+            padding: EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [workFromHomeList()],
@@ -72,7 +72,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         heroTag: 'WFH Request',
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: BorderRadius.circular(12),
         ),
         tooltip: 'Request Work From Home',
         onPressed: () {
@@ -95,7 +95,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
         child: AppTextstyle(
           text: 'No Work From Home requests found.',
           style: appStyle(
-            size: 16.sp,
+            size: 16,
             color:
                 Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black87,
             fontWeight: FontWeight.w500,
@@ -108,7 +108,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: wfhRequests.length,
-      separatorBuilder: (context, index) => SizedBox(height: 8.h),
+      separatorBuilder: (context, index) => SizedBox(height: 8),
       itemBuilder: (context, index) {
         final request = wfhRequests[index];
 

@@ -1,7 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class UserIdCard extends StatelessWidget {
@@ -50,7 +49,7 @@ class UserIdCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180.h,
+      height: 180,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -76,7 +75,7 @@ class UserIdCard extends StatelessWidget {
                   AppTextstyle(
                     text: 'Division',
                     style: appStyle(
-                      size: 15.sp,
+                      size: 15,
                       color: secondaryTextColor,
                       fontWeight: FontWeight.w500,
                     ),
@@ -84,7 +83,7 @@ class UserIdCard extends StatelessWidget {
                   AppTextstyle(
                     text: division,
                     style: appStyle(
-                      size: 20.sp,
+                      size: 20,
                       color: textColor,
                       fontWeight: FontWeight.w600,
                     ),
@@ -94,7 +93,7 @@ class UserIdCard extends StatelessWidget {
               _buildJoinedDateWidget(),
             ],
           ),
-          SizedBox(height: 30.h),
+          SizedBox(height: 30),
           _buildUserDetailsWidget()
         ],
       ),
@@ -142,7 +141,7 @@ class UserIdCard extends StatelessWidget {
         AppTextstyle(
           text: title,
           style: appStyle(
-            size: 14.sp,
+            size: 14,
             color: secondaryTextColor,
             fontWeight: FontWeight.w500,
           ),
@@ -150,7 +149,7 @@ class UserIdCard extends StatelessWidget {
         AppTextstyle(
           text: "$value days",
           style: appStyle(
-            size: 18.sp,
+            size: 18,
             color: secondaryTextColor,
             fontWeight: FontWeight.w600,
           ),

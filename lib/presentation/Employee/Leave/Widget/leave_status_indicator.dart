@@ -1,7 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaveStatusIndicator extends StatelessWidget {
   final String status;
@@ -29,11 +28,11 @@ class LeaveStatusIndicator extends StatelessWidget {
     final statusColor = _getStatusColor();
 
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      margin: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: statusColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(
           color: statusColor,
           width: 1,
@@ -44,7 +43,7 @@ class LeaveStatusIndicator extends StatelessWidget {
         style: appStyle(
           color: statusColor,
           fontWeight: FontWeight.w600,
-          size: 14.sp,
+          size: 14,
         ),
       ),
     );

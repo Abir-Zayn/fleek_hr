@@ -2,7 +2,7 @@ import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
 import 'package:fleekhr/data/models/leave_request/leave_data_card.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:go_router/go_router.dart';
 
 /// A widget that displays action buttons based on user role and leave status
@@ -152,7 +152,7 @@ class ActionButtons extends StatelessWidget {
                   : (isApprove ? 'Edit' : 'Delete'),
               style: appStyle(
                 color: isApprove ? Colors.green : Colors.red,
-                size: 15.sp,
+                size: 15,
                 fontWeight: FontWeight.w400,
               ),
             ),

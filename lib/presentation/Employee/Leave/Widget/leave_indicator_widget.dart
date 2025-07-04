@@ -1,7 +1,7 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class LeaveIndicatorWidget extends StatelessWidget {
   final String title;
@@ -24,8 +24,8 @@ class LeaveIndicatorWidget extends StatelessWidget {
           children: [
             // Circle background
             Container(
-              width: 70.w,
-              height: 70.w,
+              width: 70,
+              height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: color.withOpacity(0.1),
@@ -33,8 +33,8 @@ class LeaveIndicatorWidget extends StatelessWidget {
             ),
             // Inner circle with data
             Container(
-              width: 60.w,
-              height: 60.w,
+              width: 60,
+              height: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
@@ -46,7 +46,7 @@ class LeaveIndicatorWidget extends StatelessWidget {
                   AppTextstyle(
                     text: used,
                     style: appStyle(
-                      size: 18.sp,
+                      size: 18,
                       fontWeight: FontWeight.bold,
                       color: color,
                     ),
@@ -54,7 +54,7 @@ class LeaveIndicatorWidget extends StatelessWidget {
                   AppTextstyle(
                     text: "days",
                     style: appStyle(
-                      size: 12.sp,
+                      size: 12,
                       color: Colors.blueGrey,
                       fontWeight: FontWeight.w500,
                     ),
@@ -64,11 +64,11 @@ class LeaveIndicatorWidget extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 8),
         AppTextstyle(
           text: title,
           style: appStyle(
-            size: 14.sp,
+            size: 14,
             fontWeight: FontWeight.w500,
             color:
                 Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,

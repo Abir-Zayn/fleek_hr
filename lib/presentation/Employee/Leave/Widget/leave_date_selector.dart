@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 
@@ -55,18 +54,18 @@ class LeaveDateSelector extends StatelessWidget {
                 text: 'Start Date',
                 style: appStyle(
                     color: Colors.black,
-                    size: 14.sp,
+                    size: 14,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8),
               InkWell(
                 onTap: () => _selectDate(context, true),
                 child: Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +75,7 @@ class LeaveDateSelector extends StatelessWidget {
                             ? 'Select Date'
                             : '${startDate!.day}/${startDate!.month}/${startDate!.year}',
                       ),
-                      Icon(Icons.calendar_today, size: 18.sp),
+                      Icon(Icons.calendar_today, size: 18),
                     ],
                   ),
                 ),
@@ -84,7 +83,7 @@ class LeaveDateSelector extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: 16.w),
+        SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,20 +92,20 @@ class LeaveDateSelector extends StatelessWidget {
                 text: 'End Date',
                 style: appStyle(
                     color: Colors.black,
-                    size: 14.sp,
+                    size: 14,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8),
               InkWell(
                 onTap: durationType == 'Half Day'
                     ? null
                     : () => _selectDate(context, false),
                 child: Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                     color: durationType == 'Half Day' ? Colors.grey[200] : null,
                   ),
                   child: Row(
@@ -122,10 +121,10 @@ class LeaveDateSelector extends StatelessWidget {
                           color: durationType == 'Half Day'
                               ? Colors.grey
                               : Colors.black,
-                          fontSize: 14.sp,
+                          fontSize: 14,
                         ),
                       ),
-                      Icon(Icons.calendar_today, size: 18.sp),
+                      Icon(Icons.calendar_today, size: 18),
                     ],
                   ),
                 ),

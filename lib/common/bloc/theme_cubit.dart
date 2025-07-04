@@ -3,10 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemeCubit extends Cubit<ThemeData> {
-  ThemeCubit() : super(lightTheme);
+  ThemeCubit() : super(AppTheme.lightTheme);
 
   void toggleTheme() {
-    // Emit the opposite theme based on the current state
-    emit(state.brightness == Brightness.light ? darkTheme : lightTheme);
+    emit(state == AppTheme.lightTheme
+        ? AppTheme.darkTheme
+        : AppTheme.lightTheme);
+  }
+
+  void setLightTheme() {
+    emit(AppTheme.lightTheme);
+  }
+
+  void setDarkTheme() {
+    emit(AppTheme.darkTheme);
   }
 }

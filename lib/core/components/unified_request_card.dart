@@ -4,7 +4,6 @@ import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/core/components/enum/request_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -161,22 +160,22 @@ class UnifiedRequestCard extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Colors.blueGrey.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(6.r),
+            borderRadius: BorderRadius.circular(6),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           child: AppTextstyle(
             text: leaveType ?? '',
             style: appStyle(
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade800,
-              size: 12.sp,
+              size: 12,
             ),
           ),
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: 10),
         // Date information
         dateRow(startDate!, 'Starting'),
-        SizedBox(height: 4.h),
+        SizedBox(height: 4),
         dateRow(endDate!, 'Ending'),
       ],
     );
@@ -190,33 +189,33 @@ class UnifiedRequestCard extends StatelessWidget {
           children: [
             Icon(
               Icons.attach_money,
-              size: 16.sp,
+              size: 16,
               color: Colors.grey.shade700,
             ),
-            SizedBox(width: 4.w),
+            SizedBox(width: 4),
             AppTextstyle(
               text: 'Amount: \$${amount?.toStringAsFixed(2) ?? '0.00'}',
               style: appStyle(
-                size: 14.sp,
+                size: 14,
                 fontWeight: FontWeight.w600,
                 color: Colors.grey.shade700,
               ),
             ),
           ],
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 8),
         Row(
           children: [
             Icon(
               Icons.calendar_today,
-              size: 16.sp,
+              size: 16,
               color: Colors.grey.shade700,
             ),
-            SizedBox(width: 4.w),
+            SizedBox(width: 4),
             AppTextstyle(
               text: 'Date: ${formateDate(expenseDate!)}',
               style: appStyle(
-                size: 14.sp,
+                size: 14,
                 fontWeight: FontWeight.w600,
                 color: Colors.grey.shade700,
               ),
@@ -232,22 +231,22 @@ class UnifiedRequestCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         dateRow(startDate!, 'Starting'),
-        SizedBox(height: 4.h),
+        SizedBox(height: 4),
         dateRow(endDate!, 'Ending'),
-        SizedBox(height: 8.h),
+        SizedBox(height: 8),
         Row(
           children: [
             Icon(
               Icons.description,
-              size: 16.sp,
+              size: 16,
               color: Colors.grey.shade700,
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 8),
             Expanded(
               child: AppTextstyle(
                 text: 'Reason: ${reason ?? ''}',
                 style: appStyle(
-                  size: 14.sp,
+                  size: 14,
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.w500,
                 ),
@@ -264,14 +263,14 @@ class UnifiedRequestCard extends StatelessWidget {
       children: [
         Icon(
           Icons.calendar_today,
-          size: 16.sp,
+          size: 16,
           color: Colors.grey.shade700,
         ),
-        SizedBox(width: 8.w),
+        SizedBox(width: 8),
         AppTextstyle(
           text: '$label: ${formateDate(date)}',
           style: appStyle(
-            size: 14.sp,
+            size: 14,
             color: Colors.grey.shade800,
             fontWeight: FontWeight.w500,
           ),
@@ -285,10 +284,10 @@ class UnifiedRequestCard extends StatelessWidget {
     Color cardBg = Theme.of(context).cardColor;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -328,8 +327,8 @@ class UnifiedRequestCard extends StatelessWidget {
       child: dataCard(
         context,
         Container(
-          margin: EdgeInsets.only(right: 8.w),
-          padding: EdgeInsets.only(left: 16.w, top: 3.h, bottom: 10.h),
+          margin: EdgeInsets.only(right: 8),
+          padding: EdgeInsets.only(left: 16, top: 3, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -339,7 +338,7 @@ class UnifiedRequestCard extends StatelessWidget {
                 headerContent(context),
                 statusState(status),
               ]),
-              SizedBox(height: 5.h),
+              SizedBox(height: 5),
               // Request-specific content
               requestSpecificContent(context),
               // Status positioned at bottom right for all card types
@@ -354,7 +353,7 @@ class UnifiedRequestCard extends StatelessWidget {
     return AppTextstyle(
       text: employeeName,
       style: appStyle(
-        size: 13.sp,
+        size: 13,
         fontWeight: FontWeight.w700,
         color: Colors.grey.shade800,
       ),

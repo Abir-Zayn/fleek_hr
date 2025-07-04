@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 
@@ -21,9 +20,9 @@ class LeaveDurationType extends StatelessWidget {
         AppTextstyle(
           text: 'Leave Duration Type',
           style: appStyle(
-              color: Colors.black, size: 14.sp, fontWeight: FontWeight.w500),
+              color: Colors.black, size: 14, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 8),
         Row(
           children: [
             Expanded(

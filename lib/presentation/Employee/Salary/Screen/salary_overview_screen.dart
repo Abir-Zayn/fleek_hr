@@ -169,7 +169,7 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
         title: "Salary Overview",
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -178,42 +178,42 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
             AppTextstyle(
               text: "Hello Employee!",
               style: appStyle(
-                size: 25.sp,
+                size: 25,
                 color: Theme.of(context).textTheme.bodyMedium?.color ??
                     Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 8),
             AppTextstyle(
               text: "Email Account :   employermail@gmail.com",
               style: appStyle(
-                size: 16.sp,
+                size: 16,
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 8),
             AppTextstyle(
               text: "Phone Number:  +880 1293321234",
               style: appStyle(
-                size: 16.sp,
+                size: 16,
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
               ),
             ),
 
-            SizedBox(height: 40.h),
+            SizedBox(height: 40),
             AppTextstyle(
               text: "Salary Overview",
               style: appStyle(
-                size: 20.sp,
+                size: 20,
                 color: Theme.of(context).textTheme.bodyMedium?.color ??
                     Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
 
             // Month and Year selection section
             Container(
@@ -346,7 +346,7 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
               ),
             ),
 
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
           ],
         ),
       ),

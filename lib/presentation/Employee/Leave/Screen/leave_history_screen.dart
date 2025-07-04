@@ -17,7 +17,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
         isScrollControlled: true,
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         builder: (context) => FilteringBottomSheet(
           title: "Filter WFH Requests",
@@ -30,10 +30,10 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
             debugPrint('Selected filter: $selectedFilter');
           },
           padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            top: 20.h,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
+            left: 16,
+            right: 16,
+            top: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
           ),
         ),
       );
@@ -60,7 +60,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -70,7 +70,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
                     AppTextstyle(
                       text: 'Leave History',
                       style: appStyle(
-                        size: 18.sp,
+                        size: 18,
                         color: Theme.of(context).textTheme.bodyLarge?.color ??
                             Colors.black87,
                         fontWeight: FontWeight.bold,
@@ -79,16 +79,16 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
                     if (selectedFilter != 'All')
                       Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 5.h),
+                            horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                           color:
                               Theme.of(context).primaryColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         child: AppTextstyle(
                           text: 'Filter: $selectedFilter',
                           style: appStyle(
-                            size: 12.sp,
+                            size: 12,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,
                           ),
@@ -96,7 +96,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
                       ),
                   ],
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 16),
                 leaveList(),
               ],
             ),
@@ -136,7 +136,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
               size: 48,
               color: Colors.grey,
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             AppTextstyle(
               text: 'No leave requests found',
               style: appStyle(
@@ -152,7 +152,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
 
     //show the list of leaves
     return ListView.separated(
-      separatorBuilder: (context, index) => SizedBox(height: 16.h),
+      separatorBuilder: (context, index) => SizedBox(height: 16),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: filteredLeaves.length,
