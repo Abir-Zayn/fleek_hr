@@ -15,7 +15,7 @@ Future<void> main() async {
     anonKey: Appconfig.anonKey,
   );
   // Initialize service locator
-  await initalizeDependencies();
+  await initializeDependencies();
   runApp(const Main());
 }
 
