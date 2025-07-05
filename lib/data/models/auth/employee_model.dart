@@ -1,6 +1,6 @@
 import 'package:fleekhr/domain/entities/auth/user_entity.dart';
 
-class UserModel {
+class EmployeeModel {
   final String? id;
   final String? email;
   final String? name;
@@ -16,7 +16,7 @@ class UserModel {
   final DateTime? updatedAt;
   final String? role;
 
-  UserModel({
+  EmployeeModel({
     this.id,
     this.email,
     this.name,
@@ -34,8 +34,8 @@ class UserModel {
   });
 
   // Create model from JSON map
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory EmployeeModel.fromJson(Map<String, dynamic> json) {
+    return EmployeeModel(
       id: json['id'] as String?,
       email: json['email'] as String?,
       name: json['name'] as String?,
@@ -80,8 +80,8 @@ class UserModel {
   }
 
   // Convert model to entity
-  UserEntity toEntity() {
-    return UserEntity(
+  EmployeeEntity toEntity() {
+    return EmployeeEntity(
       id: id ?? '',
       email: email ?? '',
       name: name ?? '',
@@ -100,8 +100,8 @@ class UserModel {
   }
 
   // Create model from entity
-  factory UserModel.fromEntity(UserEntity entity) {
-    return UserModel(
+  factory EmployeeModel.fromEntity(EmployeeEntity entity) {
+    return EmployeeModel(
       id: entity.id,
       email: entity.email,
       name: entity.name,

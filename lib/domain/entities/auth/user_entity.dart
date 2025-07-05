@@ -1,4 +1,4 @@
-class UserEntity {
+class EmployeeEntity {
   final String id;
   final String email;
   final String name;
@@ -14,7 +14,7 @@ class UserEntity {
   final DateTime? updatedAt;
   final String role;
 
-  UserEntity({
+  EmployeeEntity({
     required this.id,
     required this.email,
     required this.name,
@@ -32,7 +32,7 @@ class UserEntity {
   });
 
   // Convenience method to create a copy with modified fields
-  UserEntity copyWith({
+  EmployeeEntity copyWith({
     String? id,
     String? email,
     String? name,
@@ -48,7 +48,7 @@ class UserEntity {
     DateTime? updatedAt,
     String? role,
   }) {
-    return UserEntity(
+    return EmployeeEntity(
       id: id ?? this.id,
       email: email ?? this.email,
       name: name ?? this.name,
@@ -70,7 +70,7 @@ class UserEntity {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserEntity &&
+      other is EmployeeEntity &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           email == other.email &&

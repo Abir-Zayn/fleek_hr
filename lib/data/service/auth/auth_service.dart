@@ -1,60 +1,88 @@
 import 'package:dartz/dartz.dart';
+import 'package:fleekhr/core/error/failure.dart';
 import 'package:fleekhr/data/models/auth/user_login.dart';
-import 'package:fleekhr/data/models/auth/user_model.dart';
+import 'package:fleekhr/data/models/auth/employee_model.dart';
 import 'package:fleekhr/domain/entities/auth/user_entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthService {
-  Future<Either> login(UserLogin userLogin);
-  Future<Either> getUser();
-  Future<Either> logout();
+  Future<Either<Failure, String>> login(UserLogin userLogin);
+  Future<Either<Failure, EmployeeEntity>> getUser();
+  Future<Either<Failure, String>> logout();
 }
 
 class AuthServiceImplementation implements AuthService {
   final SupabaseClient _supabaseClient;
 
-  // Accept SupabaseClient as a parameter instead of directly accessing Supabase.instance
   AuthServiceImplementation(this._supabaseClient);
-
-  //login
+// Login
   @override
-  Future<Either> login(UserLogin userLogin) async {
+  @override
+  Future<Either<Failure, String>> login(UserLogin userLogin) async {
     try {
-      await _supabaseClient.auth.signInWithPassword(
+      if (userLogin.email.isEmpty || userLogin.password.isEmpty) {
+        return Left(InvalidInputFailure('Email and password cannot be empty'));
+      }
+
+      final response = await _supabaseClient.auth.signInWithPassword(
         email: userLogin.email,
         password: userLogin.password,
       );
-      return Right('Signin successful');
+
+      if (response.user != null) {
+        return Right('Login successful');
+      } else {
+        return Left(UnauthorizedFailure('Invalid credentials'));
+      }
+    } on AuthException catch (e) {
+      if (e.statusCode == '400') {
+        return Left(InvalidInputFailure(e.message));
+      } else if (e.statusCode == '401') {
+        return Left(UnauthorizedFailure(e.message));
+      } else {
+        return Left(ServerFailure(e.message));
+      }
     } catch (e) {
-      throw Exception('Login failed: $e');
+      return Left(UnknownFailure('Login error: ${e.toString()}'));
     }
   }
 
   // Get user profile data
   @override
-  Future<Either> getUser() async {
+  Future<Either<Failure, EmployeeEntity>> getUser() async {
     try {
       final user = _supabaseClient.auth.currentUser;
       if (user != null) {
-        UserModel userModel = UserModel.fromJson(user.toJson());
-        UserEntity userEntity = userModel.toEntity();
-        return Right(userEntity);
+        try {
+          // Fetch the employee data from the database
+          final response = await _supabaseClient
+              .from('employee')
+              .select()
+              .eq('id', user.id)
+              .single();
+
+          EmployeeModel userModel = EmployeeModel.fromJson(response);
+          EmployeeEntity userEntity = userModel.toEntity();
+          return Right(userEntity);
+        } catch (e) {
+          return Left(NotFoundFailure('User profile not found'));
+        }
       } else {
-        return Left('No user is currently logged in');
+        return Left(UnauthorizedFailure('No user is currently logged in'));
       }
     } catch (e) {
-      throw Exception('Failed to get user: $e');
+      return Left(ServerFailure('Failed to get user: ${e.toString()}'));
     }
   }
 
   // Logout
   @override
-  Future<Either> logout() async {
+  Future<Either<Failure, String>> logout() async {
     try {
       await _supabaseClient.auth.signOut();
       return Right('Logout successful');
     } catch (e) {
-      throw Exception('Logout failed: $e');
+      return Left(ServerFailure('Logout failed: ${e.toString()}'));
     }
   }
 }
