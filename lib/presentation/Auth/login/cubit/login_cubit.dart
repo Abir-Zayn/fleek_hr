@@ -1,17 +1,14 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fleekhr/core/error/failure.dart';
 import 'package:fleekhr/core/service_locator.dart';
 import 'package:fleekhr/data/models/auth/user_login.dart';
-import 'package:fleekhr/domain/usecase/auth/getuser_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final LoginUsecase loginUsecase = sl<LoginUsecase>();
-  final GetUserUseCase getUserUseCase = sl<GetUserUseCase>();
 
   LoginCubit() : super(LoginInitial());
 
@@ -36,16 +33,6 @@ class LoginCubit extends Cubit<LoginState> {
       (success) => emit(LoginSuccess(message: success)),
     );
   }
-
-  // Future<void> getUser() async {
-  //   emit(LoginLoading());
-  //   final result = await getUserUseCase.call();
-
-  //   result.fold(
-  //     (failure) => emit(LoginError(failure: failure)),
-  //     (user) => emit(GetUserSuccess(user: user)),
-  //   );
-  // }
 
   void logout() {
     // Implementation for logout
