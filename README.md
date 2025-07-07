@@ -3,6 +3,13 @@ Fleek HR is a modern and responsive CRM/HR specialist application built using Fl
 
 Functionalities
 Profile Screen
+       1/ On the profile screen an employee can view his profile image(is on update)
+       he can view his profile picture , his necessary informations like 
+       Email,  Phone, Department , Role in his company. Additionally there is another 
+       route "Edit/Update profile" where he can update his informations like Full Name,
+       email, skills, change password etc. 
+       As its an ERP System therefore delete by an employee is not authorized . As only an superadmin
+       will have this ability. 
 
 
 
