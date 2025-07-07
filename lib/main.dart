@@ -3,6 +3,7 @@ import 'package:fleekhr/core/config/appconfig.dart';
 import 'package:fleekhr/core/navigation/app_router_imports.dart';
 import 'package:fleekhr/core/service_locator.dart';
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
+import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,7 @@ class Main extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => sl<LoginCubit>()),
-        
+        BlocProvider(create: (_) => sl<ProfileCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, theme) {

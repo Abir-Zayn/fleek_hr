@@ -1,10 +1,11 @@
 Fleek HR – CRM/HR Specialist Application
 Fleek HR is a modern and responsive CRM/HR specialist application built using Flutter, featuring a clean UI, robust Bloc State Management, and Clean Architecture principles for scalability and maintainability.
 
-✨ Latest Update (15-05-2025)
-Introduced Dark Theme Support using Bloc.
+Functionalities
+Profile Screen
 
-The app now remembers user preferences, so the selected theme persists even after login—offering a more personalized experience.
+
+
 
 🚀 Core Features
 🔐 Authentication

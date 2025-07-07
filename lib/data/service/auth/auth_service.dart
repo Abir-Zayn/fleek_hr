@@ -9,6 +9,8 @@ abstract class AuthService {
   Future<Either<Failure, String>> login(UserLogin userLogin);
   Future<Either<Failure, EmployeeEntity>> getUser();
   Future<Either<Failure, String>> logout();
+  Future<Either<Failure, EmployeeEntity>> updateProfile(
+      EmployeeEntity employee);
 }
 
 class AuthServiceImplementation implements AuthService {
@@ -16,7 +18,7 @@ class AuthServiceImplementation implements AuthService {
 
   AuthServiceImplementation(this._supabaseClient);
 // Login
-  @override
+
   @override
   Future<Either<Failure, String>> login(UserLogin userLogin) async {
     try {
@@ -72,6 +74,41 @@ class AuthServiceImplementation implements AuthService {
       }
     } catch (e) {
       return Left(ServerFailure('Failed to get user: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, EmployeeEntity>> updateProfile(
+      EmployeeEntity employee) async {
+    try {
+      final user = _supabaseClient.auth.currentUser;
+      if (user != null) {
+        // convert entitiy to model
+        final employeeModel = EmployeeModel.fromEntity(employee);
+
+        // Update the employee data in the database
+        final response = await _supabaseClient
+            .from('employee')
+            .update(employeeModel.toJson())
+            .eq('id', user.id)
+            .select()
+            .single();
+
+        // convert the updated data back to entity
+        final updatedemployeeModel =
+            EmployeeModel.fromJson(response).toEntity();
+        return Right(updatedemployeeModel);
+      } else {
+        return Left(UnauthorizedFailure('No user is currently logged in'));
+      }
+    } catch (e) {
+      if (e is AuthException) {
+        return Left(UnauthorizedFailure('Update failed: ${e.message}'));
+      } else if (e is PostgrestException) {
+        return Left(ServerFailure('Database error: ${e.message}'));
+      } else {
+        return Left(UnknownFailure('Update error: ${e.toString()}'));
+      }
     }
   }
 
