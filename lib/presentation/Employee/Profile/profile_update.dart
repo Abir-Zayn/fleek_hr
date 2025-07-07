@@ -22,6 +22,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _skills1Controller = TextEditingController();
+  final TextEditingController _skills2Controller = TextEditingController();
+  final TextEditingController _skills3Controller = TextEditingController();
 
   @override
   void initState() {
@@ -32,6 +35,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       _nameController.text = profileState.user.name;
       _emailController.text = profileState.user.email;
       _phoneController.text = profileState.user.phone;
+      _skills1Controller.text = profileState.user.skills1;
+      _skills2Controller.text = profileState.user.skills2;
+      _skills3Controller.text = profileState.user.skills3;
     }
   }
 
@@ -43,6 +49,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
+    _skills1Controller.dispose();
+    _skills2Controller.dispose();
+    _skills3Controller.dispose();
     super.dispose();
   }
 
@@ -120,7 +129,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                         const CircleAvatar(
                           radius: 60,
                           backgroundImage: NetworkImage(
-                            "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?auto=format&fit=crop&q=80&w=2070",
+                            "https://images.unsplash.com/photo-1683029096295-7680306aa37d?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                           ),
                           backgroundColor: Colors.grey,
                         ),
@@ -188,6 +197,36 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                     keyboardType: TextInputType.phone,
                   ),
 
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _skills1Controller,
+                    labelText: 'Primary Skill',
+                    hintText: 'e.g., Flutter Development',
+                    icon: CupertinoIcons.bolt_fill,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _skills2Controller,
+                    labelText: 'Secondary Skill',
+                    hintText: 'e.g., UI/UX Design',
+                    icon: CupertinoIcons.bolt_fill,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _skills3Controller,
+                    labelText: 'Tertiary Skill',
+                    hintText: 'e.g., Project Management',
+                    icon: CupertinoIcons.bolt_fill,
+                  ),
+
                   const SizedBox(height: 20),
                   profileDivider(dividerColor),
                   const SizedBox(height: 20),
@@ -227,75 +266,21 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                     obscureText: true,
                   ),
 
-                  const SizedBox(height: 20),
-                  profileDivider(dividerColor),
-                  const SizedBox(height: 20),
-
-                  // Delete Account Section
-                  sectionHeader(
-                    context,
-                    "Delete Account",
-                    textColor: Colors.red.shade700,
-                  ),
-                  const SizedBox(height: 15),
-
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Colors.red.shade200,
-                        width: 1,
-                      ),
-                    ),
-                    child: Text(
-                      "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.red.shade700,
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-
                   const SizedBox(height: 30),
 
-                  // Action Buttons
+                  // Save Changes Button
                   BlocBuilder<ProfileCubit, ProfileState>(
                     builder: (context, state) {
                       final isLoading = state is ProfileLoading;
 
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Appbtn(
-                              text: isLoading ? "Saving..." : "Save Changes",
-                              color: primaryColor,
-                              textColor: Colors.white,
-                              height: 50,
-                              radius: 12,
-                              fontSize: 16,
-                              onPressed: isLoading ? null : _saveChanges,
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: Appbtn(
-                              text: "Delete Account",
-                              color: Colors.white,
-                              textColor: Colors.red.shade700,
-                              height: 50,
-                              radius: 12,
-                              fontSize: 16,
-                              onPressed: isLoading
-                                  ? null
-                                  : () {
-                                      _showDeleteConfirmation(context);
-                                    },
-                            ),
-                          ),
-                        ],
+                      return Appbtn(
+                        text: isLoading ? "Saving..." : "Save Changes",
+                        color: primaryColor,
+                        textColor: Colors.white,
+                        height: 50,
+                        radius: 12,
+                        fontSize: 16,
+                        onPressed: isLoading ? null : _saveChanges,
                       );
                     },
                   ),
@@ -317,13 +302,15 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
         phone: _phoneController.text.trim(),
+        skills1: _skills1Controller.text.trim(),
+        skills2: _skills2Controller.text.trim(),
+        skills3: _skills3Controller.text.trim(),
       );
 
       context.read<ProfileCubit>().updateUserProfile(updatedUser);
     }
   }
 
-  // ... rest of the existing widget methods remain the same
   Widget sectionHeader(BuildContext context, String title, {Color? textColor}) {
     return Text(
       title,
@@ -370,94 +357,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     return Divider(
       color: color.withOpacity(0.5),
       thickness: 1.0,
-    );
-  }
-
-  void _showDeleteConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            "Delete Account",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.red.shade700,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Are you sure you want to delete your account? This action cannot be undone.",
-                style: TextStyle(
-                  fontSize: 16,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Please type 'DELETE' to confirm:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.all(12),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Cancel",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade700,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red.shade700,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                "Delete",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

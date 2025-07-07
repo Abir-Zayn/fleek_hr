@@ -1,4 +1,5 @@
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
+import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -24,6 +25,7 @@ Future<void> initializeDependencies() async {
 
   // 4. Register UseCases
   sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
+  sl.registerLazySingleton<UpdateProfileUseCase>(() => UpdateProfileUseCase());
   sl.registerLazySingleton<LoginUsecase>(() => LoginUsecase());
 
   // 5. Register Blocs
