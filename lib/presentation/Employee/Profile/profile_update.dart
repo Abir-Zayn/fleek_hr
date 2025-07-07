@@ -1,7 +1,9 @@
 import 'package:fleekhr/common/widgets/appbtn.dart';
 import 'package:fleekhr/common/widgets/apptextfield.dart';
+import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUpdate extends StatefulWidget {
   const ProfileUpdate({super.key});
@@ -22,6 +24,18 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Pre-populate fields with current user data
+    final profileState = context.read<ProfileCubit>().state;
+    if (profileState is ProfileLoaded) {
+      _nameController.text = profileState.user.name;
+      _emailController.text = profileState.user.email;
+      _phoneController.text = profileState.user.phone;
+    }
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
@@ -34,237 +48,261 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    // Use theme colors instead of hardcoded values
     final primaryColor = Theme.of(context).primaryColor;
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     final dividerColor = Theme.of(context).dividerColor;
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        toolbarHeight: 60,
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+    return BlocListener<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileLoaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Profile updated successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
+        } else if (state is ProfileError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error: ${state.failure.message}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          toolbarHeight: 60,
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
           ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            CupertinoIcons.back,
-            color: Colors.white,
+          leading: IconButton(
+            icon: const Icon(
+              CupertinoIcons.back,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
           ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+          title: const Text(
+            "Edit Profile",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          backgroundColor: primaryColor,
+          centerTitle: true,
         ),
-        backgroundColor: primaryColor,
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
+        body: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
 
-                // Profile Photo Section
-                sectionHeader(context, "Profile Photo"),
-                const SizedBox(height: 15),
+                  // Profile Photo Section
+                  sectionHeader(context, "Profile Photo"),
+                  const SizedBox(height: 15),
 
-                Center(
-                  child: Stack(
-                    children: [
-                      const CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage(
-                          "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?auto=format&fit=crop&q=80&w=2070",
-                        ),
-                        backgroundColor: Colors.grey,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
+                  Center(
+                    child: Stack(
+                      children: [
+                        const CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(
+                            "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?auto=format&fit=crop&q=80&w=2070",
                           ),
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            icon: const Icon(
-                              Icons.camera_alt_outlined,
-                              color: Colors.white,
-                              size: 20,
+                          backgroundColor: Colors.grey,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
                             ),
-                            onPressed: () {
-                              // Image picker logic
-                            },
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.camera_alt_outlined,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                // Image picker logic
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Profile Information Section
-                sectionHeader(context, "Profile Information"),
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _nameController,
-                  labelText: 'Full Name',
-                  hintText: 'Muhammad Yunus',
-                  icon: CupertinoIcons.person,
-                ),
-
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _emailController,
-                  labelText: 'Email Address',
-                  hintText: 'example@mail.com',
-                  icon: CupertinoIcons.mail,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _phoneController,
-                  labelText: 'Phone Number',
-                  hintText: '+1 234 567 890',
-                  icon: CupertinoIcons.phone,
-                  keyboardType: TextInputType.phone,
-                ),
-
-                const SizedBox(height: 20),
-                profileDivider(dividerColor),
-                const SizedBox(height: 20),
-
-                // Password Section
-                sectionHeader(context, "Change Password"),
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _currentPasswordController,
-                  labelText: 'Current Password',
-                  hintText: '••••••••',
-                  icon: CupertinoIcons.lock,
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _newPasswordController,
-                  labelText: 'New Password',
-                  hintText: '••••••••',
-                  icon: CupertinoIcons.lock_shield,
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 15),
-
-                profileTextField(
-                  context: context,
-                  controller: _confirmPasswordController,
-                  labelText: 'Confirm New Password',
-                  hintText: '••••••••',
-                  icon: CupertinoIcons.lock_shield_fill,
-                  obscureText: true,
-                ),
-
-                const SizedBox(height: 20),
-                profileDivider(dividerColor),
-                const SizedBox(height: 20),
-
-                // Delete Account Section
-                sectionHeader(
-                  context,
-                  "Delete Account",
-                  textColor: Colors.red.shade700,
-                ),
-                const SizedBox(height: 15),
-
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.red.shade200,
-                      width: 1,
+                      ],
                     ),
                   ),
-                  child: Text(
-                    "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.red.shade700,
-                      height: 1.5,
+
+                  const SizedBox(height: 30),
+
+                  // Profile Information Section
+                  sectionHeader(context, "Profile Information"),
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _nameController,
+                    labelText: 'Full Name',
+                    hintText: 'Muhammad Yunus',
+                    icon: CupertinoIcons.person,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _emailController,
+                    labelText: 'Email Address',
+                    hintText: 'example@mail.com',
+                    icon: CupertinoIcons.mail,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _phoneController,
+                    labelText: 'Phone Number',
+                    hintText: '+1 234 567 890',
+                    icon: CupertinoIcons.phone,
+                    keyboardType: TextInputType.phone,
+                  ),
+
+                  const SizedBox(height: 20),
+                  profileDivider(dividerColor),
+                  const SizedBox(height: 20),
+
+                  // Password Section
+                  sectionHeader(context, "Change Password"),
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _currentPasswordController,
+                    labelText: 'Current Password',
+                    hintText: '••••••••',
+                    icon: CupertinoIcons.lock,
+                    obscureText: true,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _newPasswordController,
+                    labelText: 'New Password',
+                    hintText: '••••••••',
+                    icon: CupertinoIcons.lock_shield,
+                    obscureText: true,
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  profileTextField(
+                    context: context,
+                    controller: _confirmPasswordController,
+                    labelText: 'Confirm New Password',
+                    hintText: '••••••••',
+                    icon: CupertinoIcons.lock_shield_fill,
+                    obscureText: true,
+                  ),
+
+                  const SizedBox(height: 20),
+                  profileDivider(dividerColor),
+                  const SizedBox(height: 20),
+
+                  // Delete Account Section
+                  sectionHeader(
+                    context,
+                    "Delete Account",
+                    textColor: Colors.red.shade700,
+                  ),
+                  const SizedBox(height: 15),
+
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.red.shade200,
+                        width: 1,
+                      ),
+                    ),
+                    child: Text(
+                      "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red.shade700,
+                        height: 1.5,
+                      ),
                     ),
                   ),
-                ),
 
-                const SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
-                // Action Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: Appbtn(
-                        text: "Save Changes",
-                        color: primaryColor,
-                        textColor: Colors.white,
-                        height: 50,
-                        radius: 12,
-                        fontSize: 16,
-                        onPressed: () {
-                          // Save changes logic
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Appbtn(
-                        text: "Delete Account",
-                        color: Colors.white,
-                        textColor: Colors.red.shade700,
-                        height: 50,
-                        radius: 12,
-                        fontSize: 16,
-                        onPressed: () {
-                          _showDeleteConfirmation(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  // Action Buttons
+                  BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      final isLoading = state is ProfileLoading;
 
-                const SizedBox(height: 30),
-              ],
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: Appbtn(
+                              text: isLoading ? "Saving..." : "Save Changes",
+                              color: primaryColor,
+                              textColor: Colors.white,
+                              height: 50,
+                              radius: 12,
+                              fontSize: 16,
+                              onPressed: isLoading ? null : _saveChanges,
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Appbtn(
+                              text: "Delete Account",
+                              color: Colors.white,
+                              textColor: Colors.red.shade700,
+                              height: 50,
+                              radius: 12,
+                              fontSize: 16,
+                              onPressed: isLoading
+                                  ? null
+                                  : () {
+                                      _showDeleteConfirmation(context);
+                                    },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),
@@ -272,9 +310,21 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     );
   }
 
-  // Reusable section header widget
-  Widget sectionHeader(BuildContext context, String title,
-      {Color? textColor}) {
+  void _saveChanges() {
+    final currentState = context.read<ProfileCubit>().state;
+    if (currentState is ProfileLoaded) {
+      final updatedUser = currentState.user.copyWith(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        phone: _phoneController.text.trim(),
+      );
+
+      context.read<ProfileCubit>().updateUserProfile(updatedUser);
+    }
+  }
+
+  // ... rest of the existing widget methods remain the same
+  Widget sectionHeader(BuildContext context, String title, {Color? textColor}) {
     return Text(
       title,
       style: TextStyle(
@@ -285,7 +335,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     );
   }
 
-  // Reusable text field widget
   Widget profileTextField({
     required BuildContext context,
     required TextEditingController controller,
@@ -298,7 +347,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        // color: Theme.of(context).cardColor,
       ),
       child: Apptextfield(
         controller: controller,
@@ -318,7 +366,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     );
   }
 
-  // Reusable divider widget
   Widget profileDivider(Color color) {
     return Divider(
       color: color.withOpacity(0.5),
@@ -326,7 +373,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     );
   }
 
-  // Delete confirmation dialog
   void _showDeleteConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -399,7 +445,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                // Delete account logic
                 Navigator.of(context).pop();
               },
               child: const Text(

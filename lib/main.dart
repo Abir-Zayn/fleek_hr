@@ -41,6 +41,7 @@ class Main extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => sl<LoginCubit>()),
+        
       ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, theme) {

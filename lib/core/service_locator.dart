@@ -1,5 +1,6 @@
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
+import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:fleekhr/data/service/auth/auth_service.dart';
 import 'package:fleekhr/data/repositories/auth/auth_repo_impl.dart';
@@ -27,5 +28,6 @@ Future<void> initializeDependencies() async {
 
   // 5. Register Blocs
   sl.registerLazySingleton<LoginCubit>(() => LoginCubit());
+  sl.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
   // Will be implemented later
 }
