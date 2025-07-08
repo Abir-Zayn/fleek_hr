@@ -14,9 +14,8 @@ Profile Screen
 
 
 
-🚀 Core Features
-🔐 Authentication
-Secure login system to access employee-related data and features.
+Clean Architecture 
+
 
 🧑‍💼 Role-Based Dashboard
 Tailored dashboards based on employee roles.

@@ -10,6 +10,15 @@ class LeaveHistoryScreen extends StatefulWidget {
 class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
   String selectedFilter = 'All';
 
+  // Replace this with actual employeeId from your auth/user state
+  late final String employeeId;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<LeaveCubit>().getAllLeaveRequestForCurrentUser();
+  }
+
   void showcasingFilteringOptions() {
     try {
       showModalBottomSheet(
@@ -20,7 +29,7 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         builder: (context) => FilteringBottomSheet(
-          title: "Filter WFH Requests",
+          title: "Filter Leave Requests",
           filteringOpt: ["All", "Pending", "Approved", "Rejected"],
           selectedFilter: selectedFilter,
           onFilterSelected: (filter) {
@@ -52,55 +61,80 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         title: "Leave History",
         actionButton: const Icon(Icons.filter_list, color: Colors.white),
-        onActionButtonPressed: () {
-          // Show filter options in a dialog instead of using PopupMenuButton
-          showcasingFilteringOptions();
-        },
+        onActionButtonPressed: showcasingFilteringOptions,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppTextstyle(
-                      text: 'Leave History',
-                      style: appStyle(
-                        size: 18,
-                        color: Theme.of(context).textTheme.bodyLarge?.color ??
-                            Colors.black87,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (selectedFilter != 'All')
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: AppTextstyle(
-                          text: 'Filter: $selectedFilter',
-                          style: appStyle(
-                            size: 12,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                  ],
+        child: BlocBuilder<LeaveCubit, LeaveState>(
+          builder: (context, state) {
+            if (state is LeaveLoading) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
                 ),
-                SizedBox(height: 16),
-                leaveList(),
-              ],
-            ),
-          ),
+              );
+            } else if (state is LeaveLoaded) {
+              final filteredLeaves = state.leaveRequests
+                  .where((leave) =>
+                      selectedFilter == 'All' ||
+                      leave.status.value.toLowerCase() ==
+                          selectedFilter.toLowerCase())
+                  .toList();
+
+              if (filteredLeaves.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 40),
+                      Icon(Icons.celebration, size: 48, color: Colors.green),
+                      SizedBox(height: 16),
+                      AppTextstyle(
+                        text: 'Congratulations! You have not taken any leave.',
+                        style: appStyle(
+                          size: 16,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<LeaveCubit>().getAllLeaveRequests(employeeId);
+                },
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 16),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: filteredLeaves.length,
+                  itemBuilder: (context, index) {
+                    final leave = filteredLeaves[index];
+                    return UnifiedRequestCard.leave(
+                      id: leave.id.toString(),
+                      employeeName: leave
+                          .employeeId, // Replace with actual name if available
+                      status: leave.status.value,
+                      leaveType: leave.leaveType.value,
+                      startDate: leave.startDate,
+                      endDate: leave.endDate,
+                    );
+                  },
+                ),
+              );
+            } else if (state is LeaveError) {
+              return Center(
+                child: AppTextstyle(
+                  text: state.message,
+                  style: appStyle(
+                      size: 13, color: Colors.red, fontWeight: FontWeight.w500),
+                ),
+              );
+            }
+            // Initial or unknown state
+            return const Center(child: CircularProgressIndicator());
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -115,57 +149,6 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
           borderRadius: BorderRadius.circular(30),
         ),
       ),
-    );
-  }
-
-  Widget leaveList() {
-    final filteredLeaves = LeaveDataCardSrc.leaveDemoData
-        .where((leave) =>
-            selectedFilter == 'All' ||
-            leave.status.toLowerCase() == selectedFilter.toLowerCase())
-        .toList();
-
-    if (filteredLeaves.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 40),
-            Icon(
-              Icons.event_busy,
-              size: 48,
-              color: Colors.grey,
-            ),
-            SizedBox(height: 16),
-            AppTextstyle(
-              text: 'No leave requests found',
-              style: appStyle(
-                size: 16,
-                color: Colors.grey,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    //show the list of leaves
-    return ListView.separated(
-      separatorBuilder: (context, index) => SizedBox(height: 16),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: filteredLeaves.length,
-      itemBuilder: (context, index) {
-        final leave = filteredLeaves[index];
-        return UnifiedRequestCard.leave(
-            id: leave.id,
-            employeeName: leave.employeeName,
-            status: leave.status,
-            leaveType: leave.leaveType,
-            startDate: leave.startDate,
-            endDate: leave.endDate);
-      },
     );
   }
 }
