@@ -49,3 +49,10 @@ final class LeaveError extends LeaveState {
   List<Object> get props => [message];
 }
 
+final class LeaveBalanceLoaded extends LeaveState {
+  final List<EmployeeLeaveBalanceEntity> leaveBalances;
+  const LeaveBalanceLoaded(this.leaveBalances);
+
+  @override
+  List<Object> get props => [leaveBalances];
+}

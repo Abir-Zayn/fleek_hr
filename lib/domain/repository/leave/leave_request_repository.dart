@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:fleekhr/core/error/failure.dart';
+import 'package:fleekhr/domain/entities/leave/employee_leave_balance.dart';
 import 'package:fleekhr/domain/entities/leave/leave_request.dart';
-
 
 abstract class LeaveRequestRepository {
   Future<Either<Failure, List<LeaveRequestEntity>>> getAllLeaveRequests(
@@ -20,4 +20,8 @@ abstract class LeaveRequestRepository {
 
   /// Cancels/deletes a leave request.
   Future<Either<Failure, void>> deleteLeaveRequest(int id);
+
+ /// Fetches employee leave balance for the current year.
+  Future<Either<Failure, List<EmployeeLeaveBalanceEntity>>> getEmployeeLeaveBalance(String employeeId);
+
 }

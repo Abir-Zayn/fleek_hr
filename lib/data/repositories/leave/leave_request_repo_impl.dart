@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:fleekhr/core/error/failure.dart';
 import 'package:fleekhr/core/service_locator.dart';
 import 'package:fleekhr/data/service/leave_req/leave_request_service_impl.dart';
+import 'package:fleekhr/domain/entities/leave/employee_leave_balance.dart';
 import 'package:fleekhr/domain/entities/leave/leave_request.dart';
 import 'package:fleekhr/domain/repository/leave/leave_request_repository.dart';
 
@@ -45,4 +46,11 @@ class LeaveRequestRepoImpl extends LeaveRequestRepository {
   Future<Either<Failure, void>> deleteLeaveRequest(int id) async {
     return await sl<LeaveRequestService>().deleteLeaveRequest(id);
   }
+
+  @override
+  Future<Either<Failure, List<EmployeeLeaveBalanceEntity>>> getEmployeeLeaveBalance(String employeeId) async {
+    return await sl<LeaveRequestService>().getEmployeeLeaveBalance(employeeId);
+  }
+
+  
 }

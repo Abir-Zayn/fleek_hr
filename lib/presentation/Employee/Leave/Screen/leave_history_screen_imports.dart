@@ -6,8 +6,6 @@ import 'package:fleekhr/core/components/unified_request_card.dart';
 import 'package:fleekhr/presentation/Employee/Leave/cubit/leave_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'leave_history_screen.dart';

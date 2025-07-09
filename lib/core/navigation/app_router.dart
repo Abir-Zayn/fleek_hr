@@ -97,24 +97,24 @@ final GoRouter _router = GoRouter(
       ),
 
       // Update the empty leave-details route
-      GoRoute(
-        path: '/leave-details/:id',
-        builder: (context, state) {
-          final leaveId = state.pathParameters['id'] ?? '';
-          final isAdmin = state.uri.queryParameters['isAdmin'] == 'true';
+      // GoRoute(
+      //   path: '/leave-details/:id',
+      //   builder: (context, state) {
+      //     final leaveId = state.pathParameters['id'] ?? '';
+      //     final isAdmin = state.uri.queryParameters['isAdmin'] == 'true';
 
-          // Find the leave by ID
-          final leave = LeaveDataCardSrc.leaveDemoData.firstWhere(
-            (leave) => leave.id == leaveId,
-            orElse: () => LeaveDataCardSrc.leaveDemoData.first, // Fallback
-          );
+      //     // Find the leave by ID
+      //     final leave = LeaveDataCardSrc.leaveDemoData.firstWhere(
+      //       (leave) => leave.id == leaveId,
+      //       orElse: () => LeaveDataCardSrc.leaveDemoData.first, // Fallback
+      //     );
 
-          return LeaveDetailScreen(
-            leave: leave,
-            isAdmin: isAdmin,
-          );
-        },
-      ),
+      //     return LeaveDetailScreen(
+      //       leave: leave,
+      //       isAdmin: isAdmin,
+      //     );
+      //   },
+      // ),
 
       GoRoute(
         path: '/leave-history',

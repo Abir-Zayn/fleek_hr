@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:fleekhr/core/service_locator.dart';
+import 'package:fleekhr/domain/entities/leave/employee_leave_balance.dart';
 import 'package:fleekhr/domain/entities/leave/leave_request.dart';
 import 'package:fleekhr/domain/usecase/leave/createLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/deleteLeaveRequest_usecase.dart';
+import 'package:fleekhr/domain/usecase/leave/getLeaveBalance_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequestByID_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequest_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +21,8 @@ class LeaveCubit extends Cubit<LeaveState> {
       sl<CreateLeaveRequestUseCase>();
   final DeleteLeaveRequestUseCase _deleteLeaveRequestUseCase =
       sl<DeleteLeaveRequestUseCase>();
+  final GetEmployeeLeaveBalanceUseCase _getLeaveBalanceUseCase =
+      sl<GetEmployeeLeaveBalanceUseCase>();
 
   LeaveCubit() : super(LeaveInitial());
 
@@ -81,4 +85,26 @@ class LeaveCubit extends Cubit<LeaveState> {
       (leaveRequests) => emit(LeaveLoaded(leaveRequests)),
     );
   }
+
+  //6. Get user leave balance
+  Future<void> getEmployeeLeaveBalance(String employeeId) async {
+    // Don't emit loading state if other operations are in progress
+    if (state is! LeaveLoading) {
+      emit(LeaveLoading());
+    }
+
+    final result = await _getLeaveBalanceUseCase.call(params: employeeId);
+    result.fold(
+      (failure) {
+        print('Leave balance error: ${failure.message}'); // Add logging
+        emit(LeaveError(failure.message));
+      },
+      (leaveBalance) {
+        print(
+            'Leave balance loaded: ${leaveBalance.length} items'); // Add logging
+        emit(LeaveBalanceLoaded(leaveBalance));
+      },
+    );
+  }
 }
+

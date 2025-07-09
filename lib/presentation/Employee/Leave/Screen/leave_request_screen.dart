@@ -36,18 +36,18 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     }
   }
 
-  @override
-  void dispose() {
-    reasonController.dispose();
-    super.dispose();
-  }
-
   void updateSelectedLeaveType(LeaveTypeModel type) {
     setState(() {
       selectedLeaveType = type;
       // Keep dates if they're already selected
       calculateDuration(); // Recalculate duration with new leave type
     });
+  }
+
+  @override
+  void dispose() {
+    reasonController.dispose();
+    super.dispose();
   }
 
   void calculateDuration() {
@@ -164,44 +164,81 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
       return;
     }
 
-    // Placeholder for submitting the leave request
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Leave request submitted successfully'),
-        backgroundColor: Colors.green,
-      ),
+    // Build the LeaveRequestEntity
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+    final leaveRequest = LeaveRequestEntity(
+      id: 0, // Backend will assign
+      employeeId: userId,
+      leaveType: selectedLeaveType!.toDomainEnum(),
+      startDate: startDate!,
+      endDate: endDate!,
+      reason: reasonController.text,
+      status: LeaveStatus.pending, // Default status
+      requestedDays: leaveDuration,
+      proofImageUrl: null, // Handle attachment if needed
+      durationType:
+          leaveType == 'Half Day' ? DurationType.halfDay : DurationType.fullDay,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
-    // Here you would typically send the data to your backend
+
+    context.read<LeaveCubit>().createLeaveRequest(leaveRequest);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: FleekAppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: "Leave Management",
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LeaveTypeSelector(
-              leaveTypes: leaveTypes,
-              onLeaveTypeSelected: updateSelectedLeaveType,
-              selectedType: selectedLeaveType,
+    return BlocListener<LeaveCubit, LeaveState>(
+      listener: (context, state) {
+        if (state is LeaveRequestCreated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Leave request submitted successfully'),
+              backgroundColor: Colors.green,
             ),
-            Divider(),
-            if (selectedLeaveType != null) leaveRequestForm(),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: LeaveSubmitButton(
-                isEnabled: isFormValid,
-                onPressed: _submitLeaveRequest,
+          );
+          Navigator.of(context).pop(); // Go back to history or previous screen
+        } else if (state is LeaveError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: FleekAppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: "Leave Management",
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LeaveTypeSelector(
+                leaveTypes: leaveTypes,
+                onLeaveTypeSelected: updateSelectedLeaveType,
+                selectedType: selectedLeaveType,
               ),
-            ),
-            SizedBox(height: 20),
-          ],
+              Divider(),
+              if (selectedLeaveType != null) leaveRequestForm(),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: LeaveSubmitButton(
+                  isEnabled: isFormValid,
+                  onPressed: _submitLeaveRequest,
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -214,7 +251,9 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Leave balance indicator
-          LeaveBalanceDisplay(leaveType: selectedLeaveType!),
+          LeaveBalanceDisplay(
+            selectedLeaveType: selectedLeaveType,
+          ),
           SizedBox(height: 20),
 
           // Leave duration type selector (Full/Half day)

@@ -3,6 +3,7 @@ import 'package:fleekhr/core/error/failure.dart';
 import 'package:fleekhr/data/models/leave_request/enum/leaveDuration_enum.dart';
 import 'package:fleekhr/data/models/leave_request/enum/leaveStatus_enum.dart';
 import 'package:fleekhr/data/models/leave_request/enum/leaveType_enum.dart';
+import 'package:fleekhr/domain/entities/leave/employee_leave_balance.dart';
 import 'package:fleekhr/domain/entities/leave/leave_request.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,13 +23,14 @@ abstract class LeaveRequestService {
   Future<Either<Failure, LeaveRequestEntity>> updateLeaveRequest(
       LeaveRequestEntity entity);
   Future<Either<Failure, void>> deleteLeaveRequest(int id);
+  Future<Either<Failure, List<EmployeeLeaveBalanceEntity>>>
+      getEmployeeLeaveBalance(String employeeId);
 }
 
 class LeaveRequestServiceImpl implements LeaveRequestService {
   final SupabaseClient _supabaseClient;
 
   LeaveRequestServiceImpl(this._supabaseClient);
-
 
   // Fetch all leave requests
   @override
@@ -199,6 +201,39 @@ class LeaveRequestServiceImpl implements LeaveRequestService {
     } catch (e) {
       return Left(
           ServerFailure('Failed to delete leave request: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<EmployeeLeaveBalanceEntity>>>
+      getEmployeeLeaveBalance(String employeeId) async {
+    try {
+      final response = await _supabaseClient
+          .from('employee_leave_balance')
+          .select()
+          .eq('employee_id', employeeId)
+          .eq('year', DateTime.now().year);
+
+      // Handle empty response
+      if ((response as List).isEmpty) {
+        return Right([]); // Return empty list instead of error
+      }
+
+      final list = (response as List)
+          .map((json) => EmployeeLeaveBalanceEntity(
+                employeeId: json['employee_id'],
+                leaveType: LeaveType.fromString(json['leave_type']),
+                totalAllocated: json['total_allocated'],
+                usedDays: json['used_days'],
+                remainingDays: json['remaining_days'],
+                year: json['year'],
+              ))
+          .toList();
+
+      return Right(list);
+    } catch (e) {
+      return Left(
+          ServerFailure('Failed to fetch leave balance: ${e.toString()}'));
     }
   }
 }

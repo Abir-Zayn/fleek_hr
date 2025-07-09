@@ -3,7 +3,6 @@ import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/data/models/leave_request/leave_type.dart';
 import 'package:flutter/material.dart';
 
-
 class LeaveTypeSelector extends StatefulWidget {
   final List<LeaveTypeModel> leaveTypes;
   final Function(LeaveTypeModel) onLeaveTypeSelected;
@@ -21,12 +20,18 @@ class LeaveTypeSelector extends StatefulWidget {
 }
 
 class _LeaveTypeSelectorState extends State<LeaveTypeSelector> {
-  late LeaveTypeModel selectedType;
+  LeaveTypeModel? selectedType;
 
   @override
   void initState() {
     super.initState();
-    selectedType = widget.selectedType ?? widget.leaveTypes.first;
+    selectedType = widget.selectedType;
+    // Call callback immediately if there's a default selection
+    if (selectedType != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.onLeaveTypeSelected(selectedType!);
+      });
+    }
   }
 
   @override

@@ -16,6 +16,8 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
   @override
   void initState() {
     super.initState();
+    // get the actual employeeId from your auth state
+    // this is placed on a LeaveCubit method to ensure it can be reused
     context.read<LeaveCubit>().getAllLeaveRequestForCurrentUser();
   }
 

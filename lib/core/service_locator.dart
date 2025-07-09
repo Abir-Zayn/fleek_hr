@@ -5,6 +5,7 @@ import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/createLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/deleteLeaveRequest_usecase.dart';
+import 'package:fleekhr/domain/usecase/leave/getLeaveBalance_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequestByID_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/updateLeaveRequest_usecase.dart';
@@ -54,7 +55,10 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<GetLeaveRequestByIdUseCase>(
     () => GetLeaveRequestByIdUseCase(sl<LeaveRequestRepository>()),
   );
-
+  // Register Leave Balance Use Case (using existing LeaveRequestRepository)
+  sl.registerLazySingleton<GetEmployeeLeaveBalanceUseCase>(
+    () => GetEmployeeLeaveBalanceUseCase(sl<LeaveRequestRepository>()),
+  );
 
   sl.registerLazySingleton<DeleteLeaveRequestUseCase>(
     () => DeleteLeaveRequestUseCase(sl<LeaveRequestRepository>()),

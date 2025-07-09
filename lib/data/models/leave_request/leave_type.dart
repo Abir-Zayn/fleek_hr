@@ -1,3 +1,5 @@
+import 'package:fleekhr/data/models/leave_request/enum/leaveType_enum.dart';
+
 class LeaveTypeModel {
   final String name;
   final int availableDays;
@@ -11,4 +13,8 @@ class LeaveTypeModel {
 
   int get usedDays => usedDates.length;
   int get remainingDays => availableDays - usedDays;
+
+  LeaveType toDomainEnum() {
+    return LeaveType.fromString(name);
+  }
 }
