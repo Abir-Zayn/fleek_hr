@@ -1,11 +1,18 @@
+import 'package:fleekhr/data/repositories/expense/expense_repo_impl.dart';
 import 'package:fleekhr/data/repositories/leave/leave_request_repo_impl.dart';
 import 'package:fleekhr/data/repositories/work_from_home/work_from_home_repo_impl.dart';
+import 'package:fleekhr/data/service/expense/expense_service.dart';
 import 'package:fleekhr/data/service/leave_req/leave_request_service_impl.dart';
 import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
+import 'package:fleekhr/domain/repository/expense/expense_repo.dart';
 import 'package:fleekhr/domain/repository/leave/leave_request_repository.dart';
 import 'package:fleekhr/domain/repository/work_from_home/work_from_home_repo.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
+import 'package:fleekhr/domain/usecase/expense/create_expense_usecase.dart';
+import 'package:fleekhr/domain/usecase/expense/delete_expense_usecase.dart';
+import 'package:fleekhr/domain/usecase/expense/get_all_expense_usecase.dart';
+import 'package:fleekhr/domain/usecase/expense/get_expense_by_id_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/createLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/deleteLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveBalance_usecase.dart';
@@ -19,6 +26,7 @@ import 'package:fleekhr/domain/usecase/work_from_home/getWorkFromHomeRequest_ID_
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Leave/cubit/leave_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
+import 'package:fleekhr/presentation/Employee/expense/cubit/expense_cubit.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/cubit/work_from_home_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:fleekhr/data/service/auth/auth_service.dart';
@@ -43,6 +51,9 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<WorkFromHomeAPIService>(
     () => WorkFromHomeServiceImpl(sl<SupabaseClient>()),
   );
+  sl.registerLazySingleton<ExpenseAPIService>(
+    () => ExpenseServiceImpl(sl<SupabaseClient>()),
+  );
 
   // 3. Register Repositories
   sl.registerLazySingleton<AuthRepository>(() => AuthRepoImpl());
@@ -52,6 +63,8 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<WorkFromHomeRepository>(
     () => WorkFromHomeRepoImpl(),
   );
+  sl.registerLazySingleton<ExpenseRepository>(() => ExpenseRepoImpl());
+
   // 4. Register UseCases
   sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
   sl.registerLazySingleton<UpdateProfileUseCase>(() => UpdateProfileUseCase());
@@ -92,10 +105,26 @@ Future<void> initializeDependencies() async {
     () => DeleteworkfromhomerequestUsecase(sl<WorkFromHomeRepository>()),
   );
 
+  // Expense Usecases
+  sl.registerLazySingleton<CreateExpenseUsecase>(
+    () => CreateExpenseUsecase(sl<ExpenseRepository>()),
+  );
+  sl.registerLazySingleton<GetAllExpenseUsecase>(
+    () => GetAllExpenseUsecase(sl<ExpenseRepository>()),
+  );
+  sl.registerLazySingleton<GetExpenseByIdUsecase>(
+    () => GetExpenseByIdUsecase(sl<ExpenseRepository>()),
+  );
+  sl.registerLazySingleton<DeleteExpenseUsecase>(
+    () => DeleteExpenseUsecase(sl<ExpenseRepository>()),
+  );
+
   // 5. Register Blocs
   sl.registerLazySingleton<LoginCubit>(() => LoginCubit());
   sl.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
   sl.registerLazySingleton<LeaveCubit>(() => LeaveCubit());
   sl.registerLazySingleton<WorkFromHomeCubit>(() => WorkFromHomeCubit());
+  sl.registerLazySingleton<ExpenseCubit>(() => ExpenseCubit());
+
   // Will be implemented later
 }

@@ -13,6 +13,7 @@ analyzer:
     curly_braces_in_flow_control_structures: ignore
     file_names: ignore
     camel_case_types: ignore
+    constant_identifier_names: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

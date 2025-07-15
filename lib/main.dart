@@ -5,6 +5,7 @@ import 'package:fleekhr/core/service_locator.dart';
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Leave/cubit/leave_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
+import 'package:fleekhr/presentation/Employee/expense/cubit/expense_cubit.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/cubit/work_from_home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +48,7 @@ class Main extends StatelessWidget {
         BlocProvider(create: (_) => sl<ProfileCubit>()),
         BlocProvider(create: (_) => sl<LeaveCubit>()),
         BlocProvider(create: (_) => sl<WorkFromHomeCubit>()),
+        BlocProvider(create: (_) => sl<ExpenseCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, theme) {

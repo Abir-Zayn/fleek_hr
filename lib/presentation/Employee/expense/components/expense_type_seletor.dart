@@ -1,13 +1,13 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
-import 'package:fleekhr/data/models/expense/expense_model.dart';
+import 'package:fleekhr/data/models/expense/enums/expensetypes.dart';
 import 'package:flutter/material.dart';
 
-
 class ExpenseTypeSeletor extends StatefulWidget {
-  final List<ExpenseTypeModel> expenseTypes;
-  final ExpenseTypeModel? selectedExpenseType;
-  final Function(ExpenseTypeModel) onExpenseTypeSelected;
+  final List<ExpenseType> expenseTypes;
+  final ExpenseType? selectedExpenseType;
+  final Function(ExpenseType) onExpenseTypeSelected;
+
   const ExpenseTypeSeletor({
     super.key,
     required this.expenseTypes,
@@ -20,7 +20,7 @@ class ExpenseTypeSeletor extends StatefulWidget {
 }
 
 class _ExpenseTypeSeletorState extends State<ExpenseTypeSeletor> {
-  late ExpenseTypeModel selectedExpenseType;
+  late ExpenseType selectedExpenseType;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _ExpenseTypeSeletorState extends State<ExpenseTypeSeletor> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,44 +48,45 @@ class _ExpenseTypeSeletorState extends State<ExpenseTypeSeletor> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-              //Selecting the expense type
+              // Selecting the expense type
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: widget.expenseTypes.map((expenseType) {
                   final isSelected = selectedExpenseType == expenseType;
                   return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedExpenseType = expenseType;
-                        });
-                        widget.onExpenseTypeSelected(expenseType);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Theme.of(context).primaryColor
-                              : Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8),
+                    onTap: () {
+                      setState(() {
+                        selectedExpenseType = expenseType;
+                      });
+                      widget.onExpenseTypeSelected(expenseType);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: AppTextstyle(
+                        text: expenseType.name,
+                        style: appStyle(
+                          size: 14,
+                          color: isSelected ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.w500,
                         ),
-                        child: AppTextstyle(
-                          text: expenseType.name,
-                          style: appStyle(
-                            size: 14,
-                            color: isSelected ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ));
+                      ),
+                    ),
+                  );
                 }).toList(),
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

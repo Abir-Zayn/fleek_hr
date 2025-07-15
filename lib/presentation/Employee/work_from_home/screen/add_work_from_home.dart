@@ -150,6 +150,7 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w400,
               ),
+              maxLines: 3,
             ),
           ),
         ],

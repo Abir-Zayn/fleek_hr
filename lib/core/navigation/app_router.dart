@@ -59,16 +59,6 @@ final GoRouter _router = GoRouter(
       ),
 
       GoRoute(
-        path: '/expense-details/:id',
-        builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          final expense =
-              ExpenseDataService.expenseDemoData.firstWhere((e) => e.id == id);
-          return ExpenseDetailsScreen(expense: expense);
-        },
-      ),
-
-      GoRoute(
         path: '/workfromhome',
         builder: (context, state) => const WorkFromHomeScreen(),
       ),
@@ -86,10 +76,11 @@ final GoRouter _router = GoRouter(
       GoRoute(
         path: '/work-from-home-request-form',
         builder: (context, state) {
-          final Map<String, dynamic> params = state.extra as Map<String, dynamic>? ?? {};
+          final Map<String, dynamic> params =
+              state.extra as Map<String, dynamic>? ?? {};
           final String employeeId = params['employeeId'] ?? '';
           final String employeeName = params['employeeName'] ?? '';
-          
+
           return AddWorkFromHomeScreen(
             employeeId: employeeId,
             employeeName: employeeName,
@@ -144,6 +135,22 @@ final GoRouter _router = GoRouter(
       GoRoute(
         path: '/add-expense',
         builder: (context, state) => const AddExpenseScreen(),
+      ),
+      // Add expense details route
+      GoRoute(
+        path: '/expense-details',
+        builder: (context, state) {
+          final expense = state.extra as ExpenseEntity?;
+          if (expense == null) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('Error')),
+              body: const Center(
+                child: Text('Expense not found'),
+              ),
+            );
+          }
+          return ExpenseDetailsScreen(expense: expense);
+        },
       ),
       GoRoute(
         path: '/profileupdate',
