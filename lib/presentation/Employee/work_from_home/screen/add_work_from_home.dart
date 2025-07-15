@@ -73,47 +73,27 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
 
               if (state is WorkFromHomeSuccess) {
                 // Show success message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: AppTextstyle(
-                      text: "Work From Home request submitted successfully",
-                      style: appStyle(
-                        size: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    backgroundColor: Colors.green,
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                toastification.show(
+                    context: context,
+                    title: Text('Request Submitted'),
+                    type: ToastificationType.success,
+                    autoCloseDuration: Duration(seconds: 2),
+                    direction: TextDirection.ltr,
+                    animationDuration: const Duration(milliseconds: 300),
+                    style: ToastificationStyle.flatColored);
 
-                // Wait for 2 seconds before navigating back to allow time for the backend to update
-                Future.delayed(Duration(seconds: 2), () {
-                  // Force a refresh and navigate back
-                  Navigator.pop(context); // Close any dialogs first
-                  // Navigate back with a refresh parameter - use extra delay for stability
-                  Future.delayed(Duration(milliseconds: 100), () {
-                    context.pop(
-                        true); // Pass true to indicate data needs to be refreshed
-                  });
-                });
+                // Navigate back with true to indicate refresh needed
+                context.pop(true);
               } else if (state is WorkFromHomeError) {
                 // Show error message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: AppTextstyle(
-                      text: "Error: ${state.message}",
-                      style: appStyle(
-                        size: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 3),
-                  ),
-                );
+                toastification.show(
+                    context: context,
+                    title: Text('Error: ${state.message}'),
+                    type: ToastificationType.error,
+                    autoCloseDuration: Duration(seconds: 2),
+                    direction: TextDirection.ltr,
+                    animationDuration: const Duration(milliseconds: 300),
+                    style: ToastificationStyle.fillColored);
               }
             }
           },
@@ -128,13 +108,13 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
                 children: [
                   _buildInfoCard(),
                   SizedBox(height: 24),
-                  _buildDateSelectionSection(),
+                  dateSelection(),
                   SizedBox(height: 24),
-                  _buildReasonSection(),
+                  reasonSelection(),
                   SizedBox(height: 16),
-                  _buildCommonReasonsSection(),
+                  commonReasonSelection(),
                   SizedBox(height: 40),
-                  _buildSubmitButton(),
+                  submitBtn(),
                 ],
               ),
             );
@@ -177,7 +157,7 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     );
   }
 
-  Widget _buildDateSelectionSection() {
+  Widget dateSelection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -299,7 +279,7 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     );
   }
 
-  Widget _buildReasonSection() {
+  Widget reasonSelection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -338,7 +318,7 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     );
   }
 
-  Widget _buildCommonReasonsSection() {
+  Widget commonReasonSelection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -383,35 +363,16 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     );
   }
 
-  Widget _buildSubmitButton() {
-    final bool isFormValid = startDate != null &&
-        endDate != null &&
-        reasonController.text.trim().isNotEmpty;
+  Widget submitBtn() {
+    final bool isFormValid = reasonController.text.trim().isNotEmpty &&
+        startDate != null &&
+        endDate != null;
 
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isFormValid ? () => _submitRequest() : null,
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: Theme.of(context).primaryColor,
-          padding: EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          elevation: 0,
-          disabledBackgroundColor: Colors.grey.shade300,
-          disabledForegroundColor: Colors.grey.shade500,
-        ),
-        child: AppTextstyle(
-          text: 'Submit Request',
-          style: appStyle(
-            size: 16,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+    return Appbtn(
+      text: 'Submit',
+      bgColor: Colors.black87,
+      textColor: Colors.white,
+      onPressed: isFormValid ? _submitRequest : null,
     );
   }
 

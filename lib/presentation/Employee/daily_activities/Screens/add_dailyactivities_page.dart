@@ -9,7 +9,7 @@ class AddDailyactivitiesPage extends StatefulWidget {
 
 class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Text controllers for all fields
   final TextEditingController _companyController = TextEditingController();
   final TextEditingController _departmentController = TextEditingController();
@@ -177,7 +177,6 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
                   }
                   return null;
                 },
-              
               ),
               const SizedBox(height: 16),
 
@@ -268,7 +267,7 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
               // Save Data Button
               Appbtn(
                 text: 'Save Data',
-                color: Theme.of(context).primaryColor,
+                bgColor: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 height: 56,
                 fontSize: 18,

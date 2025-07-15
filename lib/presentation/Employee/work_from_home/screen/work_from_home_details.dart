@@ -34,7 +34,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
         // When popping back, ensure we restore the list state
         final currentState = _workFromHomeCubit.state;
         if (currentState is WorkFromHomeDetailSuccess) {
-          _workFromHomeCubit.restoreListState(currentState.workFromHomeList);
+          _workFromHomeCubit.restoreListState();
         }
         return true;
       },
@@ -46,8 +46,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
             // Handle back button press
             final currentState = _workFromHomeCubit.state;
             if (currentState is WorkFromHomeDetailSuccess) {
-              _workFromHomeCubit
-                  .restoreListState(currentState.workFromHomeList);
+              _workFromHomeCubit.restoreListState();
             }
             context.pop();
           },
@@ -122,19 +121,19 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildStatusCard(statusString),
+          statusCard(statusString),
           SizedBox(height: 24),
-          _buildInfoCard(wfh),
+          infoCard(wfh),
           SizedBox(height: 24),
-          _buildReasonCard(wfh.reason),
+          reasonCard(wfh.reason),
           SizedBox(height: 24),
-          _buildActionsCard(wfh),
+          actionsCard(wfh),
         ],
       ),
     );
   }
 
-  Widget _buildStatusCard(String status) {
+  Widget statusCard(String status) {
     Color statusColor;
     IconData statusIcon;
 
@@ -196,7 +195,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
     );
   }
 
-  Widget _buildInfoCard(WorkFromHomeEntity wfh) {
+  Widget infoCard(WorkFromHomeEntity wfh) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -259,7 +258,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
     );
   }
 
-  Widget _buildReasonCard(String reason) {
+  Widget reasonCard(String reason) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -303,7 +302,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
     );
   }
 
-  Widget _buildActionsCard(WorkFromHomeEntity wfh) {
+  Widget actionsCard(WorkFromHomeEntity wfh) {
     // Show different actions based on status
     if (wfh.status == WorkFromHomeStatus.pending) {
       return Card(
@@ -373,7 +372,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
           ),
         ),
         content: AppTextstyle(
-          text: 'Are you sure you want to cancel this work from home request?',
+          text: 'Are you sure you want to cancel this?',
           style: appStyle(
             size: 14,
             color: Colors.black87,
@@ -395,7 +394,7 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
           ElevatedButton(
             onPressed: () {
               context.pop(); // Close dialog
-              _deleteWorkFromHomeRequest(id);
+              deleteWorkFromHomeRequest(id);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
@@ -415,24 +414,16 @@ class _WorkFromHomeDetailsState extends State<WorkFromHomeDetails> {
     );
   }
 
-  void _deleteWorkFromHomeRequest(String id) async {
+  void deleteWorkFromHomeRequest(String id) async {
     await _workFromHomeCubit.deleteWorkFromHomeRequest(id);
 
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: AppTextstyle(
-          text: 'Work from home request cancelled successfully',
-          style: appStyle(
-            size: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: Colors.green,
-      ),
-    );
+    // Show a success message
+    toastification.show(
+        context: context,
+        title: Text('Request Cancelled'),
+        type: ToastificationType.success);
 
     // Use go_router to navigate back
     context.pop();

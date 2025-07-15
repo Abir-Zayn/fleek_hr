@@ -275,7 +275,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
 
                       return Appbtn(
                         text: isLoading ? "Saving..." : "Save Changes",
-                        color: primaryColor,
+                        bgColor: primaryColor,
                         textColor: Colors.white,
                         height: 50,
                         radius: 12,

@@ -68,7 +68,7 @@ class _OnboardState extends State<Onboard> {
                     Appbtn(
                       text: "Login",
                       fontSize: 18,
-                      color: Theme.of(context).primaryColor,
+                      bgColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       width: double.infinity,
                       height: 56,

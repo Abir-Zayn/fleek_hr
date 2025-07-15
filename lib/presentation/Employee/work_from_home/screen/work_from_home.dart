@@ -35,7 +35,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
   // Helper method to restore list without making API calls
   void _restoreListFromDetailState(List<WorkFromHomeEntity> list) {
     // Create a special method in cubit to handle this
-    _workFromHomeCubit.restoreListState(list);
+    _workFromHomeCubit.restoreListState();
   }
 
   void _loadWorkFromHomeRequests() async {
@@ -69,7 +69,7 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
           // Restore previous state if available
           final cachedList = _workFromHomeCubit.cachedWorkFromHomeList;
           if (cachedList != null && cachedList.isNotEmpty) {
-            _workFromHomeCubit.restoreListState(cachedList);
+            _workFromHomeCubit.restoreListState();
           } else {
             // If no cached data, show an error instead
             ScaffoldMessenger.of(context).showSnackBar(
@@ -316,11 +316,9 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
-        heroTag: 'WFH Request',
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        tooltip: 'Request Work From Home',
         onPressed: () async {
           try {
             // Get current user through the UseCase

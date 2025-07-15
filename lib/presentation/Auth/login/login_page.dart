@@ -270,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Appbtn(
                     text: "SIGN IN",
-                    color: Theme.of(context).primaryColor,
+                    bgColor: Theme.of(context).primaryColor,
                     width: double.infinity,
                     height: 56,
                     radius: 12,

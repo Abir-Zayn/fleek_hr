@@ -89,7 +89,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     ),
                     // Submit Button
                     Appbtn(
-                      color: Theme.of(context).primaryColor,
+                      bgColor: Theme.of(context).primaryColor,
                       text: "Submit",
                       textColor: Colors.white,
                       onPressed: () {

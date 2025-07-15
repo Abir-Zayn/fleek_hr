@@ -230,7 +230,7 @@ class _AddEmployeeState extends State<AddEmployee>
             SizedBox(height: 20),
             Appbtn(
               text: "Save",
-              color: Theme.of(context).primaryColor,
+              bgColor: Theme.of(context).primaryColor,
               textColor: Colors.white,
               fontSize: 16,
               height: 50,
@@ -309,7 +309,7 @@ class _AddEmployeeState extends State<AddEmployee>
           SizedBox(height: 20),
           Appbtn(
             text: "Save",
-            color: Theme.of(context).primaryColor,
+            bgColor: Theme.of(context).primaryColor,
             textColor: Colors.white,
             fontSize: 16,
             height: 50,

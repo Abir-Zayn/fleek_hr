@@ -2,10 +2,9 @@ import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
 
-
 class Appbtn extends StatelessWidget {
   final String text;
-  final Color color;
+  final Color bgColor;
   final double width;
   final double height;
   final double radius;
@@ -19,7 +18,7 @@ class Appbtn extends StatelessWidget {
   const Appbtn({
     super.key,
     required this.text,
-    required this.color,
+    required this.bgColor,
     this.width = double.infinity,
     this.height = 50,
     this.radius = 8,
@@ -29,7 +28,7 @@ class Appbtn extends StatelessWidget {
     this.isIconLeading = true,
     this.iconColor,
     this.iconSize,
-    this.onPressed, 
+    this.onPressed,
   });
 
   @override
@@ -40,11 +39,14 @@ class Appbtn extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color,
+          backgroundColor: onPressed != null ? bgColor : Colors.grey.shade300,
+          disabledBackgroundColor: Colors.grey.shade300,
+          disabledForegroundColor: Colors.grey.shade500,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
           padding: EdgeInsets.symmetric(horizontal: 16),
+          elevation: 0,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -53,7 +55,9 @@ class Appbtn extends StatelessWidget {
             if (icon != null && isIconLeading) ...[
               Icon(
                 icon,
-                color: iconColor ?? Colors.black,
+                color: onPressed != null
+                    ? (iconColor ?? Colors.black)
+                    : Colors.grey.shade500,
                 size: iconSize ?? 20,
               ),
               SizedBox(width: 8),
@@ -62,7 +66,7 @@ class Appbtn extends StatelessWidget {
               text: text,
               style: appStyle(
                 size: fontSize,
-                color: textColor,
+                color: onPressed != null ? textColor : Colors.grey.shade500,
                 fontWeight: FontWeight.w500,
                 height: 1.5,
               ),
@@ -71,7 +75,9 @@ class Appbtn extends StatelessWidget {
               SizedBox(width: 8),
               Icon(
                 icon,
-                color: iconColor ?? Colors.yellow.shade700,
+                color: onPressed != null
+                    ? (iconColor ?? Colors.yellow.shade700)
+                    : Colors.grey.shade500,
                 size: iconSize ?? 20,
               ),
             ],
