@@ -1,6 +1,9 @@
 import 'package:fleekhr/data/repositories/leave/leave_request_repo_impl.dart';
+import 'package:fleekhr/data/repositories/work_from_home/work_from_home_repo_impl.dart';
 import 'package:fleekhr/data/service/leave_req/leave_request_service_impl.dart';
+import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
 import 'package:fleekhr/domain/repository/leave/leave_request_repository.dart';
+import 'package:fleekhr/domain/repository/work_from_home/work_from_home_repo.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/createLeaveRequest_usecase.dart';
@@ -9,9 +12,14 @@ import 'package:fleekhr/domain/usecase/leave/getLeaveBalance_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequestByID_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/getLeaveRequest_usecase.dart';
 import 'package:fleekhr/domain/usecase/leave/updateLeaveRequest_usecase.dart';
+import 'package:fleekhr/domain/usecase/work_from_home/createWorkFromHomeRequest_usecase.dart';
+import 'package:fleekhr/domain/usecase/work_from_home/deleteWorkFromHomeRequest_usecase.dart';
+import 'package:fleekhr/domain/usecase/work_from_home/getWorkFromHomeALL_usecase.dart';
+import 'package:fleekhr/domain/usecase/work_from_home/getWorkFromHomeRequest_ID_usecase.dart';
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Leave/cubit/leave_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
+import 'package:fleekhr/presentation/Employee/work_from_home/cubit/work_from_home_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:fleekhr/data/service/auth/auth_service.dart';
 import 'package:fleekhr/data/repositories/auth/auth_repo_impl.dart';
@@ -26,17 +34,23 @@ Future<void> initializeDependencies() async {
   final supabase = Supabase.instance.client;
   sl.registerLazySingleton<SupabaseClient>(() => supabase);
 
-  // 2. Register AuthService
+  // 2. Register Services
   sl.registerLazySingleton<AuthService>(
       () => AuthServiceImplementation(sl<SupabaseClient>()));
   sl.registerLazySingleton<LeaveRequestService>(
     () => LeaveRequestServiceImpl(sl<SupabaseClient>()),
   );
+  sl.registerLazySingleton<WorkFromHomeAPIService>(
+    () => WorkFromHomeServiceImpl(sl<SupabaseClient>()),
+  );
 
-  // 3. Register AuthRepository
+  // 3. Register Repositories
   sl.registerLazySingleton<AuthRepository>(() => AuthRepoImpl());
   sl.registerLazySingleton<LeaveRequestRepository>(
     () => LeaveRequestRepoImpl(),
+  );
+  sl.registerLazySingleton<WorkFromHomeRepository>(
+    () => WorkFromHomeRepoImpl(),
   );
   // 4. Register UseCases
   sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase());
@@ -64,9 +78,24 @@ Future<void> initializeDependencies() async {
     () => DeleteLeaveRequestUseCase(sl<LeaveRequestRepository>()),
   );
 
+  // Work From Home UseCases
+  sl.registerLazySingleton<CreateworkfromhomerequestUsecase>(
+    () => CreateworkfromhomerequestUsecase(sl<WorkFromHomeRepository>()),
+  );
+  sl.registerLazySingleton<GetworkfromhomeallUsecase>(
+    () => GetworkfromhomeallUsecase(sl<WorkFromHomeRepository>()),
+  );
+  sl.registerLazySingleton<GetworkfromhomerequestIdUsecase>(
+    () => GetworkfromhomerequestIdUsecase(sl<WorkFromHomeRepository>()),
+  );
+  sl.registerLazySingleton<DeleteworkfromhomerequestUsecase>(
+    () => DeleteworkfromhomerequestUsecase(sl<WorkFromHomeRepository>()),
+  );
+
   // 5. Register Blocs
   sl.registerLazySingleton<LoginCubit>(() => LoginCubit());
   sl.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
   sl.registerLazySingleton<LeaveCubit>(() => LeaveCubit());
+  sl.registerLazySingleton<WorkFromHomeCubit>(() => WorkFromHomeCubit());
   // Will be implemented later
 }

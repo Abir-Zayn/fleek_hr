@@ -1,68 +1,63 @@
-class WfhModel {
+import 'package:equatable/equatable.dart';
+import 'package:fleekhr/data/models/wfh_request/enum/work_from_home_status.dart';
+
+class WorkFromHome extends Equatable {
   final String id;
   final DateTime startDate;
   final DateTime endDate;
-  final String employeeName;
-  final String employeeId;
-  final String status;
-  final int totalDays;
   final String reason;
+  final String employeeId;
+  final String employeeName;
+  final WorkFromHomeStatus status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
-  WfhModel({
+  const WorkFromHome({
     required this.id,
     required this.startDate,
     required this.endDate,
-    required this.employeeName,
-    required this.employeeId,
-    this.status = 'Pending',
     required this.reason,
-  }) : totalDays = endDate.difference(startDate).inDays + 1;
+    required this.employeeId,
+    required this.employeeName,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
-  // Factory constructor to create a WfhModel from JSON
-  factory WfhModel.fromJson(Map<String, dynamic> json) {
-    return WfhModel(
-      id: json['id'] as String,
-      startDate: DateTime.parse(json['startDate'] as String),
-      endDate: DateTime.parse(json['endDate'] as String),
-      employeeName: json['employeeName'] as String,
-      employeeId: json['employeeId'] as String,
-      status: json['status'] as String? ?? 'Pending',
-      reason: json['reason'] as String? ?? '',
-    );
-  }
+  @override
+  List<Object?> get props => [
+        id,
+        startDate,
+        endDate,
+        reason,
+        employeeId,
+        employeeName,
+        status,
+        createdAt,
+        updatedAt,
+      ];
 
-  // Convert WfhModel to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'startDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String(),
-      'employeeName': employeeName,
-      'employeeId': employeeId,
-      'status': status,
-      'totalDays': totalDays,
-      'reason': reason,
-    };
-  }
-
-  // Copy with method to create a new instance with some properties changed
-  WfhModel copyWith({
+  WorkFromHome copyWith({
     String? id,
     DateTime? startDate,
     DateTime? endDate,
-    String? employeeName,
-    String? employeeId,
-    String? status,
     String? reason,
+    String? employeeId,
+    String? employeeName,
+    WorkFromHomeStatus? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
-    return WfhModel(
+    return WorkFromHome(
       id: id ?? this.id,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
-      employeeName: employeeName ?? this.employeeName,
-      employeeId: employeeId ?? this.employeeId,
-      status: status ?? this.status,
       reason: reason ?? this.reason,
+      employeeId: employeeId ?? this.employeeId,
+      employeeName: employeeName ?? this.employeeName,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

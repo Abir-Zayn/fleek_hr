@@ -73,28 +73,36 @@ final GoRouter _router = GoRouter(
         builder: (context, state) => const WorkFromHomeScreen(),
       ),
 
-      //Work From Home Detailed Page
+      // //Work From Home Detailed Page
+      /// Add a route for WFH details
       GoRoute(
         path: '/work-from-home-details/:id',
         builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          final workFromHome = WorkFromHomeMockData.mockWfhRequests
-              .firstWhere((e) => e.id == id);
-          return WorkFromHomeDetails(workFromHome: workFromHome);
-        }
+          final id = state.pathParameters['id'] ?? '';
+          return WorkFromHomeDetails(id: id);
+        },
       ),
 
       GoRoute(
         path: '/work-from-home-request-form',
-        builder: (context, state) => const AddWorkFromHomeScreen(),
+        builder: (context, state) {
+          final Map<String, dynamic> params = state.extra as Map<String, dynamic>? ?? {};
+          final String employeeId = params['employeeId'] ?? '';
+          final String employeeName = params['employeeName'] ?? '';
+          
+          return AddWorkFromHomeScreen(
+            employeeId: employeeId,
+            employeeName: employeeName,
+          );
+        },
       ),
       GoRoute(
           path: '/attendance', builder: (context, state) => AttendanceScreen()),
 
-      GoRoute(
-        path: '/add-leave',
-        builder: (context, state) => const LeaveRequestScreen(),
-      ),
+      // GoRoute(
+      //   path: '/add-leave',
+      //   builder: (context, state) => const LeaveRequestScreen(),
+      // ),
 
       // Update the empty leave-details route
       // GoRoute(

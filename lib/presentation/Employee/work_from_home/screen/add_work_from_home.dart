@@ -2,7 +2,14 @@ part of 'add_work_from_home_imports.dart';
 
 /// WorkFromHomeScreen handles Work From Home request submission
 class AddWorkFromHomeScreen extends StatefulWidget {
-  const AddWorkFromHomeScreen({super.key});
+  final String employeeId;
+  final String employeeName;
+
+  const AddWorkFromHomeScreen({
+    super.key,
+    required this.employeeId,
+    required this.employeeName,
+  });
 
   @override
   State<AddWorkFromHomeScreen> createState() => _AddWorkFromHomeScreenState();
@@ -20,31 +27,118 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     'Transport issues'
   ];
 
+  late final WorkFromHomeCubit _workFromHomeCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _workFromHomeCubit = sl<WorkFromHomeCubit>();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: FleekAppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: "Work From Home Request",
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 20,
+    return WillPopScope(
+      // Return false to prevent default back button behavior
+      // We'll handle navigation manually
+      onWillPop: () async {
+        context.pop(
+            false); // Navigate back with false to indicate no refresh needed
+        return false;
+      },
+      child: Scaffold(
+        appBar: FleekAppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: "Work From Home Request",
+          onBackButtonPressed: () {
+            // Handle back button press with the same logic
+            context.pop(false);
+          },
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildInfoCard(),
-            SizedBox(height: 24),
-            _buildDateSelectionSection(),
-            SizedBox(height: 24),
-            _buildReasonSection(),
-            SizedBox(height: 16),
-            _buildCommonReasonsSection(),
-            SizedBox(height: 40),
-            _buildSubmitButton(),
-          ],
+        body: BlocConsumer<WorkFromHomeCubit, WorkFromHomeState>(
+          bloc: _workFromHomeCubit,
+          listener: (context, state) {
+            if (state is WorkFromHomeLoading) {
+              // Show loading dialog
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) =>
+                    Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              // Dismiss loading dialog if it's showing
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+
+              if (state is WorkFromHomeSuccess) {
+                // Show success message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: AppTextstyle(
+                      text: "Work From Home request submitted successfully",
+                      style: appStyle(
+                        size: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+
+                // Wait for 2 seconds before navigating back to allow time for the backend to update
+                Future.delayed(Duration(seconds: 2), () {
+                  // Force a refresh and navigate back
+                  Navigator.pop(context); // Close any dialogs first
+                  // Navigate back with a refresh parameter - use extra delay for stability
+                  Future.delayed(Duration(milliseconds: 100), () {
+                    context.pop(
+                        true); // Pass true to indicate data needs to be refreshed
+                  });
+                });
+              } else if (state is WorkFromHomeError) {
+                // Show error message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: AppTextstyle(
+                      text: "Error: ${state.message}",
+                      style: appStyle(
+                        size: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+              }
+            }
+          },
+          builder: (context, state) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInfoCard(),
+                  SizedBox(height: 24),
+                  _buildDateSelectionSection(),
+                  SizedBox(height: 24),
+                  _buildReasonSection(),
+                  SizedBox(height: 16),
+                  _buildCommonReasonsSection(),
+                  SizedBox(height: 40),
+                  _buildSubmitButton(),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -68,11 +162,13 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
           ),
           SizedBox(width: 12),
           Expanded(
-            child: Text(
-              'Your WFH request will be sent to your manager for approval. Please ensure you have discussed this with your team.',
-              style: TextStyle(
-                fontSize: 14,
+            child: AppTextstyle(
+              text:
+                  'Your WFH request will be sent to your manager for approval. Please ensure you have discussed this with your team.',
+              style: appStyle(
+                size: 14,
                 color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -85,8 +181,8 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Date Range',
+        AppTextstyle(
+          text: 'Date Range',
           style: appStyle(
             size: 16,
             color: Colors.black87,
@@ -138,12 +234,12 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
             color: Colors.grey.shade700,
           ),
           SizedBox(width: 8),
-          Text(
-            'Duration: $days ${days == 1 ? 'day' : 'days'}',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
+          AppTextstyle(
+            text: 'Duration: $days ${days == 1 ? 'day' : 'days'}',
+            style: appStyle(
+              size: 13,
               color: Colors.grey.shade800,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -168,11 +264,12 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
+            AppTextstyle(
+              text: label,
+              style: appStyle(
+                size: 12,
                 color: Colors.grey.shade600,
+                fontWeight: FontWeight.w400,
               ),
             ),
             SizedBox(height: 6),
@@ -184,12 +281,13 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(width: 8),
-                Text(
-                  date == null
+                AppTextstyle(
+                  text: date == null
                       ? 'Select Date'
                       : '${date.day}/${date.month}/${date.year}',
-                  style: TextStyle(
-                    fontSize: 14,
+                  style: appStyle(
+                    size: 14,
+                    color: Colors.black87,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -244,10 +342,10 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Common Reasons',
-          style: TextStyle(
-            fontSize: 13,
+        AppTextstyle(
+          text: 'Common Reasons',
+          style: appStyle(
+            size: 13,
             color: Colors.grey.shade600,
             fontWeight: FontWeight.w500,
           ),
@@ -269,11 +367,12 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.grey.shade300),
                 ),
-                child: Text(
-                  reason,
-                  style: TextStyle(
-                    fontSize: 12,
+                child: AppTextstyle(
+                  text: reason,
+                  style: appStyle(
+                    size: 12,
                     color: Colors.grey.shade800,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
@@ -304,10 +403,11 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
           disabledBackgroundColor: Colors.grey.shade300,
           disabledForegroundColor: Colors.grey.shade500,
         ),
-        child: Text(
-          'Submit Request',
-          style: TextStyle(
-            fontSize: 16,
+        child: AppTextstyle(
+          text: 'Submit Request',
+          style: appStyle(
+            size: 16,
+            color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -354,34 +454,42 @@ class _AddWorkFromHomeScreenState extends State<AddWorkFromHomeScreen> {
   }
 
   void _submitRequest() {
-    // Create WFH request model
-
-    // Show loading indicator
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
-    );
-
-    // Simulate API call
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.pop(context); // Dismiss loading
-
-      // Show success message
+    // Validate form fields
+    if (startDate == null ||
+        endDate == null ||
+        reasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Work From Home request submitted successfully",
-            style: TextStyle(fontSize: 14),
+          content: AppTextstyle(
+            text: 'Please fill in all required fields',
+            style: appStyle(
+              size: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
         ),
       );
+      return;
+    }
 
-      // Navigate back
-      Navigator.pop(context);
-    });
+    // Create WFH request entity
+    final now = DateTime.now();
+    final workFromHomeRequest = WorkFromHomeEntity(
+      id: '', // Will be generated by Supabase
+      startDate: startDate!,
+      endDate: endDate!,
+      reason: reasonController.text.trim(),
+      employeeId: widget.employeeId,
+      employeeName: widget.employeeName,
+      status: WorkFromHomeStatus.pending,
+      createdAt: now,
+      updatedAt: now,
+    );
+
+    // Submit request using cubit
+    _workFromHomeCubit.createWorkFromHomeRequest(workFromHomeRequest);
   }
 
   @override

@@ -1,63 +1,159 @@
-import 'package:fleekhr/data/models/wfh_request/wfh_model.dart';
+import 'package:dartz/dartz.dart';
+import 'package:fleekhr/core/error/failure.dart';
+import 'package:fleekhr/domain/entities/work_from_home/work_from_home_entity.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Mock data generator for WFH (Work From Home) requests
-class WorkFromHomeMockData {
-  static final List<WfhModel> mockWfhRequests = [
-    WfhModel(
-      id: "wfh001",
-      startDate: DateTime(2024, 1, 10),
-      endDate: DateTime(2024, 1, 12),
-      employeeName: "Alice Johnson",
-      employeeId: "emp101",
-      status: "Approved",
-      reason: "Family emergency",
-    ),
-    WfhModel(
-      id: "wfh002",
-      startDate: DateTime(2024, 2, 5),
-      endDate: DateTime(2024, 2, 6),
-      employeeName: "Bob Smith",
-      employeeId: "emp102",
-      status: "Pending",
-      reason: "Internet outage at home",
-    ),
-    WfhModel(
-      id: "wfh003",
-      startDate: DateTime(2024, 3, 15),
-      endDate: DateTime(2024, 3, 17),
-      employeeName: "Charlie Brown",
-      employeeId: "emp103",
-      status: "Rejected",
-      reason: "Project deadline requires onsite work",
-    ),
-    WfhModel(
-      id: "wfh004",
-      startDate: DateTime(2024, 4, 20),
-      endDate: DateTime(2024, 4, 20),
-      employeeName: "Diana Prince",
-      employeeId: "emp104",
-      status: "Approved",
-      reason: "Medical appointment",
-    ),
-    WfhModel(
-      id: "wfh005",
-      startDate: DateTime(2024, 5, 1),
-      endDate: DateTime(2024, 5, 3),
-      employeeName: "Ethan Hunt",
-      employeeId: "emp105",
-      status: "Pending",
-      reason: "Relocating to a new apartment",
-    ),
-  ];
+abstract class WorkFromHomeAPIService {
+  Future<Either<Failure, List<WorkFromHomeEntity>>> getAllWFHRequest(
+      String employeeId);
+  Future<Either<Failure, WorkFromHomeEntity>> getWFHRequestById(String id);
+  Future<Either<Failure, WorkFromHomeEntity>> createWFHRequest(
+      WorkFromHomeEntity workFromHomeRequest);
+  Future<Either<Failure, WorkFromHomeEntity>> updateWFHRequest(
+      WorkFromHomeEntity workFromHomeRequest);
+  Future<Either<Failure, void>> deleteWFHRequest(String id);
+}
 
-  // Helper: Fetch mock data (simulate API call)
-  static Future<List<WfhModel>> fetchMockWfhData() async {
-    await Future.delayed(const Duration(seconds: 1)); // Simulate delay
-    return mockWfhRequests;
+class WorkFromHomeServiceImpl implements WorkFromHomeAPIService {
+  final SupabaseClient _supabaseClient;
+
+  WorkFromHomeServiceImpl(this._supabaseClient);
+
+  @override
+  Future<Either<Failure, List<WorkFromHomeEntity>>> getAllWFHRequest(
+      String employeeId) async {
+    try {
+      // Query the work_from_home_with_employee view to get data with employee names
+      final response = await _supabaseClient
+          .from('work_from_home_with_employee')
+          .select()
+          .eq('employee_id', employeeId)
+          .order('created_at', ascending: false);
+
+      final List<WorkFromHomeEntity> workFromHomeList = response
+          .map<WorkFromHomeEntity>((json) => WorkFromHomeEntity.fromJson(json))
+          .toList();
+
+      return Right(workFromHomeList);
+    } on PostgrestException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 
-  // Helper: Convert mock data to JSON (for testing APIs)
-  static List<Map<String, dynamic>> toJsonList() {
-    return mockWfhRequests.map((request) => request.toJson()).toList();
+  @override
+  Future<Either<Failure, WorkFromHomeEntity>> getWFHRequestById(
+      String id) async {
+    try {
+      final response = await _supabaseClient
+          .from('work_from_home_with_employee')
+          .select()
+          .eq('id', id)
+          .single();
+
+      final workFromHome = WorkFromHomeEntity.fromJson(response);
+      return Right(workFromHome);
+    } on PostgrestException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, WorkFromHomeEntity>> createWFHRequest(
+      WorkFromHomeEntity workFromHomeRequest) async {
+    try {
+      // Prepare data for insertion with all necessary fields
+      final Map<String, dynamic> requestData = {
+        'start_date': workFromHomeRequest.startDate.toIso8601String(),
+        'end_date': workFromHomeRequest.endDate.toIso8601String(),
+        'reason': workFromHomeRequest.reason,
+        'employee_id': workFromHomeRequest.employeeId,
+        'status': workFromHomeRequest.status.toString().split('.').last,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+
+      // Get the current authenticated user
+      final currentUser = _supabaseClient.auth.currentUser;
+
+      if (currentUser == null) {
+        return Left(ServerFailure('User not authenticated'));
+      }
+
+      // Ensure the user is only creating requests for themselves
+      if (currentUser.id != workFromHomeRequest.employeeId) {
+        return Left(ServerFailure('You can only create requests for yourself'));
+      }
+
+      // Insert the data and return the created record
+      final response = await _supabaseClient
+          .from('work_from_home')
+          .insert(requestData)
+          .select('*, employee:employee_id(name)')
+          .single();
+
+      // Transform the response to include employee_name
+      final Map<String, dynamic> transformedResponse = {
+        ...response,
+        'employee_name': response['employee']['name'],
+      };
+
+      final createdRequest = WorkFromHomeEntity.fromJson(transformedResponse);
+      return Right(createdRequest);
+    } on PostgrestException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, WorkFromHomeEntity>> updateWFHRequest(
+      WorkFromHomeEntity workFromHomeRequest) async {
+    try {
+      // Prepare data for update
+      final Map<String, dynamic> requestData = {
+        'start_date': workFromHomeRequest.startDate.toIso8601String(),
+        'end_date': workFromHomeRequest.endDate.toIso8601String(),
+        'reason': workFromHomeRequest.reason,
+        'status': workFromHomeRequest.status.toString().split('.').last,
+      };
+
+      // Update the record and return the updated data
+      final response = await _supabaseClient
+          .from('work_from_home')
+          .update(requestData)
+          .eq('id', workFromHomeRequest.id)
+          .select('*, employee(name)')
+          .single();
+
+      // Transform the response to include employee_name
+      final Map<String, dynamic> transformedResponse = {
+        ...response,
+        'employee_name': response['employee']['name'],
+      };
+
+      final updatedRequest = WorkFromHomeEntity.fromJson(transformedResponse);
+      return Right(updatedRequest);
+    } on PostgrestException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteWFHRequest(String id) async {
+    try {
+      await _supabaseClient.from('work_from_home').delete().eq('id', id);
+      return const Right(null);
+    } on PostgrestException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }
