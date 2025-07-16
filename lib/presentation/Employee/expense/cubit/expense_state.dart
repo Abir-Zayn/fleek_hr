@@ -56,6 +56,19 @@ class ExpenseDetailLoaded extends ExpenseState {
   List<Object> get props => [expense];
 }
 
+class ExpenseDetailSuccess extends ExpenseState {
+  final ExpenseEntity expense;
+  final List<ExpenseEntity>? expenseList;
+
+  const ExpenseDetailSuccess({
+    required this.expense,
+    this.expenseList,
+  });
+
+  @override
+  List<Object> get props => [expense, expenseList ?? []];
+}
+
 class ExpenseError extends ExpenseState {
   final String message;
 

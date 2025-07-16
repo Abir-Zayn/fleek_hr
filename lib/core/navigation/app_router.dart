@@ -137,19 +137,12 @@ final GoRouter _router = GoRouter(
         builder: (context, state) => const AddExpenseScreen(),
       ),
       // Add expense details route
+      /// Add a route for WFH details
       GoRoute(
-        path: '/expense-details',
+        path: '/expense-details/:id',
         builder: (context, state) {
-          final expense = state.extra as ExpenseEntity?;
-          if (expense == null) {
-            return Scaffold(
-              appBar: AppBar(title: const Text('Error')),
-              body: const Center(
-                child: Text('Expense not found'),
-              ),
-            );
-          }
-          return ExpenseDetailsScreen(expense: expense);
+          final id = state.pathParameters['id'] ?? '';
+          return ExpenseDetailsScreen(id: id);
         },
       ),
       GoRoute(

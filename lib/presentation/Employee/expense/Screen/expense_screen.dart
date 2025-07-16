@@ -319,15 +319,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget expenseCard(ExpenseEntity expense, ExpenseLoaded state) {
     return BlocBuilder<ExpenseCubit, ExpenseState>(builder: (context, state) {
       return UnifiedRequestCard.expense(
-        onTap: () {
-          context.push('/expense-details/${expense.id}');
-        },
-        id: expense.id.toString(),
-        employeeName: "You", // Replace this with actual employee name.
-        status: expense.status.name,
-        amount: expense.amount,
-        expenseDate: DateTime.now(), // Replace with actual expense date.
-      );
+          onTap: () {
+            context.push('/expense-details/${expense.id}');
+          },
+          id: expense.id.toString(),
+          employeeName: expense.employeeName,
+          status: expense.status.name,
+          amount: expense.amount,
+          expenseDate: expense.createdAt);
     });
   }
 }

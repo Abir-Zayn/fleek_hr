@@ -3,7 +3,6 @@ import 'package:fleekhr/common/widgets/appbtn.dart';
 import 'package:fleekhr/common/widgets/apptextfield.dart';
 import 'package:fleekhr/data/models/expense/enums/expenseStatus.dart';
 import 'package:fleekhr/data/models/expense/enums/expensetypes.dart';
-import 'package:fleekhr/domain/entities/expense/expense_entity.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
 import 'package:fleekhr/presentation/Employee/expense/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
