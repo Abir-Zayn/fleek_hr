@@ -18,12 +18,6 @@ class RequestPageConstants {
   static const int gridCrossAxisCount = 2;
   static const double gridAspectRatio = 1.1;
 
-  /// Animation durations
-  static const Duration containerAnimationDuration =
-      Duration(milliseconds: 300);
-  static const Duration staggerAnimationBase = Duration(milliseconds: 300);
-  static const int staggerAnimationIncrement = 100;
-
   /// Typography configuration
   static const double titleFontSize = 22.0;
   static const double subtitleFontSize = 14.0;

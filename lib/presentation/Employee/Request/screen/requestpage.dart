@@ -1,6 +1,7 @@
+import 'package:fleekhr/common/widgets/page_background.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/request_header_widget.dart';
 import 'package:fleekhr/presentation/Employee/Request/widget/request_dashboard_widget.dart';
-import 'package:fleekhr/presentation/Employee/Request/widget/request_page_background.dart';
+
 import 'package:fleekhr/presentation/Employee/Request/utils/request_navigation_handler.dart';
 import 'package:fleekhr/presentation/Employee/Request/constants/request_page_constants.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class Requestpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RequestPageBackground(
+      body: PageBackground(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -30,11 +31,9 @@ class Requestpage extends StatelessWidget {
 
                 const SizedBox(height: RequestPageConstants.sectionSpacing),
 
-                // Request cards grid with enhanced scrolling
+                // Request cards grid with scrolling
                 Expanded(
                   child: SingleChildScrollView(
-                    physics:
-                        const BouncingScrollPhysics(), // iOS-style bouncing scroll
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -204,112 +204,114 @@ class _WorkFromHomeScreenState extends State<WorkFromHomeScreen> {
           showcasingFilteringOptions();
         },
       ),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            _loadWorkFromHomeRequests();
-          },
-          child: BlocBuilder<WorkFromHomeCubit, WorkFromHomeState>(
-            bloc: _workFromHomeCubit,
-            builder: (context, state) {
-              // Check if we're loading but have previous data
-              if (state is WorkFromHomeLoading) {
-                // If we have cached data, show it with a loading indicator overlay
-                final cachedList = _workFromHomeCubit.cachedWorkFromHomeList;
-                if (cachedList != null && cachedList.isNotEmpty) {
-                  // Use cached data but show loading indicator
-                  return Stack(
-                    children: [
-                      // Show the previous list
-                      _buildWorkFromHomeList(cachedList),
-                      // Show loading indicator overlay
-                      Positioned.fill(
-                        child: Container(
-                          color: Colors.black.withOpacity(0.1),
-                          child: Center(
-                            child: CircularProgressIndicator(),
+      body: PageBackground(
+        child: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              _loadWorkFromHomeRequests();
+            },
+            child: BlocBuilder<WorkFromHomeCubit, WorkFromHomeState>(
+              bloc: _workFromHomeCubit,
+              builder: (context, state) {
+                // Check if we're loading but have previous data
+                if (state is WorkFromHomeLoading) {
+                  // If we have cached data, show it with a loading indicator overlay
+                  final cachedList = _workFromHomeCubit.cachedWorkFromHomeList;
+                  if (cachedList != null && cachedList.isNotEmpty) {
+                    // Use cached data but show loading indicator
+                    return Stack(
+                      children: [
+                        // Show the previous list
+                        _buildWorkFromHomeList(cachedList),
+                        // Show loading indicator overlay
+                        Positioned.fill(
+                          child: Container(
+                            color: Colors.black.withOpacity(0.1),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                }
-                // No cached data, show regular loading
-                return Center(child: CircularProgressIndicator());
-              } else if (state is WorkFromHomeError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.error_outline, size: 48, color: Colors.red),
-                      SizedBox(height: 16),
-                      AppTextstyle(
-                        text: 'Error: ${state.message}',
-                        style: appStyle(
-                          size: 16,
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadWorkFromHomeRequests,
-                        child: AppTextstyle(
-                          text: 'Retry',
+                      ],
+                    );
+                  }
+                  // No cached data, show regular loading
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is WorkFromHomeError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline, size: 48, color: Colors.red),
+                        SizedBox(height: 16),
+                        AppTextstyle(
+                          text: 'Error: ${state.message}',
                           style: appStyle(
-                            size: 14,
-                            color: Theme.of(context).primaryColor,
+                            size: 16,
+                            color: Colors.red,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _loadWorkFromHomeRequests,
+                          child: AppTextstyle(
+                            text: 'Retry',
+                            style: appStyle(
+                              size: 14,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state is WorkFromHomeListSuccess) {
+                  final wfhRequests = state.workFromHomeList;
+                  return SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildWorkFromHomeList(wfhRequests),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              } else if (state is WorkFromHomeListSuccess) {
-                final wfhRequests = state.workFromHomeList;
-                return SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildWorkFromHomeList(wfhRequests),
-                      ],
                     ),
-                  ),
-                );
-              } else if (state is WorkFromHomeDetailSuccess) {
-                // We can also display the list from a DetailSuccess state
-                final wfhRequests = state.workFromHomeList;
-                return SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildWorkFromHomeList(wfhRequests),
-                      ],
+                  );
+                } else if (state is WorkFromHomeDetailSuccess) {
+                  // We can also display the list from a DetailSuccess state
+                  final wfhRequests = state.workFromHomeList;
+                  return SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildWorkFromHomeList(wfhRequests),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }
+                  );
+                }
 
-              // Initial or unknown state
-              return Center(
-                child: AppTextstyle(
-                  text: 'No Work From Home requests found.',
-                  style: appStyle(
-                    size: 16,
-                    color: Theme.of(context).textTheme.bodyLarge?.color ??
-                        Colors.black87,
-                    fontWeight: FontWeight.w500,
+                // Initial or unknown state
+                return Center(
+                  child: AppTextstyle(
+                    text: 'No Work From Home requests found.',
+                    style: appStyle(
+                      size: 16,
+                      color: Theme.of(context).textTheme.bodyLarge?.color ??
+                          Colors.black87,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

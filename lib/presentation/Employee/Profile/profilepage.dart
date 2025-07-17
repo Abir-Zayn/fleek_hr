@@ -1,3 +1,4 @@
+import 'package:fleekhr/common/widgets/page_background.dart';
 import 'package:fleekhr/presentation/Employee/Profile/Widget/attendance_section.dart';
 import 'package:fleekhr/presentation/Employee/Profile/Widget/contact_info.dart';
 import 'package:fleekhr/presentation/Employee/Profile/Widget/profile_header.dart';
@@ -77,23 +78,25 @@ class Profilepage extends StatelessWidget {
                 );
               } else if (state is ProfileLoaded) {
                 final user = state.user;
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ProfileHeader(
-                        name: user.name,
-                        role: user.designation,
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1683029096295-7680306aa37d?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                      ),
-                      ContactInfoSection(
-                        email: user.email,
-                        phone: user.phone,
-                        department: user.department,
-                      ),
-                      AttendanceSection(monthlyAttendance: monthlyAttendance),
-                      const ProfileActionsSection(),
-                    ],
+                return PageBackground(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ProfileHeader(
+                          name: user.name,
+                          role: user.designation,
+                          imageUrl:
+                              'https://images.unsplash.com/photo-1683029096295-7680306aa37d?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                        ),
+                        ContactInfoSection(
+                          email: user.email,
+                          phone: user.phone,
+                          department: user.department,
+                        ),
+                        AttendanceSection(monthlyAttendance: monthlyAttendance),
+                        const ProfileActionsSection(),
+                      ],
+                    ),
                   ),
                 );
               }

@@ -168,186 +168,188 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         title: "Salary Overview",
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            // Employee info section
-            AppTextstyle(
-              text: "Hello Employee!",
-              style: appStyle(
-                size: 25,
-                color: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8),
-            AppTextstyle(
-              text: "Email Account :   employermail@gmail.com",
-              style: appStyle(
-                size: 16,
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 8),
-            AppTextstyle(
-              text: "Phone Number:  +880 1293321234",
-              style: appStyle(
-                size: 16,
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-
-            SizedBox(height: 40),
-            AppTextstyle(
-              text: "Salary Overview",
-              style: appStyle(
-                size: 20,
-                color: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16),
-
-            // Month and Year selection section
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                color: Theme.of(context).cardColor,
-                border: Border.all(
-                  color: Theme.of(context).primaryColor.withOpacity(0.4),
-                  width: 1.0,
+      body: PageBackground(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              // Employee info section
+              AppTextstyle(
+                text: "Hello Employee!",
+                style: appStyle(
+                  size: 25,
+                  color: Theme.of(context).textTheme.bodyMedium?.color ??
+                      Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppTextstyle(
-                    text: "Select Period",
-                    style: appStyle(
-                      size: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                    ),
+              SizedBox(height: 8),
+              AppTextstyle(
+                text: "Email Account :   employermail@gmail.com",
+                style: appStyle(
+                  size: 16,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 8),
+              AppTextstyle(
+                text: "Phone Number:  +880 1293321234",
+                style: appStyle(
+                  size: 16,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
+              SizedBox(height: 40),
+              AppTextstyle(
+                text: "Salary Overview",
+                style: appStyle(
+                  size: 20,
+                  color: Theme.of(context).textTheme.bodyMedium?.color ??
+                      Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16),
+
+              // Month and Year selection section
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Theme.of(context).cardColor,
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor.withOpacity(0.4),
+                    width: 1.0,
                   ),
-                  SizedBox(height: 16),
-
-                  // Month Selection Button
-                  InkWell(
-                    onTap: _showMonthSelector,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Theme.of(context).dividerColor,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AppTextstyle(
-                            text: "Month: $selectedMonth",
-                            style: appStyle(
-                              size: 16,
-                              fontWeight: FontWeight.w500,
-                              color:
-                                  Colors.black87, // Use a default color if null
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppTextstyle(
+                      text: "Select Period",
+                      style: appStyle(
+                        size: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                  ),
+                    SizedBox(height: 16),
 
-                  SizedBox(height: 16),
-
-                  // Year Selection Button
-                  InkWell(
-                    onTap: _showYearSelector,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Theme.of(context).dividerColor,
+                    // Month Selection Button
+                    InkWell(
+                      onTap: _showMonthSelector,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AppTextstyle(
-                            text: "Year: $selectedYear",
-                            style: appStyle(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppTextstyle(
+                              text: "Month: $selectedMonth",
+                              style: appStyle(
                                 size: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black87),
-                          ),
-                          Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 24),
-
-                  // View Salary Details Button
-                  InkWell(
-                    onTap: _viewSalaryDetails,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.visibility_outlined,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            AppTextstyle(
-                              text: "View Salary Details",
-                              style: appStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                size: 16.0,
+                                color: Colors
+                                    .black87, // Use a default color if null
                               ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
 
-            SizedBox(height: 16),
-          ],
+                    SizedBox(height: 16),
+
+                    // Year Selection Button
+                    InkWell(
+                      onTap: _showYearSelector,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppTextstyle(
+                              text: "Year: $selectedYear",
+                              style: appStyle(
+                                  size: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 24),
+
+                    // View Salary Details Button
+                    InkWell(
+                      onTap: _viewSalaryDetails,
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.visibility_outlined,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              SizedBox(width: 8),
+                              AppTextstyle(
+                                text: "View Salary Details",
+                                style: appStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  size: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

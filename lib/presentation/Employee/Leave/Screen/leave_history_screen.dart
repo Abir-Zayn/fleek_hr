@@ -65,78 +65,83 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
         actionButton: const Icon(Icons.filter_list, color: Colors.white),
         onActionButtonPressed: showcasingFilteringOptions,
       ),
-      body: SafeArea(
-        child: BlocBuilder<LeaveCubit, LeaveState>(
-          builder: (context, state) {
-            if (state is LeaveLoading) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
-                ),
-              );
-            } else if (state is LeaveLoaded) {
-              final filteredLeaves = state.leaveRequests
-                  .where((leave) =>
-                      selectedFilter == 'All' ||
-                      leave.status.value.toLowerCase() ==
-                          selectedFilter.toLowerCase())
-                  .toList();
-
-              if (filteredLeaves.isEmpty) {
+      body: PageBackground(
+        child: SafeArea(
+          child: BlocBuilder<LeaveCubit, LeaveState>(
+            builder: (context, state) {
+              if (state is LeaveLoading) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 40),
-                      Icon(Icons.celebration, size: 48, color: Colors.green),
-                      SizedBox(height: 16),
-                      AppTextstyle(
-                        text: 'Congratulations! You have not taken any leave.',
-                        style: appStyle(
-                          size: 16,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                );
+              } else if (state is LeaveLoaded) {
+                final filteredLeaves = state.leaveRequests
+                    .where((leave) =>
+                        selectedFilter == 'All' ||
+                        leave.status.value.toLowerCase() ==
+                            selectedFilter.toLowerCase())
+                    .toList();
+
+                if (filteredLeaves.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 40),
+                        Icon(Icons.celebration, size: 48, color: Colors.green),
+                        SizedBox(height: 16),
+                        AppTextstyle(
+                          text:
+                              'Congratulations! You have not taken any leave.',
+                          style: appStyle(
+                            size: 16,
+                            color: Colors.green,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 3,
                         ),
-                        maxLines: 3,
-                      ),
-                    ],
+                      ],
+                    ),
+                  );
+                }
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<LeaveCubit>().getAllLeaveRequests(employeeId);
+                  },
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 16),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: filteredLeaves.length,
+                    itemBuilder: (context, index) {
+                      final leave = filteredLeaves[index];
+                      return UnifiedRequestCard.leave(
+                        id: leave.id.toString(),
+                        employeeName: leave
+                            .employeeId, // Replace with actual name if available
+                        status: leave.status.value,
+                        leaveType: leave.leaveType.value,
+                        startDate: leave.startDate,
+                        endDate: leave.endDate,
+                      );
+                    },
+                  ),
+                );
+              } else if (state is LeaveError) {
+                return Center(
+                  child: AppTextstyle(
+                    text: state.message,
+                    style: appStyle(
+                        size: 13,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500),
                   ),
                 );
               }
-              return RefreshIndicator(
-                onRefresh: () async {
-                  context.read<LeaveCubit>().getAllLeaveRequests(employeeId);
-                },
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 16),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: filteredLeaves.length,
-                  itemBuilder: (context, index) {
-                    final leave = filteredLeaves[index];
-                    return UnifiedRequestCard.leave(
-                      id: leave.id.toString(),
-                      employeeName: leave
-                          .employeeId, // Replace with actual name if available
-                      status: leave.status.value,
-                      leaveType: leave.leaveType.value,
-                      startDate: leave.startDate,
-                      endDate: leave.endDate,
-                    );
-                  },
-                ),
-              );
-            } else if (state is LeaveError) {
-              return Center(
-                child: AppTextstyle(
-                  text: state.message,
-                  style: appStyle(
-                      size: 13, color: Colors.red, fontWeight: FontWeight.w500),
-                ),
-              );
-            }
-            // Initial or unknown state
-            return const Center(child: CircularProgressIndicator());
-          },
+              // Initial or unknown state
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(

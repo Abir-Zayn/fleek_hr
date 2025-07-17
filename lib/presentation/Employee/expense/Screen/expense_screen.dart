@@ -110,53 +110,55 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           actionButton: const Icon(Icons.filter_list, color: Colors.white),
           onActionButtonPressed: showcasingFilteringOptions,
         ),
-        body: SafeArea(
-          // ✅ Add SafeArea
-          child: RefreshIndicator(
-            onRefresh: () async {
-              // show an animation while refreshing
-              loadExpenses();
-            },
-            child: BlocConsumer<ExpenseCubit, ExpenseState>(
-              listener: (context, state) {
-                if (state is ExpenseError) {
-                  toastification.show(
-                    context: context,
-                    title: Text(state.message),
-                    autoCloseDuration: const Duration(seconds: 2),
-                    alignment: Alignment.bottomCenter,
-                    borderRadius: BorderRadius.circular(8),
-                    style: ToastificationStyle.minimal,
-                    type: ToastificationType.error,
-                  );
-                } else if (state is ExpenseDeleted) {
-                  toastification.show(
-                    context: context,
-                    title: const Text('Expense deleted successfully'),
-                    autoCloseDuration: const Duration(seconds: 2),
-                    alignment: Alignment.bottomCenter,
-                    borderRadius: BorderRadius.circular(8),
-                    style: ToastificationStyle.minimal,
-                    type: ToastificationType.success,
-                  );
-                  loadExpenses();
-                }
+        body: PageBackground(
+          child: SafeArea(
+            // ✅ Add SafeArea
+            child: RefreshIndicator(
+              onRefresh: () async {
+                // show an animation while refreshing
+                loadExpenses();
               },
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildHeader(),
-                      SizedBox(height: 16),
-                      expenseList(
-                        state,
-                      ),
-                    ],
-                  ),
-                );
-              },
+              child: BlocConsumer<ExpenseCubit, ExpenseState>(
+                listener: (context, state) {
+                  if (state is ExpenseError) {
+                    toastification.show(
+                      context: context,
+                      title: Text(state.message),
+                      autoCloseDuration: const Duration(seconds: 2),
+                      alignment: Alignment.bottomCenter,
+                      borderRadius: BorderRadius.circular(8),
+                      style: ToastificationStyle.minimal,
+                      type: ToastificationType.error,
+                    );
+                  } else if (state is ExpenseDeleted) {
+                    toastification.show(
+                      context: context,
+                      title: const Text('Expense deleted successfully'),
+                      autoCloseDuration: const Duration(seconds: 2),
+                      alignment: Alignment.bottomCenter,
+                      borderRadius: BorderRadius.circular(8),
+                      style: ToastificationStyle.minimal,
+                      type: ToastificationType.success,
+                    );
+                    loadExpenses();
+                  }
+                },
+                builder: (context, state) {
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        SizedBox(height: 16),
+                        expenseList(
+                          state,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),

@@ -111,114 +111,116 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         title: "Add Expense",
       ),
-      body: BlocListener<ExpenseCubit, ExpenseState>(
-        listener: (context, state) {
-          if (state is ExpenseCreated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.green,
-              ),
-            );
-            _resetForm();
-            Navigator.of(context).pop(); // Go back to previous screen
-          } else if (state is ExpenseError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-
-                // Select Expense Type
-                _buildExpenseTypeSelector(),
-
-                // Form fields
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Expense Details",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              Theme.of(context).textTheme.bodyMedium?.color ??
-                                  Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // From field (optional)
-                      Apptextfield(
-                        controller: fromController,
-                        labelText: "From (Optional)",
-                        keyboardType: TextInputType.text,
-                      ),
-
-                      // To field (optional)
-                      Apptextfield(
-                        controller: toController,
-                        labelText: "To (Optional)",
-                        keyboardType: TextInputType.text,
-                      ),
-
-                      // Amount field (required)
-                      Apptextfield(
-                        controller: amountController,
-                        labelText: "Amount *",
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Amount is required';
-                          }
-                          final amount = double.tryParse(value.trim());
-                          if (amount == null || amount <= 0) {
-                            return 'Please enter a valid amount';
-                          }
-                          return null;
-                        },
-                      ),
-
-                      // Description field (optional)
-                      Apptextfield(
-                        controller: descriptionController,
-                        labelText: "Description (Optional)",
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 3,
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Submit Button
-                      BlocBuilder<ExpenseCubit, ExpenseState>(
-                        builder: (context, state) {
-                          final isLoading = state is ExpenseCreating;
-
-                          return Appbtn(
-                            bgColor: Theme.of(context).primaryColor,
-                            text: isLoading ? "Submitting..." : "Submit",
-                            textColor: Colors.white,
-                            onPressed: isLoading ? null : _submitExpense,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+      body: PageBackground(
+        child: BlocListener<ExpenseCubit, ExpenseState>(
+          listener: (context, state) {
+            if (state is ExpenseCreated) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.green,
                 ),
-              ],
+              );
+              _resetForm();
+              Navigator.of(context).pop(); // Go back to previous screen
+            } else if (state is ExpenseError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+
+                  // Select Expense Type
+                  _buildExpenseTypeSelector(),
+
+                  // Form fields
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Expense Details",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color ??
+                                    Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // From field (optional)
+                        Apptextfield(
+                          controller: fromController,
+                          labelText: "From (Optional)",
+                          keyboardType: TextInputType.text,
+                        ),
+
+                        // To field (optional)
+                        Apptextfield(
+                          controller: toController,
+                          labelText: "To (Optional)",
+                          keyboardType: TextInputType.text,
+                        ),
+
+                        // Amount field (required)
+                        Apptextfield(
+                          controller: amountController,
+                          labelText: "Amount *",
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Amount is required';
+                            }
+                            final amount = double.tryParse(value.trim());
+                            if (amount == null || amount <= 0) {
+                              return 'Please enter a valid amount';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        // Description field (optional)
+                        Apptextfield(
+                          controller: descriptionController,
+                          labelText: "Description (Optional)",
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Submit Button
+                        BlocBuilder<ExpenseCubit, ExpenseState>(
+                          builder: (context, state) {
+                            final isLoading = state is ExpenseCreating;
+
+                            return Appbtn(
+                              bgColor: Theme.of(context).primaryColor,
+                              text: isLoading ? "Submitting..." : "Submit",
+                              textColor: Colors.white,
+                              onPressed: isLoading ? null : _submitExpense,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

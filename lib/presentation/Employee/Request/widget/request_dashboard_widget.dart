@@ -46,39 +46,28 @@ class RequestDashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: RequestPageConstants.containerAnimationDuration,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(), // Disable grid scrolling
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: RequestPageConstants.gridCrossAxisCount,
-          crossAxisSpacing: RequestPageConstants.cardSpacing,
-          mainAxisSpacing: RequestPageConstants.cardSpacing,
-          childAspectRatio: RequestPageConstants.gridAspectRatio,
-        ),
-        itemCount: _requestCategories.length,
-        itemBuilder: (context, index) {
-          final category = _requestCategories[index];
-
-          // Add staggered animation for better visual appeal
-          return AnimatedContainer(
-            duration: Duration(
-              milliseconds:
-                  RequestPageConstants.staggerAnimationBase.inMilliseconds +
-                      (index * RequestPageConstants.staggerAnimationIncrement),
-            ),
-            curve: Curves.easeOutBack,
-            child: Requestcard(
-              icon: category.icon,
-              text: category.text,
-              description: category.description,
-              iconColor: category.color,
-              onTap: () => onNavigate(context, _categoryToMap(category)),
-            ),
-          );
-        },
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(), // Disable grid scrolling
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: RequestPageConstants.gridCrossAxisCount,
+        crossAxisSpacing: RequestPageConstants.cardSpacing,
+        mainAxisSpacing: RequestPageConstants.cardSpacing,
+        childAspectRatio: RequestPageConstants.gridAspectRatio,
       ),
+      itemCount: _requestCategories.length,
+      itemBuilder: (context, index) {
+        final category = _requestCategories[index];
+
+        // Simple request card without animations
+        return Requestcard(
+          icon: category.icon,
+          text: category.text,
+          description: category.description,
+          iconColor: category.color,
+          onTap: () => onNavigate(context, _categoryToMap(category)),
+        );
+      },
     );
   }
 }

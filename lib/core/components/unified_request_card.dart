@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:fleekhr/core/components/enum/request_type.dart';
@@ -124,7 +122,7 @@ class UnifiedRequestCard extends StatelessWidget {
     );
   }
 
-  String formateDate(DateTime date) {
+  String formatDate(DateTime date) {
     return DateFormat('MMM dd, yyyy').format(date);
   }
 
@@ -213,7 +211,7 @@ class UnifiedRequestCard extends StatelessWidget {
             ),
             SizedBox(width: 4),
             AppTextstyle(
-              text: 'Date: ${formateDate(expenseDate!)}',
+              text: 'Date: ${formatDate(expenseDate!)}',
               style: appStyle(
                 size: 14,
                 fontWeight: FontWeight.w600,
@@ -268,7 +266,7 @@ class UnifiedRequestCard extends StatelessWidget {
         ),
         SizedBox(width: 8),
         AppTextstyle(
-          text: '$label: ${formateDate(date)}',
+          text: '$label: ${formatDate(date)}',
           style: appStyle(
             size: 14,
             color: Colors.grey.shade800,
@@ -279,30 +277,49 @@ class UnifiedRequestCard extends StatelessWidget {
     );
   }
 
-  Widget dataCard(BuildContext context, Widget content) {
-    // Get gradient colors based on request type
-    Color cardBg = Theme.of(context).cardColor;
+  Color getTypeColor() {
+    switch (requestType) {
+      case RequestType.leave:
+        return Colors.blue;
+      case RequestType.expense:
+        return Colors.green;
+      case RequestType.workFromHome:
+        return Colors.purple;
+    }
+  }
 
+  Icon getTypeIcon() {
+    switch (requestType) {
+      case RequestType.leave:
+        return Icon(Icons.beach_access, color: getTypeColor(), size: 20);
+      case RequestType.expense:
+        return Icon(Icons.attach_money, color: getTypeColor(), size: 20);
+      case RequestType.workFromHome:
+        return Icon(Icons.home_work, color: getTypeColor(), size: 20);
+    }
+  }
+
+  Widget dataCard(BuildContext context, Widget content) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: cardBg,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border(
+          left: BorderSide(color: getTypeColor(), width: 4),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(1, 3),
+            offset: Offset(0, 2),
           ),
         ],
       ),
       child: content,
     );
   }
-
-  // Returns gradient colors based on request type as only one color shade will be used
-  // for the card background
 
   @override
   Widget build(BuildContext context) {
@@ -326,36 +343,73 @@ class UnifiedRequestCard extends StatelessWidget {
           },
       child: dataCard(
         context,
-        Container(
-          margin: EdgeInsets.only(right: 8),
-          padding: EdgeInsets.only(left: 16, top: 3, bottom: 10),
+        Padding(
+          padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header with employee name
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                headerContent(context),
-                statusState(status),
-              ]),
-              SizedBox(height: 5),
+              // Header with icon, employee name, and status
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      getTypeIcon(),
+                      SizedBox(width: 8),
+                      AppTextstyle(
+                        text: employeeName,
+                        style: appStyle(
+                          size: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
+                    ],
+                  ),
+                  statusState(status),
+                ],
+              ),
+              SizedBox(height: 12),
               // Request-specific content
               requestSpecificContent(context),
-              // Status positioned at bottom right for all card types
+              // Admin controls if applicable
+              if (isAdmin && status.toLowerCase() == 'pending') ...[
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => onStatusChange?.call(false),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red,
+                      ),
+                      child: Text(
+                        'Reject',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    TextButton(
+                      onPressed: () => onStatusChange?.call(true),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.green,
+                      ),
+                      child: Text(
+                        'Approve',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget headerContent(BuildContext context) {
-    return AppTextstyle(
-      text: employeeName,
-      style: appStyle(
-        size: 13,
-        fontWeight: FontWeight.w700,
-        color: Colors.grey.shade800,
       ),
     );
   }
@@ -364,7 +418,7 @@ class UnifiedRequestCard extends StatelessWidget {
     Color getStatusColor() {
       switch (status.toLowerCase()) {
         case 'approved':
-          return Colors.lightGreen;
+          return Colors.green;
         case 'pending':
           return Colors.orange;
         case 'rejected':
@@ -374,45 +428,24 @@ class UnifiedRequestCard extends StatelessWidget {
       }
     }
 
+    Color color = getStatusColor();
+
     return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 6,
-        horizontal: 10,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: Color(0xfff2f2f2),
-        borderRadius: BorderRadius.circular(8),
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: getStatusColor(),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      status,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: getStatusColor(),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+          Icon(Icons.circle, size: 8, color: color),
+          SizedBox(width: 4),
+          Text(
+            status,
+            style: TextStyle(
+              color: color,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
           ),
         ],
