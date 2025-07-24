@@ -8,24 +8,22 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-  String status = "Swipe to mark attendance";
-
   @override
   void initState() {
     super.initState();
-    // Initialize any necessary data or state here
+    // Load today's attendance when screen initializes
+    context.read<AttendanceCubit>().loadTodayAttendance();
   }
 
-  @override
-  void dispose() {
-    // Dispose of any controllers or resources if needed
-    super.dispose();
-  }
-
-  void _handleAttendanceMarked() {
-    setState(() {
-      status = "Attendance successfully marked!";
-    });
+  void _handleAttendanceAction() {
+    final attendanceCubit = context.read<AttendanceCubit>();
+    
+    // Check if user can check in or check out
+    if (attendanceCubit.canCheckIn()) {
+      attendanceCubit.checkIn();
+    } else if (attendanceCubit.canCheckOut()) {
+      attendanceCubit.checkOut();
+    }
   }
 
   @override
@@ -142,48 +140,135 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 20),
-              // User ID Card
-              UserIdCard(
-                  division: "Engineering",
-                  joinedDate: "16-06-2025",
-                  totalPresentDays: 20,
-                  lateDays: 5,
-                  absentDays: 7),
+              
+              // User ID Card with real attendance data
+              BlocBuilder<AttendanceCubit, AttendanceState>(
+                builder: (context, state) {
+                  int presentDays = 0;
+                  int lateDays = 0;
+                  int absentDays = 0;
+                  
+                  if (state is AttendanceDashboardLoaded) {
+                    presentDays = state.monthlyPresentDays;
+                    lateDays = state.monthlyLateDays;
+                    absentDays = state.monthlyAbsentDays;
+                  }
+                  
+                  return UserIdCard(
+                    division: "Engineering",
+                    joinedDate: "16-06-2025",
+                    totalPresentDays: presentDays,
+                    lateDays: lateDays,
+                    absentDays: absentDays,
+                  );
+                },
+              ),
+              
               SizedBox(height: 20),
 
-              SizedBox(height: 20),
-
-              // Attendance Slider
-              AttendanceSlider(
-                onAttendanceMarked: _handleAttendanceMarked,
-                instructionText: 'Swipe to Check In',
-                iconColor: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.white,
-                textColor: Colors.white,
+              // Attendance Slider with BlocListener for feedback
+              BlocListener<AttendanceCubit, AttendanceState>(
+                listener: (context, state) {
+                  if (state is CheckInSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Successfully checked in!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  } else if (state is CheckOutSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Successfully checked out!'),
+                        backgroundColor: Colors.blue,
+                      ),
+                    );
+                  } else if (state is AttendanceError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+                child: BlocBuilder<AttendanceCubit, AttendanceState>(
+                  builder: (context, state) {
+                    String instructionText = 'Swipe to Check In';
+                    bool canPerformAction = true;
+                    
+                    if (state is AttendanceProcessing) {
+                      instructionText = 'Processing...';
+                      canPerformAction = false;
+                    } else {
+                      final attendanceCubit = context.read<AttendanceCubit>();
+                      if (attendanceCubit.canCheckOut()) {
+                        instructionText = 'Swipe to Check Out';
+                      } else if (!attendanceCubit.canCheckIn()) {
+                        instructionText = 'Day Completed';
+                        canPerformAction = false;
+                      }
+                    }
+                    
+                    return AttendanceSlider(
+                      onAttendanceMarked: canPerformAction ? _handleAttendanceAction : () {},
+                      instructionText: instructionText,
+                      iconColor: Theme.of(context).textTheme.bodyMedium?.color ?? Colors.white,
+                      textColor: Colors.white,
+                    );
+                  },
+                ),
               ),
 
               SizedBox(height: 20),
 
-              //Check in and Check out card
-              Row(
-                children: [
-                  Expanded(
-                    child: CheckInCard(
-                        headingText: 'Check In',
-                        timeText: '9:00 AM',
-                        statusText: 'On Time',
-                        icon: Icons.arrow_forward_ios_rounded),
-                  ),
-                  SizedBox(width: 20), // Spacing between cards
-                  Expanded(
-                    child: CheckInCard(
-                      headingText: 'Check Out',
-                      timeText: '5:00 PM',
-                      statusText: 'On Time',
-                      icon: Icons.arrow_back_ios_rounded,
-                    ),
-                  ),
-                ],
+              // Check in and Check out cards with real data
+              BlocBuilder<AttendanceCubit, AttendanceState>(
+                builder: (context, state) {
+                  String checkInTime = 'Not checked in';
+                  String checkInStatus = 'Pending';
+                  String checkOutTime = 'Not checked out';
+                  String checkOutStatus = 'Pending';
+                  
+                  final attendanceCubit = context.read<AttendanceCubit>();
+                  final todayAttendance = attendanceCubit.todayAttendance;
+                  
+                  if (todayAttendance != null) {
+                    // Check-in data
+                    if (todayAttendance.hasCheckedIn) {
+                      checkInTime = DateFormat('h:mm a').format(todayAttendance.checkIn!);
+                      checkInStatus = todayAttendance.isLate ? 'Late' : 'On Time';
+                    }
+                    
+                    // Check-out data
+                    if (todayAttendance.hasCheckedOut) {
+                      checkOutTime = DateFormat('h:mm a').format(todayAttendance.checkOut!);
+                      checkOutStatus = todayAttendance.leftEarly ? 'Left Early' : 'On Time';
+                    }
+                  }
+                  
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: CheckInCard(
+                          headingText: 'Check In',
+                          timeText: checkInTime,
+                          statusText: checkInStatus,
+                          icon: Icons.arrow_forward_ios_rounded,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: CheckInCard(
+                          headingText: 'Check Out',
+                          timeText: checkOutTime,
+                          statusText: checkOutStatus,
+                          icon: Icons.arrow_back_ios_rounded,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
 
               // Daily Activities Section

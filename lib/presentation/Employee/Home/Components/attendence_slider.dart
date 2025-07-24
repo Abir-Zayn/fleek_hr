@@ -1,7 +1,6 @@
 import 'package:fleekhr/common/widgets/appstyle.dart';
 import 'package:fleekhr/common/widgets/apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class AttendanceSlider extends StatefulWidget {
   final VoidCallback onAttendanceMarked;
@@ -87,11 +86,13 @@ class _AttendanceSliderState extends State<AttendanceSlider>
     // Call the callback to mark attendance
     widget.onAttendanceMarked();
 
-    // Short delay for visual feedback before navigation
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    // Reset the slider after a short delay
+    Future.delayed(const Duration(milliseconds: 2000), () {
       if (mounted) {
-        // Navigate directly to attendance screen
-        context.push('/attendance');
+        setState(() {
+          _isCompleted = false;
+          _dragExtent = 0.0;
+        });
       }
     });
   }

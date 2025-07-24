@@ -33,6 +33,7 @@ class _AttendanceScreenState extends State<AttendanceScreen>
   @override
   void initState() {
     super.initState();
+    // Initialize tab controller for Check In and History tabs
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -68,12 +69,14 @@ class _AttendanceScreenState extends State<AttendanceScreen>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          CheckInTab(),
-          HistoryTab(),
-        ],
+      body: PageBackground(
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            CheckInTab(),
+            HistoryTab(),
+          ],
+        ),
       ),
     );
   }

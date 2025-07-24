@@ -12,7 +12,7 @@ class MonthlyStatsSection extends StatelessWidget {
   Map<String, dynamic> getStatusStyle(String status) {
     switch (status) {
       case 'Working Days':
-        return {'icon': Icons.work, 'color': Colors.blue};
+        return {'icon': Icons.work, 'color': Colors.blueAccent};
       case 'On Time':
         return {'icon': Icons.check_circle, 'color': Colors.green};
       case 'Late':
@@ -20,7 +20,7 @@ class MonthlyStatsSection extends StatelessWidget {
       case 'Left Timely':
         return {'icon': Icons.exit_to_app, 'color': Colors.green};
       case 'Left Early':
-        return {'icon': Icons.logout, 'color': Colors.orange};
+        return {'icon': Icons.logout, 'color': Colors.red};
       case 'On Leave':
         return {'icon': Icons.beach_access, 'color': Colors.teal};
       case 'Absent':

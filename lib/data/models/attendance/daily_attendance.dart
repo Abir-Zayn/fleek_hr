@@ -1,3 +1,5 @@
+import 'package:fleekhr/domain/entities/attendance/daily_attendance_entity.dart';
+
 class DailyAttendanceModel {
   final String? id;
   final String? employeeId;
@@ -120,6 +122,38 @@ class DailyAttendanceModel {
       status.hashCode ^
       isWeekend.hashCode ^
       isLeave.hashCode;
+
+  // Convert model to entity
+  DailyAttendanceEntity toEntity() {
+    return DailyAttendanceEntity(
+      id: id ?? '',
+      employeeId: employeeId ?? '',
+      workDay: workDay ?? DateTime.now(),
+      checkIn: checkIn,
+      checkOut: checkOut,
+      status: status ?? 'absent',
+      isWeekend: isWeekend ?? false,
+      isLeave: isLeave ?? false,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
+
+  // Create model from entity
+  factory DailyAttendanceModel.fromEntity(DailyAttendanceEntity entity) {
+    return DailyAttendanceModel(
+      id: entity.id,
+      employeeId: entity.employeeId,
+      workDay: entity.workDay,
+      checkIn: entity.checkIn,
+      checkOut: entity.checkOut,
+      status: entity.status,
+      isWeekend: entity.isWeekend,
+      isLeave: entity.isLeave,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    );
+  }
 
   @override
   String toString() {
