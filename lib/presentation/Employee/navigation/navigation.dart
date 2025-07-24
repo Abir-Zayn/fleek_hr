@@ -28,7 +28,7 @@ class _AdminNavigationState extends State<AdminNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       //Index stack
-      body: SafeArea(
+      body: PageBackground(
         child: IndexedStack(
           index: _currentIndex,
           children: _screens,
