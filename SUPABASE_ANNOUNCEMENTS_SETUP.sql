@@ -1,0 +1,64 @@
+-- -- SQL script to create sample announcements in Supabase
+-- -- Run this in your Supabase SQL editor to add test data
+
+-- -- First, make sure the announcements table exists with the correct structure
+-- -- If it doesn't exist, create it:
+
+-- CREATE TABLE IF NOT EXISTS announcements (
+--     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+--     title TEXT NOT NULL,
+--     content TEXT NOT NULL,
+--     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+--     published_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+--     author_id TEXT,
+--     is_published BOOLEAN DEFAULT true,
+--     attachments JSONB
+-- );
+
+-- -- Insert sample announcements
+-- INSERT INTO announcements (title, content, published_at, author_id, is_published) VALUES
+-- (
+--     'Company Annual Meeting 2025',
+--     'We are pleased to announce our annual company meeting scheduled for next month. This meeting will cover important updates about company performance, new initiatives, and future goals. All employees are required to attend.',
+--     NOW() - INTERVAL '1 day',
+--     'admin',
+--     true
+-- ),
+-- (
+--     'New Health Insurance Policy',
+--     'We are excited to introduce our new comprehensive health insurance policy that will provide better coverage for all employees and their families. The new policy includes dental, vision, and mental health benefits.',
+--     NOW() - INTERVAL '3 days',
+--     'hr',
+--     true
+-- ),
+-- (
+--     'Office Renovation Update',
+--     'The office renovation project is progressing well. The new workspace will feature modern amenities, collaborative spaces, and improved ergonomic furniture. Expected completion is by the end of this quarter.',
+--     NOW() - INTERVAL '5 days',
+--     'facilities',
+--     true
+-- ),
+-- (
+--     'Holiday Schedule 2025',
+--     'Please find attached the official holiday schedule for 2025. Note the updated dates for some holidays and plan your vacation requests accordingly.',
+--     NOW() - INTERVAL '7 days',
+--     'hr',
+--     true
+-- ),
+-- (
+--     'Emergency Contact Information Update',
+--     'Please update your emergency contact information in the HR system. This is crucial for workplace safety and emergency communication procedures.',
+--     NOW() - INTERVAL '10 days',
+--     'hr',
+--     true
+-- ),
+-- (
+--     'New Employee Orientation Program',
+--     'We are launching a new comprehensive orientation program for all new hires. The program includes company culture, policy training, and mentorship assignments.',
+--     NOW() - INTERVAL '14 days',
+--     'hr',
+--     true
+-- );
+
+-- -- Verify the data was inserted
+-- SELECT * FROM announcements ORDER BY published_at DESC;

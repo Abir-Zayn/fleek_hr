@@ -13,18 +13,33 @@ class AnnouncementModel extends AnnouncementEntity {
   });
 
   factory AnnouncementModel.fromJson(Map<String, dynamic> json) {
-    return AnnouncementModel(
-      id: json['id'],
-      title: json['title'],
-      content: json['content'],
-      createdAt: DateTime.parse(json['created_at']),
-      publishedAt: json['published_at'] != null
-          ? DateTime.parse(json['published_at'])
-          : null,
-      authorId: json['author_id'],
-      isPublished: json['is_published'] ?? false,
-      attachments: json['attachments'],
-    );
+    try {
+      // Handle attachments field - it can be null, array, or object
+      dynamic attachments;
+      if (json['attachments'] != null) {
+        // Keep the original structure - could be array, object, or other type
+        attachments = json['attachments'];
+      }
+
+      return AnnouncementModel(
+        id: json['id']?.toString() ?? '',
+        title: json['title']?.toString() ?? '',
+        content: json['content']?.toString() ?? '',
+        createdAt: json['created_at'] != null
+            ? DateTime.parse(json['created_at'].toString())
+            : DateTime.now(),
+        publishedAt: json['published_at'] != null
+            ? DateTime.parse(json['published_at'].toString())
+            : null,
+        authorId: json['author_id']?.toString(),
+        isPublished: json['is_published'] ?? false,
+        attachments: attachments,
+      );
+    } catch (e) {
+      print('Error parsing announcement: $e');
+      print('JSON data: $json');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toJson() {

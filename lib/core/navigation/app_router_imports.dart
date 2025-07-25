@@ -19,6 +19,7 @@ import 'package:fleekhr/presentation/Employee/onboard/onboard_imports.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/screen/add_work_from_home_imports.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/screen/work_from_home_details_imports.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/screen/work_from_home_imports.dart';
+import 'package:fleekhr/presentation/Employee/announcements/screen/announcements_imports.dart';
 import 'package:fleekhr/presentation/splash/splashscreen_one.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

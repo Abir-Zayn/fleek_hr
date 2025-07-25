@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "39619489145",
+    "project_id": "fleekhrcrm",
+    "storage_bucket": "fleekhrcrm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39619489145:android:4f37ebe8386e6848afd3a8",
+        "android_client_info": {
+          "package_name": "com.example.fleekhr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNttzFI_CQLi4Jr10Mjodnu1aF12wzu7c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

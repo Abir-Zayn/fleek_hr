@@ -8,7 +8,7 @@ class AnnouncementEntity extends Equatable {
   final DateTime? publishedAt;
   final String? authorId;
   final bool isPublished;
-  final Map<String, dynamic>? attachments;
+  final dynamic attachments; // Can be array, object, or null
 
   const AnnouncementEntity({
     required this.id,

@@ -39,6 +39,7 @@ import 'package:fleekhr/domain/usecase/attendance/get_daily_attendance_by_month_
 import 'package:fleekhr/presentation/Auth/login/cubit/login_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Leave/cubit/leave_cubit.dart';
 import 'package:fleekhr/presentation/Employee/Profile/cubit/profile_cubit.dart';
+import 'package:fleekhr/presentation/Employee/announcements/cubit/announcement_cubit.dart';
 import 'package:fleekhr/presentation/Employee/expense/cubit/expense_cubit.dart';
 import 'package:fleekhr/presentation/Employee/work_from_home/cubit/work_from_home_cubit.dart';
 import 'package:fleekhr/presentation/Employee/attendence/cubit/attendance_cubit.dart';
@@ -163,4 +164,8 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<WorkFromHomeCubit>(() => WorkFromHomeCubit());
   sl.registerLazySingleton<ExpenseCubit>(() => ExpenseCubit());
   sl.registerLazySingleton<AttendanceCubit>(() => AttendanceCubit());
+  // Register Cubits
+  sl.registerFactory<AnnouncementCubit>(() => AnnouncementCubit(
+        getAnnouncementsUseCase: sl<GetAnnouncementsUseCase>(),
+      ));
 }

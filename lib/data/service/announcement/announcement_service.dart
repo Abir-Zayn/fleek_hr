@@ -14,18 +14,39 @@ class AnnouncementServiceImpl implements AnnouncementService {
   @override
   Future<Either<Failure, List<AnnouncementModel>>> getAnnouncements() async {
     try {
+      print('🔍 Fetching announcements from Supabase...');
+
       final response = await supabaseClient
           .from('announcements')
           .select()
           .eq('is_published', true)
           .order('published_at', ascending: false);
 
-      final announcements = (response as List)
-          .map((json) => AnnouncementModel.fromJson(json))
-          .toList();
+      print('📡 Supabase response: $response');
+      print('📊 Response type: ${response.runtimeType}');
+      print('📝 Found ${response.length} announcements');
 
+      final announcements = <AnnouncementModel>[];
+
+      for (var item in response) {
+        print('🔄 Processing item: $item (type: ${item.runtimeType})');
+
+        try {
+          final announcement = AnnouncementModel.fromJson(item);
+          announcements.add(announcement);
+          print('✅ Successfully parsed announcement: ${announcement.title}');
+        } catch (e) {
+          print('❌ Failed to parse announcement: $e');
+          print('📄 Raw data: $item');
+          // Continue processing other items instead of failing completely
+        }
+      }
+
+      print('✅ Successfully parsed ${announcements.length} announcements');
       return Right(announcements);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('💥 Error fetching announcements: $e');
+      print('📚 Stack trace: $stackTrace');
       return Left(
           ServerFailure('Failed to fetch announcements: ${e.toString()}'));
     }
