@@ -1,15 +1,19 @@
+import 'package:fleekhr/data/repositories/announcement/annoucement_repo_impl.dart';
 import 'package:fleekhr/data/repositories/expense/expense_repo_impl.dart';
 import 'package:fleekhr/data/repositories/leave/leave_request_repo_impl.dart';
 import 'package:fleekhr/data/repositories/work_from_home/work_from_home_repo_impl.dart';
 import 'package:fleekhr/data/repositories/attendance/attendance_repo_impl.dart';
+import 'package:fleekhr/data/service/announcement/announcement_service.dart';
 import 'package:fleekhr/data/service/expense/expense_service.dart';
 import 'package:fleekhr/data/service/leave_req/leave_request_service_impl.dart';
 import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
 import 'package:fleekhr/data/service/attendance/attendance_service.dart';
+import 'package:fleekhr/domain/repository/announcement/announcement_repository.dart';
 import 'package:fleekhr/domain/repository/expense/expense_repo.dart';
 import 'package:fleekhr/domain/repository/leave/leave_request_repository.dart';
 import 'package:fleekhr/domain/repository/work_from_home/work_from_home_repo.dart';
 import 'package:fleekhr/domain/repository/attendance/attendance_repository.dart';
+import 'package:fleekhr/domain/usecase/announcement/get_announcement.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
 import 'package:fleekhr/domain/usecase/expense/create_expense_usecase.dart';
@@ -133,13 +137,24 @@ Future<void> initializeDependencies() async {
     () => DeleteExpenseUsecase(sl<ExpenseRepository>()),
   );
 
+  //Announcement UseCases
+  sl.registerLazySingleton<AnnouncementService>(
+      () => AnnouncementServiceImpl(sl<SupabaseClient>()));
+  sl.registerLazySingleton<AnnouncementRepository>(() => AnnoucementRepoImpl());
+  sl.registerLazySingleton<GetAnnouncementsUseCase>(
+      () => GetAnnouncementsUseCase());
+
   // Attendance UseCases
   sl.registerLazySingleton<CheckInUseCase>(() => CheckInUseCase());
   sl.registerLazySingleton<CheckOutUseCase>(() => CheckOutUseCase());
-  sl.registerLazySingleton<GetTodayAttendanceUseCase>(() => GetTodayAttendanceUseCase());
-  sl.registerLazySingleton<GetAttendanceHistoryUseCase>(() => GetAttendanceHistoryUseCase());
-  sl.registerLazySingleton<GetMonthlyAttendanceUseCase>(() => GetMonthlyAttendanceUseCase());
-  sl.registerLazySingleton<GetDailyAttendanceByMonthUseCase>(() => GetDailyAttendanceByMonthUseCase());
+  sl.registerLazySingleton<GetTodayAttendanceUseCase>(
+      () => GetTodayAttendanceUseCase());
+  sl.registerLazySingleton<GetAttendanceHistoryUseCase>(
+      () => GetAttendanceHistoryUseCase());
+  sl.registerLazySingleton<GetMonthlyAttendanceUseCase>(
+      () => GetMonthlyAttendanceUseCase());
+  sl.registerLazySingleton<GetDailyAttendanceByMonthUseCase>(
+      () => GetDailyAttendanceByMonthUseCase());
 
   // 5. Register Blocs
   sl.registerLazySingleton<LoginCubit>(() => LoginCubit());
@@ -148,6 +163,4 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<WorkFromHomeCubit>(() => WorkFromHomeCubit());
   sl.registerLazySingleton<ExpenseCubit>(() => ExpenseCubit());
   sl.registerLazySingleton<AttendanceCubit>(() => AttendanceCubit());
-
-  // Will be implemented later
 }

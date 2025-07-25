@@ -13,25 +13,29 @@ class AttendanceRepoImpl extends AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, DailyAttendanceEntity>> checkIn(String employeeId) async {
+  Future<Either<Failure, DailyAttendanceEntity>> checkIn(
+      String employeeId) async {
     return await sl<AttendanceService>().checkIn(employeeId);
   }
 
   @override
-  Future<Either<Failure, DailyAttendanceEntity>> checkOut(String employeeId) async {
+  Future<Either<Failure, DailyAttendanceEntity>> checkOut(
+      String employeeId) async {
     return await sl<AttendanceService>().checkOut(employeeId);
   }
 
   @override
-  Future<Either<Failure, List<DailyAttendanceEntity>>> getDailyAttendanceByMonth(
-      String employeeId, String yearMonth) async {
-    return await sl<AttendanceService>().getDailyAttendanceByMonth(employeeId, yearMonth);
+  Future<Either<Failure, List<DailyAttendanceEntity>>>
+      getDailyAttendanceByMonth(String employeeId, String yearMonth) async {
+    return await sl<AttendanceService>()
+        .getDailyAttendanceByMonth(employeeId, yearMonth);
   }
 
   @override
   Future<Either<Failure, MonthlyAttendanceEntity?>> getMonthlyAttendance(
       String employeeId, String yearMonth) async {
-    return await sl<AttendanceService>().getMonthlyAttendance(employeeId, yearMonth);
+    return await sl<AttendanceService>()
+        .getMonthlyAttendance(employeeId, yearMonth);
   }
 
   @override
@@ -42,8 +46,10 @@ class AttendanceRepoImpl extends AttendanceRepository {
 
   @override
   Future<Either<Failure, List<DailyAttendanceEntity>>> getAttendanceHistory(
-      String employeeId, {int limit = 30}) async {
-    return await sl<AttendanceService>().getAttendanceHistory(employeeId, limit: limit);
+      String employeeId,
+      {int limit = 30}) async {
+    return await sl<AttendanceService>()
+        .getAttendanceHistory(employeeId, limit: limit);
   }
 
   @override
@@ -63,21 +69,23 @@ class AttendanceRepoImpl extends AttendanceRepository {
       String employeeId, DateTime startDate, DateTime endDate) async {
     try {
       // Get daily attendance records for the date range
-      final startYearMonth = '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}';
-      final endYearMonth = '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}';
-      
+      final startYearMonth =
+          '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}';
+      // final endYearMonth = '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}';
+
       // For now, get records for start month (this would need to be enhanced for multi-month ranges)
       final attendanceResult = await sl<AttendanceService>()
           .getDailyAttendanceByMonth(employeeId, startYearMonth);
-      
+
       return attendanceResult.fold(
         (failure) => Left(failure),
         (attendanceList) {
           // Filter records within date range and calculate stats
           final filteredRecords = attendanceList.where((record) =>
-              record.workDay.isAfter(startDate.subtract(const Duration(days: 1))) &&
+              record.workDay
+                  .isAfter(startDate.subtract(const Duration(days: 1))) &&
               record.workDay.isBefore(endDate.add(const Duration(days: 1))));
-          
+
           final stats = <String, int>{
             'working_days': 0,
             'on_time': 0,
@@ -87,7 +95,7 @@ class AttendanceRepoImpl extends AttendanceRepository {
             'on_leave': 0,
             'absent': 0,
           };
-          
+
           for (final record in filteredRecords) {
             switch (record.status) {
               case 'present':
@@ -112,12 +120,13 @@ class AttendanceRepoImpl extends AttendanceRepository {
                 break;
             }
           }
-          
+
           return Right(stats);
         },
       );
     } catch (e) {
-      return Left(UnknownFailure('Error getting attendance stats: ${e.toString()}'));
+      return Left(
+          UnknownFailure('Error getting attendance stats: ${e.toString()}'));
     }
   }
 }
