@@ -8,11 +8,48 @@ class AnnouncementsPage extends StatefulWidget {
 }
 
 class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  //Calling Supabase
+  final supabase = Supabase.instance.client;
+
   @override
   void initState() {
     super.initState();
     // Fetch announcements when the page loads
     context.read<AnnouncementCubit>().loadAnnouncements();
+    supabase.auth.onAuthStateChange.listen((event) async {
+      if (event.event == AuthChangeEvent.signedIn) {
+        await FirebaseMessaging.instance.requestPermission();
+
+        await FirebaseMessaging.instance.getAPNSToken();
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        if (fcmToken != null) {
+          await _setFcmToken(fcmToken);
+        }
+      }
+    });
+    FirebaseMessaging.instance.onTokenRefresh.listen((event) {
+      _setFcmToken(event);
+    }).onError((err) {
+      toastification.show(
+          description: Text('Failed to refresh FCM token: $err'),
+          type: ToastificationType.error,
+          autoCloseDuration: const Duration(seconds: 1),
+          style: ToastificationStyle.minimal);
+    });
+  }
+
+  Future<void> _setFcmToken(String fcmToken) async {
+    final userId = supabase.auth.currentUser!.id;
+    await supabase.from('employee').upsert({
+      'id': userId,
+      'fcm_token': fcmToken,
+    }).onError((error, stackTrace) {
+      toastification.show(
+          description: Text('Failed to update FCM token: $error'),
+          type: ToastificationType.error,
+          autoCloseDuration: const Duration(seconds: 1),
+          style: ToastificationStyle.minimal);
+    });
   }
 
   @override
@@ -153,17 +190,6 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
       ),
     );
   }
-
-  // Future<void> _refreshAnnouncements() async {
-  //   // Simulate network call
-  //   await Future.delayed(const Duration(milliseconds: 800));
-  //   // TODO: Replace with actual state management call
-  //   if (mounted) {
-  //     setState(() {
-  //       // This would be replaced with actual data fetching
-  //     });
-  //   }
-  // }
 
   // Modify _showAnnouncementDetails to accept context for cubit access if needed inside bottom sheet
   void _showAnnouncementDetails(

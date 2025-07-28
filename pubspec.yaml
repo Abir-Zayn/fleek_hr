@@ -33,6 +33,7 @@ dependencies:
   dartz: null
   equatable: null
   firebase_core: ^3.15.2
+  firebase_messaging: ^15.2.10
   fl_chart: ^0.71.0
   flutter:
     sdk: flutter

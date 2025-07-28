@@ -170,6 +170,10 @@ final GoRouter _router = GoRouter(
         path: '/announcements',
         builder: (context, state) => const AnnouncementsPage(),
       ),
+      GoRoute(
+        path: '/test',
+        builder: (context, state) => const TestScreen(),
+      ),
     ]);
 
 GoRouter get appRouter => _router;
