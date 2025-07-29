@@ -88,4 +88,26 @@ class DailyActivitiesModel extends DailyActivitiesEntity {
       updatedAt: entity.updatedAt,
     );
   }
+
+  DailyActivitiesEntity toEntity() {
+    return DailyActivitiesEntity(
+      id: id,
+      employeeId: employeeId,
+      companyName: companyName,
+      department: department,
+      quantity: quantity,
+      startTime: startTime,
+      endTime: endTime,
+      deliveryTime: deliveryTime,
+      workStatus: workStatus,
+      workType: workType,
+      assistedBy: assistedBy,
+      workDetails: workDetails,
+      yourSatisfaction: yourSatisfaction,
+      checkedYourWork: checkedYourWork,
+      remarksByManagement: remarksByManagement,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
 }

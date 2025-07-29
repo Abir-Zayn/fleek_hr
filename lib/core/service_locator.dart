@@ -9,6 +9,7 @@ import 'package:fleekhr/data/service/leave_req/leave_request_service_impl.dart';
 import 'package:fleekhr/data/service/wfh_req/wfh_api_service.dart';
 import 'package:fleekhr/data/service/attendance/attendance_service.dart';
 import 'package:fleekhr/domain/repository/announcement/announcement_repository.dart';
+import 'package:fleekhr/domain/repository/dailyActivites/daily_activities_repo.dart';
 import 'package:fleekhr/domain/repository/expense/expense_repo.dart';
 import 'package:fleekhr/domain/repository/leave/leave_request_repository.dart';
 import 'package:fleekhr/domain/repository/work_from_home/work_from_home_repo.dart';
@@ -16,6 +17,11 @@ import 'package:fleekhr/domain/repository/attendance/attendance_repository.dart'
 import 'package:fleekhr/domain/usecase/announcement/get_announcement.dart';
 import 'package:fleekhr/domain/usecase/auth/login_usecase.dart';
 import 'package:fleekhr/domain/usecase/auth/updateprofile_usecase.dart';
+import 'package:fleekhr/domain/usecase/dailyActivites/create_activity_usecase.dart';
+import 'package:fleekhr/domain/usecase/dailyActivites/delete_activity_usecase.dart';
+import 'package:fleekhr/domain/usecase/dailyActivites/get_activity_by_id_usecase.dart';
+import 'package:fleekhr/domain/usecase/dailyActivites/get_all_activity_usecase.dart';
+import 'package:fleekhr/domain/usecase/dailyActivites/update_activity_usecase.dart';
 import 'package:fleekhr/domain/usecase/expense/create_expense_usecase.dart';
 import 'package:fleekhr/domain/usecase/expense/delete_expense_usecase.dart';
 import 'package:fleekhr/domain/usecase/expense/get_all_expense_usecase.dart';
@@ -156,6 +162,23 @@ Future<void> initializeDependencies() async {
       () => GetMonthlyAttendanceUseCase());
   sl.registerLazySingleton<GetDailyAttendanceByMonthUseCase>(
       () => GetDailyAttendanceByMonthUseCase());
+
+  // Daily Activities UseCases
+  sl.registerLazySingleton<DeleteActivityUsecase>(
+    () => DeleteActivityUsecase(sl<DailyActivitiesRepository>()),
+  );
+  sl.registerLazySingleton<CreateActivityUsecase>(
+    () => CreateActivityUsecase(sl<DailyActivitiesRepository>()),
+  );
+  sl.registerLazySingleton<GetAllActivitiesUsecase>(
+    () => GetAllActivitiesUsecase(sl<DailyActivitiesRepository>()),
+  );
+  sl.registerLazySingleton<GetActivityByIdUsecase>(
+    () => GetActivityByIdUsecase(sl<DailyActivitiesRepository>()),
+  );
+  sl.registerLazySingleton<UpdateActivityUsecase>(
+    () => UpdateActivityUsecase(sl<DailyActivitiesRepository>()),
+  );
 
   // 5. Register Blocs
   sl.registerLazySingleton<LoginCubit>(() => LoginCubit());
