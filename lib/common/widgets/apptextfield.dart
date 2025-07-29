@@ -25,12 +25,11 @@ class Apptextfield extends StatefulWidget {
   final InputBorder? errorBorder;
   final InputBorder? focusedErrorBorder;
   final VoidCallback? onTap;
-  // New parameters for inner sizing
   final double? inputHeight;
   final EdgeInsets? innerPadding;
   final bool expandContent;
-  // New parameter for password toggle
   final bool isPassword;
+  final Widget? suffixIcon;
 
   const Apptextfield({
     super.key,
@@ -62,6 +61,7 @@ class Apptextfield extends StatefulWidget {
     this.innerPadding,
     this.expandContent = false,
     this.isPassword = false,
+    this.suffixIcon,
   });
 
   @override
@@ -127,7 +127,7 @@ class _ApptextfieldState extends State<Apptextfield> {
           prefixIcon: widget.leadingIcon,
           isDense: widget.inputHeight != null,
           isCollapsed: widget.inputHeight != null,
-          // Add suffix icon for password toggle if isPassword is true
+          // Add suffix icon for password toggle if isPassword is true, or custom suffix
           suffixIcon: widget.isPassword
               ? IconButton(
                   icon: Icon(
@@ -140,7 +140,7 @@ class _ApptextfieldState extends State<Apptextfield> {
                     });
                   },
                 )
-              : null,
+              : widget.suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),

@@ -1,0 +1,208 @@
+﻿Feature Specification: Daily Activities Module
+Daily Activities Use-case 👍
+
+
+This document outlines the context, requirements, and implementation plan for the Daily Activities feature within the Fleek HR ERP System.
+
+
+1. User Story & Context 
+
+
+As an employee,
+I want to track and manage my daily work activities,
+So that I can maintain a clear record of my tasks, report my progress efficiently, and stay organized.
+The Daily Activities module allows employees to digitally record their day-to-day tasks. Users can add new activities, view a history of their entries, and update or delete them as needed. This creates a transparent workflow and a personal log of accomplishments.
+Key Stakeholders:
+* Employees: The primary users who will log their daily tasks
+* HR / Admin: May use aggregated data to analyze departmental productivity and resource allocation. [ Backend Work – ]
+
+
+
+
+User Stories & Acceptance Criteria : 
+
+
+User Story 1: Employee Task Logging
+As an employee, I want to add, view, update, and delete my daily work activities, So that I can maintain a clear record of my tasks, report my progress efficiently, and stay organized.
+Acceptance Criteria:
+* An employee must be able to navigate to a "Daily Activities" section.
+* The system must display a historical list of the employee's own previously entered activities, sorted with the most recent first.
+* An employee must be able to create a new activity entry by filling out a form with fields like department, work_details, start_time, end_time, etc.
+* After submitting a new activity, the employee must see it appear on their activity history list.
+* An employee must be able to select an existing activity from the list to view its full details.
+* An employee must be able to edit the details of an activity they previously created.
+* An employee must be able to delete an activity entry.
+3. User & Data Flow 🌊
+The flow describes the user's journey from initiating a request to managing an activity log.
+1. Entry Point: User navigates to the "Daily Activities" module from the main dashboard or menu.
+2. History Page (List View):
+   * System Action: The app triggers an API call to fetch the employee's activity history (FetchAllActivities use case).
+   * UI: A loading indicator (Lottie animation) is displayed for a simulated 1-second delay while data is fetched.
+   * Data Display: The fetched activities are displayed in a list of summary cards (DailyActivitiesCard). Each card shows key info like date and work details snippet.
+3. User Actions from History Page:
+   * A. Add New Activity:
+      * User clicks the "Add" button.
+      * Navigation: Navigates to the AddDailyActivities page (form).
+      * User fills in the form fields and clicks "Save".
+      * System Action: The app triggers an API call to save the new entry (AddActivities use case). A loading animation is shown.
+      * Navigation: Upon successful save, the app navigates back (Context.pop) to the History Page, which refreshes to show the new entry.
+   * B. View Activity Details:
+      * User taps on an existing DailyActivitiesCard.
+      * Navigation: Navigates to the DailyActivityDetail page.
+      * System Action: An API call is made to get the full details of the selected activity (GetActivitiesById use case).
+      * Data Display: All fields for that activity are displayed in a read-only or editable format. From here, the user can choose to edit or delete.
+
+
+
+
+
+
+
+
+
+
+Database : 
+
+
+Work Plan : 
+Step 2:
+1. Backend Integrations . Integrate the backend with by maintaining proper Clean Architecture folder structure with (data, domain, presentation) layer and Service Locator. Check up the code-base for the better reference.
+
+
+Step 3:
+1. Set up Cubit,States,Usecases. The usecases are (Fetch All Activities, Get Activities by Id, Add Activities, Delete Activities, Update Activities) .  
+
+
+Step 4:
+1. When user goes to the Daily Activities History page he will wait 1 sec for simulate the API call /Fetch the api data . Meanwhile show the Lottie Animation on that 1 sec.
+2. Same action will be taken for saving the data .
+3. Same action will be done for Context.pop
+
+
+Step 5:
+1. Integrate the State management with the UI and make them Functional.
+
+
+Database : 
+-- Create enum types if they don't exist
+CREATE TYPE work_status_enum AS ENUM ('progress', 'complete', 'reviewed', 'refactoring', 'removal');
+CREATE TYPE work_type_enum AS ENUM ('new', 'old');
+-- Daily Activities Table
+create table daily_activities(
+    id uuid default gen_random_uuid() primary key,
+    employee_id uuid references employee(id) on delete cascade,
+    company_name varchar(50) not null,
+    department varchar(100) not null,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    start_time TIMESTAMP WITH TIME ZONE,
+    end_time TIMESTAMP WITH TIME ZONE,
+    delivery_time TIMESTAMP WITH TIME ZONE,
+    work_status work_status_enum NOT NULL DEFAULT 'progress',
+    work_type work_type_enum NOT NULL DEFAULT 'new',
+   assisted_by VARCHAR(120),
+    work_details TEXT,
+    your_satisfaction INTEGER CHECK (your_satisfaction >= 1 AND your_satisfaction <= 5),
+    checked_your_work BOOLEAN DEFAULT false,
+    remarks_by_management TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+
+
+
+
+
+-- Create indexes for better performance
+CREATE INDEX idx_daily_activities_employee_id ON daily_activities(employee_id);
+CREATE INDEX idx_daily_activities_work_status ON daily_activities(work_status);
+CREATE INDEX idx_daily_activities_created_at ON daily_activities(created_at);
+CREATE INDEX idx_daily_activities_department ON daily_activities(department);
+
+
+-- Create trigger for updating updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+
+CREATE TRIGGER update_daily_activities_updated_at
+    BEFORE UPDATE ON daily_activities
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+
+
+
+--Inserting an test example on the daily_activities table
+
+
+-- Insert sample data
+INSERT INTO daily_activities (
+    employee_id,
+    company_name,
+    department,
+    quantity,
+    start_time,
+    end_time,
+    delivery_time,
+    work_status,
+    work_type,
+    assisted_by,
+    work_details,
+    your_satisfaction,
+    checked_your_work,
+    remarks_by_management
+) VALUES (
+    '492ae41d-fa30-4fd4-b16f-aecb758155b9',
+    'Fleek Bangladesh',
+    'Admin & IT',
+    5,
+    '2024-01-15 09:00:00+00',
+    '2024-01-15 17:00:00+00',
+    '2024-01-15 18:00:00+00',
+    'complete',
+    'new',
+    'testuser10',
+    'Completed frontend development tasks for client dashboard',
+    4,
+    true,
+    'Good work, minor improvements needed'
+);
+
+
+Technical Implementation Plan 🛠️
+This plan outlines the technical steps for development, following a Clean Architecture pattern.
+Step 1: Project Setup
+* Create the necessary folder structure within the Flutter project: data, domain, presentation for the daily_activities feature.
+* Set up a Service Locator (e.g., get_it) to manage dependency injection for repositories, use cases, and Cubits.
+Step 2: Backend & API Integration
+* Define and implement the necessary API endpoints on the backend server based on the use cases below.
+* API Endpoints (High-Level):
+   * [GET] Fetches all activities for the logged-in user. Supports pagination.
+   * [GET]  Fetches a single activity by its ID.
+   * [POST]Creates a new activity entry.
+   * [PUT] Updates an existing activity.
+   * [DELETE] Deletes an activity.
+* In the Flutter app, create the DataSource (for API calls), RepositoryImplementation (in the data layer), and Repository abstract class (in the domain layer).
+Step 3: State Management & Business Logic (Domain Layer)
+* Define the primary entity: DailyActivity.
+* Create the following Usecases in the domain layer:
+   * FetchAllActivities
+   * GetActivityById
+   * AddActivity
+   * UpdateActivity
+   * DeleteActivity
+* Set up a DailyActivitiesCubit in the presentation layer to manage the state for the feature.
+* Define the necessary States (e.g., DailyActivitiesInitial, DailyActivitiesLoading, DailyActivitiesLoaded, DailyActivitiesError, DailyActivitiesActionSuccess).
+Step 4: UI Development & Integration (Presentation Layer)
+* Develop the UI screens: DailyActivitiesHistoryPage, AddEditDailyActivityPage, and DailyActivityDetailPage.
+* Integrate the UI with the DailyActivitiesCubit. Use BlocBuilder and BlocListener to react to state changes.
+* Implement the 1-second simulated delay with a Lottie animation for the following actions:
+   * Initial data fetch on the DailyActivitiesHistoryPage.
+   * Saving a new or updated activity.
+   * Before Context.pop after a successful save/update/delete action to provide user feedback.

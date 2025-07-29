@@ -70,48 +70,52 @@ class _DailyactivitiesPageState extends State<DailyactivitiesPage> {
           },
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppTextstyle(
-                        text: 'Daily Activities History',
-                        style: appStyle(
-                          size: 18,
-                          color: Theme.of(context).textTheme.bodyLarge?.color ??
-                              Colors.black87,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (selectedFilter != 'All')
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
+          child: PageBackground(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppTextstyle(
+                          text: 'Daily Activities History',
+                          style: appStyle(
+                            size: 18,
                             color:
-                                Theme.of(context).primaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
+                                Theme.of(context).textTheme.bodyLarge?.color ??
+                                    Colors.black87,
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: AppTextstyle(
-                            text: 'Filter: $selectedFilter',
-                            style: appStyle(
-                              size: 12,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
+                        ),
+                        if (selectedFilter != 'All')
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: AppTextstyle(
+                              text: 'Filter: $selectedFilter',
+                              style: appStyle(
+                                size: 12,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  // Add the task list widget here
-                  taskList(),
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    // Add the task list widget here
+                    taskList(),
+                  ],
+                ),
               ),
             ),
           ),

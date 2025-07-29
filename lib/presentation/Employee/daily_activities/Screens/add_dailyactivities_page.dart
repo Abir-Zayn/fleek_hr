@@ -44,24 +44,30 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
     super.dispose();
   }
 
-  void _saveData() {
-    if (_formKey.currentState!.validate()) {
-      // Handle save data logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Daily activity saved successfully!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      // You can add your save logic here
-      print('Saving daily activity data...');
-    }
-  }
-
   Future<void> _selectTime(TextEditingController controller) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: Colors.white,
+              hourMinuteTextColor: Theme.of(context).primaryColor,
+              dayPeriodTextColor: Theme.of(context).primaryColor,
+              dialHandColor: Theme.of(context).primaryColor,
+              dialBackgroundColor:
+                  Theme.of(context).primaryColor.withOpacity(0.1),
+              hourMinuteColor: Theme.of(context).primaryColor.withOpacity(0.1),
+              dayPeriodColor: Theme.of(context).primaryColor.withOpacity(0.1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       controller.text = picked.format(context);
@@ -71,30 +77,42 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AppTextstyle(
-          text: 'Add Daily Activity',
-          style: appStyle(
-            size: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      appBar: FleekAppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: 'Add Daily Activity',
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Company Field
+              AppTextstyle(
+                text: "Start your day Fresh",
+                style: appStyle(
+                    size: 25,
+                    color: Theme.of(context).textTheme.bodyMedium!.color ??
+                        Colors.black,
+                    fontWeight: FontWeight.w800),
+              ),
+              AppTextstyle(
+                text: "Enter your daily tasks and get ahead of the game",
+                style: appStyle(
+                    size: 14,
+                    color: Theme.of(context).textTheme.bodyMedium!.color ??
+                        Colors.black,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 20),
+
+              // Basic Information
               Apptextfield(
                 labelText: 'Company',
                 hintText: 'Enter company name',
                 controller: _companyController,
+                leadingIcon:
+                    Icon(Icons.business, color: Theme.of(context).primaryColor),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter company name';
@@ -103,126 +121,145 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
                 },
               ),
               const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Apptextfield(
+                      labelText: 'Department',
+                      hintText: 'Enter department',
+                      controller: _departmentController,
+                      leadingIcon: Icon(Icons.apartment,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter department';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Apptextfield(
+                      labelText: 'Quantity',
+                      hintText: 'Enter qty',
+                      controller: _quantityController,
+                      keyboardType: TextInputType.number,
+                      leadingIcon: Icon(Icons.numbers,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
 
-              // Department Field
-              Apptextfield(
-                labelText: 'Department',
-                hintText: 'Enter department name',
-                controller: _departmentController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter department name';
-                  }
-                  return null;
-                },
+              // Time & Schedule
+              Row(
+                children: [
+                  Expanded(
+                    child: Apptextfield(
+                      labelText: 'Start Time',
+                      hintText: 'Select start time',
+                      controller: _startTimeController,
+                      onTap: () => _selectTime(_startTimeController),
+                      leadingIcon: Icon(Icons.play_arrow,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Apptextfield(
+                      labelText: 'End Time',
+                      hintText: 'Select end time',
+                      controller: _endTimeController,
+                      onTap: () => _selectTime(_endTimeController),
+                      leadingIcon: Icon(Icons.stop,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
-
-              // Quantity Field
-              Apptextfield(
-                labelText: 'Quantity',
-                hintText: 'Enter quantity',
-                controller: _quantityController,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter quantity';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Start Time Field
-              Apptextfield(
-                labelText: 'Start Time',
-                hintText: 'Select start time',
-                controller: _startTimeController,
-                onTap: () => _selectTime(_startTimeController),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select start time';
-                  }
-                  return null;
-                },
-                leadingIcon: const Icon(Icons.access_time),
-              ),
-              const SizedBox(height: 16),
-
-              // End Time Field
-              Apptextfield(
-                labelText: 'End Time',
-                hintText: 'Select end time',
-                controller: _endTimeController,
-                onTap: () => _selectTime(_endTimeController),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select end time';
-                  }
-                  return null;
-                },
-                leadingIcon: const Icon(Icons.access_time),
-              ),
-              const SizedBox(height: 16),
-
-              // Delivery Time Field
               Apptextfield(
                 labelText: 'Delivery Time',
                 hintText: 'Select delivery time',
                 controller: _deliveryTimeController,
                 onTap: () => _selectTime(_deliveryTimeController),
+                leadingIcon: Icon(Icons.schedule_send,
+                    color: Theme.of(context).primaryColor),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please select delivery time';
+                    return 'Required';
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-              // Work Status Field
-              Apptextfield(
-                labelText: 'Work Status',
-                hintText: 'Enter work status (e.g., Completed, In Progress)',
-                controller: _workStatusController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter work status';
-                  }
-                  return null;
-                },
+              // Work Details
+              Row(
+                children: [
+                  Expanded(
+                    child: Apptextfield(
+                      labelText: 'Work Status',
+                      hintText: 'e.g., Completed, In Progress',
+                      controller: _workStatusController,
+                      leadingIcon: Icon(Icons.assignment_turned_in,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter work status';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Apptextfield(
+                      labelText: 'Work Type',
+                      hintText: 'Type of work',
+                      controller: _workTypeController,
+                      leadingIcon: Icon(Icons.category,
+                          color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
-
-              // Work Type Field
-              Apptextfield(
-                labelText: 'Work Type',
-                hintText: 'Enter type of work',
-                controller: _workTypeController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter work type';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Assisted By Field
-              Apptextfield(
-                labelText: 'Assisted By',
-                hintText: 'Enter who assisted you',
-                controller: _assistedByController,
-              ),
-              const SizedBox(height: 16),
-
-              // Work Details Field
               Apptextfield(
                 labelText: 'Work Details',
-                hintText: 'Enter detailed description of work',
+                hintText: 'Describe your work in detail...',
                 controller: _workDetailsController,
                 maxLines: 4,
                 height: 120,
+                leadingIcon: Icon(Icons.description,
+                    color: Theme.of(context).primaryColor),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter work details';
@@ -230,13 +267,33 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-              // Your Satisfaction Field
+              // Collaboration
+              Apptextfield(
+                labelText: 'Assisted By',
+                hintText: 'Who helped you with this task? (Optional)',
+                controller: _assistedByController,
+                leadingIcon:
+                    Icon(Icons.people, color: Theme.of(context).primaryColor),
+              ),
+              const SizedBox(height: 16),
+              Apptextfield(
+                labelText: 'Work Reviewed By',
+                hintText: 'Who checked/reviewed your work? (Optional)',
+                controller: _checkedWorkController,
+                leadingIcon:
+                    Icon(Icons.verified, color: Theme.of(context).primaryColor),
+              ),
+              const SizedBox(height: 24),
+
+              // Feedback
               Apptextfield(
                 labelText: 'Your Satisfaction',
                 hintText: 'Rate your satisfaction (1-10) or describe',
                 controller: _satisfactionController,
+                leadingIcon: Icon(Icons.sentiment_satisfied,
+                    color: Theme.of(context).primaryColor),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your satisfaction level';
@@ -245,37 +302,28 @@ class _AddDailyactivitiesPageState extends State<AddDailyactivitiesPage> {
                 },
               ),
               const SizedBox(height: 16),
-
-              // Checked Your Work Field
               Apptextfield(
-                labelText: 'Checked Your Work',
-                hintText: 'Who checked/reviewed your work',
-                controller: _checkedWorkController,
-              ),
-              const SizedBox(height: 16),
-
-              // Remarks by Management Field
-              Apptextfield(
-                labelText: 'Remarks by Management',
-                hintText: 'Enter management remarks (if any)',
+                labelText: 'Management Remarks',
+                hintText: 'Any remarks from management (Optional)',
                 controller: _remarksController,
                 maxLines: 3,
                 height: 100,
+                leadingIcon:
+                    Icon(Icons.comment, color: Theme.of(context).primaryColor),
               ),
               const SizedBox(height: 32),
 
-              // Save Data Button
+              // Submit Button
               Appbtn(
-                text: 'Save Data',
-                bgColor: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                height: 56,
-                fontSize: 18,
-                icon: Icons.save,
-                iconColor: Colors.white,
-                onPressed: _saveData,
-              ),
-              const SizedBox(height: 16),
+                  text: 'Save Daily Activity',
+                  bgColor: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  height: 56,
+                  fontSize: 18,
+                  icon: Icons.save,
+                  iconColor: Colors.white,
+                  onPressed: () {}),
+              const SizedBox(height: 20),
             ],
           ),
         ),
